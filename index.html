@@ -1,0 +1,2356 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>京城晉韻 · 北京山西 9日遊</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;600;700&family=Noto+Serif+TC:wght@400;500;600;700;900&family=Ma+Shan+Zheng&family=ZCOOL+XiaoWei&family=Long+Cang&family=Liu+Jian+Mao+Cao&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    color-scheme: light;
+  }
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: #1f1c18;
+    min-height: 100vh;
+    font-family: 'Noto Sans TC', -apple-system, system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 32px 16px;
+    box-sizing: border-box;
+    background:
+      radial-gradient(1200px 600px at 50% -10%, #2c2620 0%, #19150f 60%, #110e09 100%);
+  }
+  #root { display: contents; }
+
+  /* Hide scrollbar inside device but keep scrollable */
+  .scroll-hide::-webkit-scrollbar { width: 0; height: 0; }
+  .scroll-hide { scrollbar-width: none; }
+
+  input, textarea, button, select {
+    font-family: inherit;
+    -webkit-tap-highlight-color: transparent;
+  }
+  button { cursor: pointer; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<template id="__bundler_thumbnail">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+    <rect width="200" height="200" fill="#F5EFE4"/>
+    <rect x="60" y="60" width="80" height="80" rx="4" fill="#B83A2A"/>
+    <text x="100" y="120" font-family="serif" font-size="48" font-weight="700" fill="#F5EFE4" text-anchor="middle">遊</text>
+  </svg>
+</template>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<script type="text/babel" data-presets="react">
+
+// iOS.jsx — Simplified iOS 26 (Liquid Glass) device frame
+// Based on the iOS 26 UI Kit + Figma status bar spec. No assets, no deps.
+// Exports: IOSDevice, IOSStatusBar, IOSNavBar, IOSGlassPill, IOSList, IOSListRow, IOSKeyboard
+
+// ─────────────────────────────────────────────────────────────
+// Status bar
+// ─────────────────────────────────────────────────────────────
+function IOSStatusBar({ dark = false, time = '9:41' }) {
+  const c = dark ? '#fff' : '#000';
+  return (
+    <div style={{
+      display: 'flex', gap: 154, alignItems: 'center', justifyContent: 'center',
+      padding: '21px 24px 19px', boxSizing: 'border-box',
+      position: 'relative', zIndex: 20, width: '100%',
+    }}>
+      <div style={{ flex: 1, height: 22, display: 'flex', alignItems: 'center', justifyContent: 'center', paddingTop: 1.5 }}>
+        <span style={{
+          fontFamily: '-apple-system, "SF Pro", system-ui', fontWeight: 590,
+          fontSize: 17, lineHeight: '22px', color: c,
+        }}>{time}</span>
+      </div>
+      <div style={{ flex: 1, height: 22, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 7, paddingTop: 1, paddingRight: 1 }}>
+        <svg width="19" height="12" viewBox="0 0 19 12">
+          <rect x="0" y="7.5" width="3.2" height="4.5" rx="0.7" fill={c}/>
+          <rect x="4.8" y="5" width="3.2" height="7" rx="0.7" fill={c}/>
+          <rect x="9.6" y="2.5" width="3.2" height="9.5" rx="0.7" fill={c}/>
+          <rect x="14.4" y="0" width="3.2" height="12" rx="0.7" fill={c}/>
+        </svg>
+        <svg width="17" height="12" viewBox="0 0 17 12">
+          <path d="M8.5 3.2C10.8 3.2 12.9 4.1 14.4 5.6L15.5 4.5C13.7 2.7 11.2 1.5 8.5 1.5C5.8 1.5 3.3 2.7 1.5 4.5L2.6 5.6C4.1 4.1 6.2 3.2 8.5 3.2Z" fill={c}/>
+          <path d="M8.5 6.8C9.9 6.8 11.1 7.3 12 8.2L13.1 7.1C11.8 5.9 10.2 5.1 8.5 5.1C6.8 5.1 5.2 5.9 3.9 7.1L5 8.2C5.9 7.3 7.1 6.8 8.5 6.8Z" fill={c}/>
+          <circle cx="8.5" cy="10.5" r="1.5" fill={c}/>
+        </svg>
+        <svg width="27" height="13" viewBox="0 0 27 13">
+          <rect x="0.5" y="0.5" width="23" height="12" rx="3.5" stroke={c} strokeOpacity="0.35" fill="none"/>
+          <rect x="2" y="2" width="20" height="9" rx="2" fill={c}/>
+          <path d="M25 4.5V8.5C25.8 8.2 26.5 7.2 26.5 6.5C26.5 5.8 25.8 4.8 25 4.5Z" fill={c} fillOpacity="0.4"/>
+        </svg>
+      </div>
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────
+// Liquid glass pill — blur + tint + shine
+// ─────────────────────────────────────────────────────────────
+function IOSGlassPill({ children, dark = false, style = {} }) {
+  return (
+    <div style={{
+      height: 44, minWidth: 44, borderRadius: 9999,
+      position: 'relative', overflow: 'hidden',
+      display: 'flex', alignItems: 'center', justifyContent: 'center',
+      boxShadow: dark
+        ? '0 2px 6px rgba(0,0,0,0.35), 0 6px 16px rgba(0,0,0,0.2)'
+        : '0 1px 3px rgba(0,0,0,0.07), 0 3px 10px rgba(0,0,0,0.06)',
+      ...style,
+    }}>
+      {/* blur + tint */}
+      <div style={{
+        position: 'absolute', inset: 0, borderRadius: 9999,
+        backdropFilter: 'blur(12px) saturate(180%)',
+        WebkitBackdropFilter: 'blur(12px) saturate(180%)',
+        background: dark ? 'rgba(120,120,128,0.28)' : 'rgba(255,255,255,0.5)',
+      }} />
+      {/* shine */}
+      <div style={{
+        position: 'absolute', inset: 0, borderRadius: 9999,
+        boxShadow: dark
+          ? 'inset 1.5px 1.5px 1px rgba(255,255,255,0.15), inset -1px -1px 1px rgba(255,255,255,0.08)'
+          : 'inset 1.5px 1.5px 1px rgba(255,255,255,0.7), inset -1px -1px 1px rgba(255,255,255,0.4)',
+        border: dark ? '0.5px solid rgba(255,255,255,0.15)' : '0.5px solid rgba(0,0,0,0.06)',
+      }} />
+      <div style={{ position: 'relative', zIndex: 1, display: 'flex', alignItems: 'center', padding: '0 4px' }}>
+        {children}
+      </div>
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────
+// Navigation bar — glass pills + large title
+// ─────────────────────────────────────────────────────────────
+function IOSNavBar({ title = 'Title', dark = false, trailingIcon = true }) {
+  const muted = dark ? 'rgba(255,255,255,0.6)' : '#404040';
+  const text = dark ? '#fff' : '#000';
+  const pillIcon = (content) => (
+    <IOSGlassPill dark={dark}>
+      <div style={{ width: 36, height: 36, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        {content}
+      </div>
+    </IOSGlassPill>
+  );
+  return (
+    <div style={{
+      display: 'flex', flexDirection: 'column', gap: 10,
+      paddingTop: 62, paddingBottom: 10, position: 'relative', zIndex: 5,
+    }}>
+      <div style={{
+        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+        padding: '0 16px',
+      }}>
+        {/* back chevron */}
+        {pillIcon(
+          <svg width="12" height="20" viewBox="0 0 12 20" fill="none" style={{ marginLeft: -1 }}>
+            <path d="M10 2L2 10l8 8" stroke={muted} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+        )}
+        {/* trailing ellipsis */}
+        {trailingIcon && pillIcon(
+          <svg width="22" height="6" viewBox="0 0 22 6">
+            <circle cx="3" cy="3" r="2.5" fill={muted}/>
+            <circle cx="11" cy="3" r="2.5" fill={muted}/>
+            <circle cx="19" cy="3" r="2.5" fill={muted}/>
+          </svg>
+        )}
+      </div>
+      {/* large title */}
+      <div style={{
+        padding: '0 16px',
+        fontFamily: '-apple-system, system-ui',
+        fontSize: 34, fontWeight: 700, lineHeight: '41px',
+        color: text, letterSpacing: 0.4,
+      }}>{title}</div>
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────
+// Grouped list (inset card, r:26) + row (52px)
+// ─────────────────────────────────────────────────────────────
+function IOSListRow({ title, detail, icon, chevron = true, isLast = false, dark = false }) {
+  const text = dark ? '#fff' : '#000';
+  const sec = dark ? 'rgba(235,235,245,0.6)' : 'rgba(60,60,67,0.6)';
+  const ter = dark ? 'rgba(235,235,245,0.3)' : 'rgba(60,60,67,0.3)';
+  const sep = dark ? 'rgba(84,84,88,0.65)' : 'rgba(60,60,67,0.12)';
+  return (
+    <div style={{
+      display: 'flex', alignItems: 'center', minHeight: 52,
+      padding: '0 16px', position: 'relative',
+      fontFamily: '-apple-system, system-ui', fontSize: 17,
+      letterSpacing: -0.43,
+    }}>
+      {icon && (
+        <div style={{
+          width: 30, height: 30, borderRadius: 7, background: icon,
+          marginRight: 12, flexShrink: 0,
+        }} />
+      )}
+      <div style={{ flex: 1, color: text }}>{title}</div>
+      {detail && <span style={{ color: sec, marginRight: 6 }}>{detail}</span>}
+      {chevron && (
+        <svg width="8" height="14" viewBox="0 0 8 14" style={{ flexShrink: 0 }}>
+          <path d="M1 1l6 6-6 6" stroke={ter} strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
+        </svg>
+      )}
+      {!isLast && (
+        <div style={{
+          position: 'absolute', bottom: 0, right: 0,
+          left: icon ? 58 : 16, height: 0.5, background: sep,
+        }} />
+      )}
+    </div>
+  );
+}
+
+function IOSList({ header, children, dark = false }) {
+  const hc = dark ? 'rgba(235,235,245,0.6)' : 'rgba(60,60,67,0.6)';
+  const bg = dark ? '#1C1C1E' : '#fff';
+  return (
+    <div>
+      {header && (
+        <div style={{
+          fontFamily: '-apple-system, system-ui', fontSize: 13,
+          color: hc, textTransform: 'uppercase',
+          padding: '8px 36px 6px', letterSpacing: -0.08,
+        }}>{header}</div>
+      )}
+      <div style={{
+        background: bg, borderRadius: 26,
+        margin: '0 16px', overflow: 'hidden',
+      }}>{children}</div>
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────
+// Device frame
+// ─────────────────────────────────────────────────────────────
+function IOSDevice({
+  children, width = 402, height = 874, dark = false,
+  title, keyboard = false,
+}) {
+  return (
+    <div style={{
+      width, height, borderRadius: 48, overflow: 'hidden',
+      position: 'relative', background: dark ? '#000' : '#F2F2F7',
+      boxShadow: '0 40px 80px rgba(0,0,0,0.18), 0 0 0 1px rgba(0,0,0,0.12)',
+      fontFamily: '-apple-system, system-ui, sans-serif',
+      WebkitFontSmoothing: 'antialiased',
+    }}>
+      {/* dynamic island */}
+      <div style={{
+        position: 'absolute', top: 11, left: '50%', transform: 'translateX(-50%)',
+        width: 126, height: 37, borderRadius: 24, background: '#000', zIndex: 50,
+      }} />
+      {/* status bar (absolute) */}
+      <div style={{ position: 'absolute', top: 0, left: 0, right: 0, zIndex: 10 }}>
+        <IOSStatusBar dark={dark} />
+      </div>
+      {/* nav + content */}
+      <div style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+        {title !== undefined && <IOSNavBar title={title} dark={dark} />}
+        <div style={{ flex: 1, overflow: 'auto' }}>{children}</div>
+        {keyboard && <IOSKeyboard dark={dark} />}
+      </div>
+      {/* home indicator — always on top */}
+      <div style={{
+        position: 'absolute', bottom: 0, left: 0, right: 0, zIndex: 60,
+        height: 34, display: 'flex', justifyContent: 'center', alignItems: 'flex-end',
+        paddingBottom: 8, pointerEvents: 'none',
+      }}>
+        <div style={{
+          width: 139, height: 5, borderRadius: 100,
+          background: dark ? 'rgba(255,255,255,0.7)' : 'rgba(0,0,0,0.25)',
+        }} />
+      </div>
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────
+// Keyboard — iOS 26 liquid glass
+// ─────────────────────────────────────────────────────────────
+function IOSKeyboard({ dark = false }) {
+  const glyph = dark ? 'rgba(255,255,255,0.7)' : '#595959';
+  const sugg = dark ? 'rgba(255,255,255,0.6)' : '#333';
+  const keyBg = dark ? 'rgba(255,255,255,0.22)' : 'rgba(255,255,255,0.85)';
+
+  // special-key icons
+  const icons = {
+    shift: <svg width="19" height="17" viewBox="0 0 19 17"><path d="M9.5 1L1 9.5h4.5V16h8V9.5H18L9.5 1z" fill={glyph}/></svg>,
+    del: <svg width="23" height="17" viewBox="0 0 23 17"><path d="M7 1h13a2 2 0 012 2v11a2 2 0 01-2 2H7l-6-7.5L7 1z" fill="none" stroke={glyph} strokeWidth="1.6" strokeLinejoin="round"/><path d="M10 5l7 7M17 5l-7 7" stroke={glyph} strokeWidth="1.6" strokeLinecap="round"/></svg>,
+    ret: <svg width="20" height="14" viewBox="0 0 20 14"><path d="M18 1v6H4m0 0l4-4M4 7l4 4" fill="none" stroke="#fff" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>,
+  };
+
+  const key = (content, { w, flex, ret, fs = 25, k } = {}) => (
+    <div key={k} style={{
+      height: 42, borderRadius: 8.5,
+      flex: flex ? 1 : undefined, width: w, minWidth: 0,
+      background: ret ? '#08f' : keyBg,
+      boxShadow: '0 1px 0 rgba(0,0,0,0.075)',
+      display: 'flex', alignItems: 'center', justifyContent: 'center',
+      fontFamily: '-apple-system, "SF Compact", system-ui',
+      fontSize: fs, fontWeight: 458, color: ret ? '#fff' : glyph,
+    }}>{content}</div>
+  );
+
+  const row = (keys, pad = 0) => (
+    <div style={{ display: 'flex', gap: 6.5, justifyContent: 'center', padding: `0 ${pad}px` }}>
+      {keys.map(l => key(l, { flex: true, k: l }))}
+    </div>
+  );
+
+  return (
+    <div style={{
+      position: 'relative', zIndex: 15, borderRadius: 27, overflow: 'hidden',
+      padding: '11px 0 2px',
+      display: 'flex', flexDirection: 'column', alignItems: 'center',
+      boxShadow: dark
+        ? '0 -2px 20px rgba(0,0,0,0.09)'
+        : '0 -1px 6px rgba(0,0,0,0.018), 0 -3px 20px rgba(0,0,0,0.012)',
+    }}>
+      {/* liquid glass bg — same recipe as nav pills */}
+      <div style={{
+        position: 'absolute', inset: 0, borderRadius: 27,
+        backdropFilter: 'blur(12px) saturate(180%)',
+        WebkitBackdropFilter: 'blur(12px) saturate(180%)',
+        background: dark ? 'rgba(120,120,128,0.14)' : 'rgba(255,255,255,0.25)',
+      }} />
+      <div style={{
+        position: 'absolute', inset: 0, borderRadius: 27,
+        boxShadow: dark
+          ? 'inset 1.5px 1.5px 1px rgba(255,255,255,0.15)'
+          : 'inset 1.5px 1.5px 1px rgba(255,255,255,0.7), inset -1px -1px 1px rgba(255,255,255,0.4)',
+        border: dark ? '0.5px solid rgba(255,255,255,0.15)' : '0.5px solid rgba(0,0,0,0.06)',
+        pointerEvents: 'none',
+      }} />
+
+      {/* autocorrect bar */}
+      <div style={{
+        display: 'flex', gap: 20, alignItems: 'center',
+        padding: '8px 22px 13px', width: '100%', boxSizing: 'border-box',
+        position: 'relative',
+      }}>
+        {['"The"', 'the', 'to'].map((w, i) => (
+          <React.Fragment key={i}>
+            {i > 0 && <div style={{ width: 1, height: 25, background: '#ccc', opacity: 0.3 }} />}
+            <div style={{
+              flex: 1, textAlign: 'center',
+              fontFamily: '-apple-system, system-ui', fontSize: 17,
+              color: sugg, letterSpacing: -0.43, lineHeight: '22px',
+            }}>{w}</div>
+          </React.Fragment>
+        ))}
+      </div>
+
+      {/* key layout */}
+      <div style={{
+        display: 'flex', flexDirection: 'column', gap: 13,
+        padding: '0 6.5px', width: '100%', boxSizing: 'border-box',
+        position: 'relative',
+      }}>
+        {row(['q','w','e','r','t','y','u','i','o','p'])}
+        {row(['a','s','d','f','g','h','j','k','l'], 20)}
+        <div style={{ display: 'flex', gap: 14.25, alignItems: 'center' }}>
+          {key(icons.shift, { w: 45, k: 'shift' })}
+          <div style={{ display: 'flex', gap: 6.5, flex: 1 }}>
+            {['z','x','c','v','b','n','m'].map(l => key(l, { flex: true, k: l }))}
+          </div>
+          {key(icons.del, { w: 45, k: 'del' })}
+        </div>
+        <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
+          {key('ABC', { w: 92.25, fs: 18, k: 'abc' })}
+          {key('', { flex: true, k: 'space' })}
+          {key(icons.ret, { w: 92.25, ret: true, k: 'ret' })}
+        </div>
+      </div>
+
+      {/* bottom spacer (emoji+mic area, icons omitted) */}
+      <div style={{ height: 56, width: '100%', position: 'relative' }} />
+    </div>
+  );
+}
+
+Object.assign(window, {
+  IOSDevice, IOSStatusBar, IOSNavBar, IOSGlassPill, IOSList, IOSListRow, IOSKeyboard,
+});
+
+</script>
+<script type="text/babel" data-presets="react">
+
+// tweaks-panel.jsx
+// Reusable Tweaks shell + form-control helpers.
+//
+// Owns the host protocol (listens for __activate_edit_mode / __deactivate_edit_mode,
+// posts __edit_mode_available / __edit_mode_set_keys / __edit_mode_dismissed) so
+// individual prototypes don't re-roll it. Ships a consistent set of controls so you
+// don't hand-draw <input type="range">, segmented radios, steppers, etc.
+//
+// Usage (in an HTML file that loads React + Babel):
+//
+//   const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+//     "primaryColor": "#D97757",
+//     "palette": ["#D97757", "#29261b", "#f6f4ef"],
+//     "fontSize": 16,
+//     "density": "regular",
+//     "dark": false
+//   }/*EDITMODE-END*/;
+//
+//   function App() {
+//     const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
+//     return (
+//       <div style={{ fontSize: t.fontSize, color: t.primaryColor }}>
+//         Hello
+//         <TweaksPanel>
+//           <TweakSection label="Typography" />
+//           <TweakSlider label="Font size" value={t.fontSize} min={10} max={32} unit="px"
+//                        onChange={(v) => setTweak('fontSize', v)} />
+//           <TweakRadio  label="Density" value={t.density}
+//                        options={['compact', 'regular', 'comfy']}
+//                        onChange={(v) => setTweak('density', v)} />
+//           <TweakSection label="Theme" />
+//           <TweakColor  label="Primary" value={t.primaryColor}
+//                        options={['#D97757', '#2A6FDB', '#1F8A5B', '#7A5AE0']}
+//                        onChange={(v) => setTweak('primaryColor', v)} />
+//           <TweakColor  label="Palette" value={t.palette}
+//                        options={[['#D97757', '#29261b', '#f6f4ef'],
+//                                  ['#475569', '#0f172a', '#f1f5f9']]}
+//                        onChange={(v) => setTweak('palette', v)} />
+//           <TweakToggle label="Dark mode" value={t.dark}
+//                        onChange={(v) => setTweak('dark', v)} />
+//         </TweaksPanel>
+//       </div>
+//     );
+//   }
+//
+// ─────────────────────────────────────────────────────────────────────────────
+
+const __TWEAKS_STYLE = `
+  .twk-panel{position:fixed;right:16px;bottom:16px;z-index:2147483646;width:280px;
+    max-height:calc(100vh - 32px);display:flex;flex-direction:column;
+    transform:scale(var(--dc-inv-zoom,1));transform-origin:bottom right;
+    background:rgba(250,249,247,.78);color:#29261b;
+    -webkit-backdrop-filter:blur(24px) saturate(160%);backdrop-filter:blur(24px) saturate(160%);
+    border:.5px solid rgba(255,255,255,.6);border-radius:14px;
+    box-shadow:0 1px 0 rgba(255,255,255,.5) inset,0 12px 40px rgba(0,0,0,.18);
+    font:11.5px/1.4 ui-sans-serif,system-ui,-apple-system,sans-serif;overflow:hidden}
+  .twk-hd{display:flex;align-items:center;justify-content:space-between;
+    padding:10px 8px 10px 14px;cursor:move;user-select:none}
+  .twk-hd b{font-size:12px;font-weight:600;letter-spacing:.01em}
+  .twk-x{appearance:none;border:0;background:transparent;color:rgba(41,38,27,.55);
+    width:22px;height:22px;border-radius:6px;cursor:default;font-size:13px;line-height:1}
+  .twk-x:hover{background:rgba(0,0,0,.06);color:#29261b}
+  .twk-body{padding:2px 14px 14px;display:flex;flex-direction:column;gap:10px;
+    overflow-y:auto;overflow-x:hidden;min-height:0;
+    scrollbar-width:thin;scrollbar-color:rgba(0,0,0,.15) transparent}
+  .twk-body::-webkit-scrollbar{width:8px}
+  .twk-body::-webkit-scrollbar-track{background:transparent;margin:2px}
+  .twk-body::-webkit-scrollbar-thumb{background:rgba(0,0,0,.15);border-radius:4px;
+    border:2px solid transparent;background-clip:content-box}
+  .twk-body::-webkit-scrollbar-thumb:hover{background:rgba(0,0,0,.25);
+    border:2px solid transparent;background-clip:content-box}
+  .twk-row{display:flex;flex-direction:column;gap:5px}
+  .twk-row-h{flex-direction:row;align-items:center;justify-content:space-between;gap:10px}
+  .twk-lbl{display:flex;justify-content:space-between;align-items:baseline;
+    color:rgba(41,38,27,.72)}
+  .twk-lbl>span:first-child{font-weight:500}
+  .twk-val{color:rgba(41,38,27,.5);font-variant-numeric:tabular-nums}
+
+  .twk-sect{font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;
+    color:rgba(41,38,27,.45);padding:10px 0 0}
+  .twk-sect:first-child{padding-top:0}
+
+  .twk-field{appearance:none;box-sizing:border-box;width:100%;min-width:0;height:26px;padding:0 8px;
+    border:.5px solid rgba(0,0,0,.1);border-radius:7px;
+    background:rgba(255,255,255,.6);color:inherit;font:inherit;outline:none}
+  .twk-field:focus{border-color:rgba(0,0,0,.25);background:rgba(255,255,255,.85)}
+  select.twk-field{padding-right:22px;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'><path fill='rgba(0,0,0,.5)' d='M0 0h10L5 6z'/></svg>");
+    background-repeat:no-repeat;background-position:right 8px center}
+
+  .twk-slider{appearance:none;-webkit-appearance:none;width:100%;height:4px;margin:6px 0;
+    border-radius:999px;background:rgba(0,0,0,.12);outline:none}
+  .twk-slider::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;
+    width:14px;height:14px;border-radius:50%;background:#fff;
+    border:.5px solid rgba(0,0,0,.12);box-shadow:0 1px 3px rgba(0,0,0,.2);cursor:default}
+  .twk-slider::-moz-range-thumb{width:14px;height:14px;border-radius:50%;
+    background:#fff;border:.5px solid rgba(0,0,0,.12);box-shadow:0 1px 3px rgba(0,0,0,.2);cursor:default}
+
+  .twk-seg{position:relative;display:flex;padding:2px;border-radius:8px;
+    background:rgba(0,0,0,.06);user-select:none}
+  .twk-seg-thumb{position:absolute;top:2px;bottom:2px;border-radius:6px;
+    background:rgba(255,255,255,.9);box-shadow:0 1px 2px rgba(0,0,0,.12);
+    transition:left .15s cubic-bezier(.3,.7,.4,1),width .15s}
+  .twk-seg.dragging .twk-seg-thumb{transition:none}
+  .twk-seg button{appearance:none;position:relative;z-index:1;flex:1;border:0;
+    background:transparent;color:inherit;font:inherit;font-weight:500;min-height:22px;
+    border-radius:6px;cursor:default;padding:4px 6px;line-height:1.2;
+    overflow-wrap:anywhere}
+
+  .twk-toggle{position:relative;width:32px;height:18px;border:0;border-radius:999px;
+    background:rgba(0,0,0,.15);transition:background .15s;cursor:default;padding:0}
+  .twk-toggle[data-on="1"]{background:#34c759}
+  .twk-toggle i{position:absolute;top:2px;left:2px;width:14px;height:14px;border-radius:50%;
+    background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.25);transition:transform .15s}
+  .twk-toggle[data-on="1"] i{transform:translateX(14px)}
+
+  .twk-num{display:flex;align-items:center;box-sizing:border-box;min-width:0;height:26px;padding:0 0 0 8px;
+    border:.5px solid rgba(0,0,0,.1);border-radius:7px;background:rgba(255,255,255,.6)}
+  .twk-num-lbl{font-weight:500;color:rgba(41,38,27,.6);cursor:ew-resize;
+    user-select:none;padding-right:8px}
+  .twk-num input{flex:1;min-width:0;height:100%;border:0;background:transparent;
+    font:inherit;font-variant-numeric:tabular-nums;text-align:right;padding:0 8px 0 0;
+    outline:none;color:inherit;-moz-appearance:textfield}
+  .twk-num input::-webkit-inner-spin-button,.twk-num input::-webkit-outer-spin-button{
+    -webkit-appearance:none;margin:0}
+  .twk-num-unit{padding-right:8px;color:rgba(41,38,27,.45)}
+
+  .twk-btn{appearance:none;height:26px;padding:0 12px;border:0;border-radius:7px;
+    background:rgba(0,0,0,.78);color:#fff;font:inherit;font-weight:500;cursor:default}
+  .twk-btn:hover{background:rgba(0,0,0,.88)}
+  .twk-btn.secondary{background:rgba(0,0,0,.06);color:inherit}
+  .twk-btn.secondary:hover{background:rgba(0,0,0,.1)}
+
+  .twk-swatch{appearance:none;-webkit-appearance:none;width:56px;height:22px;
+    border:.5px solid rgba(0,0,0,.1);border-radius:6px;padding:0;cursor:default;
+    background:transparent;flex-shrink:0}
+  .twk-swatch::-webkit-color-swatch-wrapper{padding:0}
+  .twk-swatch::-webkit-color-swatch{border:0;border-radius:5.5px}
+  .twk-swatch::-moz-color-swatch{border:0;border-radius:5.5px}
+
+  .twk-chips{display:flex;gap:6px}
+  .twk-chip{position:relative;appearance:none;flex:1;min-width:0;height:46px;
+    padding:0;border:0;border-radius:6px;overflow:hidden;cursor:default;
+    box-shadow:0 0 0 .5px rgba(0,0,0,.12),0 1px 2px rgba(0,0,0,.06);
+    transition:transform .12s cubic-bezier(.3,.7,.4,1),box-shadow .12s}
+  .twk-chip:hover{transform:translateY(-1px);
+    box-shadow:0 0 0 .5px rgba(0,0,0,.18),0 4px 10px rgba(0,0,0,.12)}
+  .twk-chip[data-on="1"]{box-shadow:0 0 0 1.5px rgba(0,0,0,.85),
+    0 2px 6px rgba(0,0,0,.15)}
+  .twk-chip>span{position:absolute;top:0;bottom:0;right:0;width:34%;
+    display:flex;flex-direction:column;box-shadow:-1px 0 0 rgba(0,0,0,.1)}
+  .twk-chip>span>i{flex:1;box-shadow:0 -1px 0 rgba(0,0,0,.1)}
+  .twk-chip>span>i:first-child{box-shadow:none}
+  .twk-chip svg{position:absolute;top:6px;left:6px;width:13px;height:13px;
+    filter:drop-shadow(0 1px 1px rgba(0,0,0,.3))}
+`;
+
+// ── useTweaks ───────────────────────────────────────────────────────────────
+// Single source of truth for tweak values. setTweak persists via the host
+// (__edit_mode_set_keys → host rewrites the EDITMODE block on disk).
+function useTweaks(defaults) {
+  const [values, setValues] = React.useState(defaults);
+  // Accepts either setTweak('key', value) or setTweak({ key: value, ... }) so a
+  // useState-style call doesn't write a "[object Object]" key into the persisted
+  // JSON block.
+  const setTweak = React.useCallback((keyOrEdits, val) => {
+    const edits = typeof keyOrEdits === 'object' && keyOrEdits !== null
+      ? keyOrEdits : { [keyOrEdits]: val };
+    setValues((prev) => ({ ...prev, ...edits }));
+    window.parent.postMessage({ type: '__edit_mode_set_keys', edits }, '*');
+    // Same-window signal so in-page listeners (deck-stage rail thumbnails)
+    // can react — the parent message only reaches the host, not peers.
+    window.dispatchEvent(new CustomEvent('tweakchange', { detail: edits }));
+  }, []);
+  return [values, setTweak];
+}
+
+// ── TweaksPanel ─────────────────────────────────────────────────────────────
+// Floating shell. Registers the protocol listener BEFORE announcing
+// availability — if the announce ran first, the host's activate could land
+// before our handler exists and the toolbar toggle would silently no-op.
+// The close button posts __edit_mode_dismissed so the host's toolbar toggle
+// flips off in lockstep; the host echoes __deactivate_edit_mode back which
+// is what actually hides the panel.
+function TweaksPanel({ title = 'Tweaks', noDeckControls = false, children }) {
+  const [open, setOpen] = React.useState(false);
+  const dragRef = React.useRef(null);
+  // Auto-inject a rail toggle when a <deck-stage> is on the page. The
+  // toggle drives the deck's per-viewer _railVisible via window message;
+  // state is mirrored from the same localStorage key the deck reads so
+  // the control reflects reality across reloads. The mechanism is the
+  // message — authors who want custom placement can post it directly
+  // and pass noDeckControls to suppress this one.
+  const hasDeckStage = React.useMemo(
+    () => typeof document !== 'undefined' && !!document.querySelector('deck-stage'),
+    [],
+  );
+  // deck-stage enables its rail in connectedCallback, but this panel can
+  // mount before that element has upgraded. The initial read catches the
+  // common case; the listener covers mounting first. (Older deck-stage.js
+  // copies still wait for the host's __omelette_rail_enabled postMessage —
+  // same listener handles those.)
+  const [railEnabled, setRailEnabled] = React.useState(
+    () => hasDeckStage && !!document.querySelector('deck-stage')?._railEnabled,
+  );
+  React.useEffect(() => {
+    if (!hasDeckStage || railEnabled) return undefined;
+    const onMsg = (e) => {
+      if (e.data && e.data.type === '__omelette_rail_enabled') setRailEnabled(true);
+    };
+    window.addEventListener('message', onMsg);
+    return () => window.removeEventListener('message', onMsg);
+  }, [hasDeckStage, railEnabled]);
+  const [railVisible, setRailVisible] = React.useState(() => {
+    try { return localStorage.getItem('deck-stage.railVisible') !== '0'; } catch (e) { return true; }
+  });
+  const toggleRail = (on) => {
+    setRailVisible(on);
+    window.postMessage({ type: '__deck_rail_visible', on }, '*');
+  };
+  const offsetRef = React.useRef({ x: 16, y: 16 });
+  const PAD = 16;
+
+  const clampToViewport = React.useCallback(() => {
+    const panel = dragRef.current;
+    if (!panel) return;
+    const w = panel.offsetWidth, h = panel.offsetHeight;
+    const maxRight = Math.max(PAD, window.innerWidth - w - PAD);
+    const maxBottom = Math.max(PAD, window.innerHeight - h - PAD);
+    offsetRef.current = {
+      x: Math.min(maxRight, Math.max(PAD, offsetRef.current.x)),
+      y: Math.min(maxBottom, Math.max(PAD, offsetRef.current.y)),
+    };
+    panel.style.right = offsetRef.current.x + 'px';
+    panel.style.bottom = offsetRef.current.y + 'px';
+  }, []);
+
+  React.useEffect(() => {
+    if (!open) return;
+    clampToViewport();
+    if (typeof ResizeObserver === 'undefined') {
+      window.addEventListener('resize', clampToViewport);
+      return () => window.removeEventListener('resize', clampToViewport);
+    }
+    const ro = new ResizeObserver(clampToViewport);
+    ro.observe(document.documentElement);
+    return () => ro.disconnect();
+  }, [open, clampToViewport]);
+
+  React.useEffect(() => {
+    const onMsg = (e) => {
+      const t = e?.data?.type;
+      if (t === '__activate_edit_mode') setOpen(true);
+      else if (t === '__deactivate_edit_mode') setOpen(false);
+    };
+    window.addEventListener('message', onMsg);
+    window.parent.postMessage({ type: '__edit_mode_available' }, '*');
+    return () => window.removeEventListener('message', onMsg);
+  }, []);
+
+  const dismiss = () => {
+    setOpen(false);
+    window.parent.postMessage({ type: '__edit_mode_dismissed' }, '*');
+  };
+
+  const onDragStart = (e) => {
+    const panel = dragRef.current;
+    if (!panel) return;
+    const r = panel.getBoundingClientRect();
+    const sx = e.clientX, sy = e.clientY;
+    const startRight = window.innerWidth - r.right;
+    const startBottom = window.innerHeight - r.bottom;
+    const move = (ev) => {
+      offsetRef.current = {
+        x: startRight - (ev.clientX - sx),
+        y: startBottom - (ev.clientY - sy),
+      };
+      clampToViewport();
+    };
+    const up = () => {
+      window.removeEventListener('mousemove', move);
+      window.removeEventListener('mouseup', up);
+    };
+    window.addEventListener('mousemove', move);
+    window.addEventListener('mouseup', up);
+  };
+
+  if (!open) return null;
+  return (
+    <>
+      <style>{__TWEAKS_STYLE}</style>
+      <div ref={dragRef} className="twk-panel" data-noncommentable=""
+           style={{ right: offsetRef.current.x, bottom: offsetRef.current.y }}>
+        <div className="twk-hd" onMouseDown={onDragStart}>
+          <b>{title}</b>
+          <button className="twk-x" aria-label="Close tweaks"
+                  onMouseDown={(e) => e.stopPropagation()}
+                  onClick={dismiss}>✕</button>
+        </div>
+        <div className="twk-body">
+          {children}
+          {hasDeckStage && railEnabled && !noDeckControls && (
+            <TweakSection label="Deck">
+              <TweakToggle label="Thumbnail rail" value={railVisible} onChange={toggleRail} />
+            </TweakSection>
+          )}
+        </div>
+      </div>
+    </>
+  );
+}
+
+// ── Layout helpers ──────────────────────────────────────────────────────────
+
+function TweakSection({ label, children }) {
+  return (
+    <>
+      <div className="twk-sect">{label}</div>
+      {children}
+    </>
+  );
+}
+
+function TweakRow({ label, value, children, inline = false }) {
+  return (
+    <div className={inline ? 'twk-row twk-row-h' : 'twk-row'}>
+      <div className="twk-lbl">
+        <span>{label}</span>
+        {value != null && <span className="twk-val">{value}</span>}
+      </div>
+      {children}
+    </div>
+  );
+}
+
+// ── Controls ────────────────────────────────────────────────────────────────
+
+function TweakSlider({ label, value, min = 0, max = 100, step = 1, unit = '', onChange }) {
+  return (
+    <TweakRow label={label} value={`${value}${unit}`}>
+      <input type="range" className="twk-slider" min={min} max={max} step={step}
+             value={value} onChange={(e) => onChange(Number(e.target.value))} />
+    </TweakRow>
+  );
+}
+
+function TweakToggle({ label, value, onChange }) {
+  return (
+    <div className="twk-row twk-row-h">
+      <div className="twk-lbl"><span>{label}</span></div>
+      <button type="button" className="twk-toggle" data-on={value ? '1' : '0'}
+              role="switch" aria-checked={!!value}
+              onClick={() => onChange(!value)}><i /></button>
+    </div>
+  );
+}
+
+function TweakRadio({ label, value, options, onChange }) {
+  const trackRef = React.useRef(null);
+  const [dragging, setDragging] = React.useState(false);
+  // The active value is read by pointer-move handlers attached for the lifetime
+  // of a drag — ref it so a stale closure doesn't fire onChange for every move.
+  const valueRef = React.useRef(value);
+  valueRef.current = value;
+
+  // Segments wrap mid-word once per-segment width runs out. The track is
+  // ~248px (280 panel − 28 body pad − 4 seg pad), each button loses 12px
+  // to its own padding, and 11.5px system-ui averages ~6.3px/char — so 2
+  // options fit ~16 chars each, 3 fit ~10. Past that (or >3 options), fall
+  // back to a dropdown rather than wrap.
+  const labelLen = (o) => String(typeof o === 'object' ? o.label : o).length;
+  const maxLen = options.reduce((m, o) => Math.max(m, labelLen(o)), 0);
+  const fitsAsSegments = maxLen <= ({ 2: 16, 3: 10 }[options.length] ?? 0);
+  if (!fitsAsSegments) {
+    // <select> emits strings — map back to the original option value so the
+    // fallback stays type-preserving (numbers, booleans) like the segment path.
+    const resolve = (s) => {
+      const m = options.find((o) => String(typeof o === 'object' ? o.value : o) === s);
+      return m === undefined ? s : typeof m === 'object' ? m.value : m;
+    };
+    return <TweakSelect label={label} value={value} options={options}
+                        onChange={(s) => onChange(resolve(s))} />;
+  }
+  const opts = options.map((o) => (typeof o === 'object' ? o : { value: o, label: o }));
+  const idx = Math.max(0, opts.findIndex((o) => o.value === value));
+  const n = opts.length;
+
+  const segAt = (clientX) => {
+    const r = trackRef.current.getBoundingClientRect();
+    const inner = r.width - 4;
+    const i = Math.floor(((clientX - r.left - 2) / inner) * n);
+    return opts[Math.max(0, Math.min(n - 1, i))].value;
+  };
+
+  const onPointerDown = (e) => {
+    setDragging(true);
+    const v0 = segAt(e.clientX);
+    if (v0 !== valueRef.current) onChange(v0);
+    const move = (ev) => {
+      if (!trackRef.current) return;
+      const v = segAt(ev.clientX);
+      if (v !== valueRef.current) onChange(v);
+    };
+    const up = () => {
+      setDragging(false);
+      window.removeEventListener('pointermove', move);
+      window.removeEventListener('pointerup', up);
+    };
+    window.addEventListener('pointermove', move);
+    window.addEventListener('pointerup', up);
+  };
+
+  return (
+    <TweakRow label={label}>
+      <div ref={trackRef} role="radiogroup" onPointerDown={onPointerDown}
+           className={dragging ? 'twk-seg dragging' : 'twk-seg'}>
+        <div className="twk-seg-thumb"
+             style={{ left: `calc(2px + ${idx} * (100% - 4px) / ${n})`,
+                      width: `calc((100% - 4px) / ${n})` }} />
+        {opts.map((o) => (
+          <button key={o.value} type="button" role="radio" aria-checked={o.value === value}>
+            {o.label}
+          </button>
+        ))}
+      </div>
+    </TweakRow>
+  );
+}
+
+function TweakSelect({ label, value, options, onChange }) {
+  return (
+    <TweakRow label={label}>
+      <select className="twk-field" value={value} onChange={(e) => onChange(e.target.value)}>
+        {options.map((o) => {
+          const v = typeof o === 'object' ? o.value : o;
+          const l = typeof o === 'object' ? o.label : o;
+          return <option key={v} value={v}>{l}</option>;
+        })}
+      </select>
+    </TweakRow>
+  );
+}
+
+function TweakText({ label, value, placeholder, onChange }) {
+  return (
+    <TweakRow label={label}>
+      <input className="twk-field" type="text" value={value} placeholder={placeholder}
+             onChange={(e) => onChange(e.target.value)} />
+    </TweakRow>
+  );
+}
+
+function TweakNumber({ label, value, min, max, step = 1, unit = '', onChange }) {
+  const clamp = (n) => {
+    if (min != null && n < min) return min;
+    if (max != null && n > max) return max;
+    return n;
+  };
+  const startRef = React.useRef({ x: 0, val: 0 });
+  const onScrubStart = (e) => {
+    e.preventDefault();
+    startRef.current = { x: e.clientX, val: value };
+    const decimals = (String(step).split('.')[1] || '').length;
+    const move = (ev) => {
+      const dx = ev.clientX - startRef.current.x;
+      const raw = startRef.current.val + dx * step;
+      const snapped = Math.round(raw / step) * step;
+      onChange(clamp(Number(snapped.toFixed(decimals))));
+    };
+    const up = () => {
+      window.removeEventListener('pointermove', move);
+      window.removeEventListener('pointerup', up);
+    };
+    window.addEventListener('pointermove', move);
+    window.addEventListener('pointerup', up);
+  };
+  return (
+    <div className="twk-num">
+      <span className="twk-num-lbl" onPointerDown={onScrubStart}>{label}</span>
+      <input type="number" value={value} min={min} max={max} step={step}
+             onChange={(e) => onChange(clamp(Number(e.target.value)))} />
+      {unit && <span className="twk-num-unit">{unit}</span>}
+    </div>
+  );
+}
+
+// Relative-luminance contrast pick — checkmarks drawn over a swatch need to
+// read on both #111 and #fafafa without per-option configuration. Hex input
+// only (#rgb / #rrggbb); named or rgb()/hsl() colors fall through to "light".
+function __twkIsLight(hex) {
+  const h = String(hex).replace('#', '');
+  const x = h.length === 3 ? h.replace(/./g, (c) => c + c) : h.padEnd(6, '0');
+  const n = parseInt(x.slice(0, 6), 16);
+  if (Number.isNaN(n)) return true;
+  const r = (n >> 16) & 255, g = (n >> 8) & 255, b = n & 255;
+  return r * 299 + g * 587 + b * 114 > 148000;
+}
+
+const __TwkCheck = ({ light }) => (
+  <svg viewBox="0 0 14 14" aria-hidden="true">
+    <path d="M3 7.2 5.8 10 11 4.2" fill="none" strokeWidth="2.2"
+          strokeLinecap="round" strokeLinejoin="round"
+          stroke={light ? 'rgba(0,0,0,.78)' : '#fff'} />
+  </svg>
+);
+
+// TweakColor — curated color/palette picker. Each option is either a single
+// hex string or an array of 1-5 hex strings; the card adapts — a lone color
+// renders solid, a palette renders colors[0] as the hero (left ~2/3) with the
+// rest stacked in a sharp column on the right. onChange emits the
+// option in the shape it was passed (string stays string, array stays array).
+// Without options it falls back to the native color input for back-compat.
+function TweakColor({ label, value, options, onChange }) {
+  if (!options || !options.length) {
+    return (
+      <div className="twk-row twk-row-h">
+        <div className="twk-lbl"><span>{label}</span></div>
+        <input type="color" className="twk-swatch" value={value}
+               onChange={(e) => onChange(e.target.value)} />
+      </div>
+    );
+  }
+  // Native <input type=color> emits lowercase hex per the HTML spec, so
+  // compare case-insensitively. String() guards JSON.stringify(undefined),
+  // which returns the primitive undefined (no .toLowerCase).
+  const key = (o) => String(JSON.stringify(o)).toLowerCase();
+  const cur = key(value);
+  return (
+    <TweakRow label={label}>
+      <div className="twk-chips" role="radiogroup">
+        {options.map((o, i) => {
+          const colors = Array.isArray(o) ? o : [o];
+          const [hero, ...rest] = colors;
+          const sup = rest.slice(0, 4);
+          const on = key(o) === cur;
+          return (
+            <button key={i} type="button" className="twk-chip" role="radio"
+                    aria-checked={on} data-on={on ? '1' : '0'}
+                    aria-label={colors.join(', ')} title={colors.join(' · ')}
+                    style={{ background: hero }}
+                    onClick={() => onChange(o)}>
+              {sup.length > 0 && (
+                <span>
+                  {sup.map((c, j) => <i key={j} style={{ background: c }} />)}
+                </span>
+              )}
+              {on && <__TwkCheck light={__twkIsLight(hero)} />}
+            </button>
+          );
+        })}
+      </div>
+    </TweakRow>
+  );
+}
+
+function TweakButton({ label, onClick, secondary = false }) {
+  return (
+    <button type="button" className={secondary ? 'twk-btn secondary' : 'twk-btn'}
+            onClick={onClick}>{label}</button>
+  );
+}
+
+Object.assign(window, {
+  useTweaks, TweaksPanel, TweakSection, TweakRow,
+  TweakSlider, TweakToggle, TweakRadio, TweakSelect,
+  TweakText, TweakNumber, TweakColor, TweakButton,
+});
+
+</script>
+<script type="text/babel" data-presets="react">
+// Data layer — itinerary, tickets, checklist, info
+
+const ITINERARY = [
+  { day: 1, date: '06/26', dow: '四', city: '台北 → 北京', stay: '北京', highlights: [
+      { time: '14:25', label: 'BR716 桃園 → 北京首都', kind: 'flight' },
+      { time: '18:00', label: '抵達北京・入境通關', kind: 'transit' },
+      { time: '20:30', label: '前門大街・晚餐', kind: 'food' },
+  ]},
+  { day: 2, date: '06/27', dow: '五', city: '北京 · 故宮', stay: '北京', highlights: [
+      { time: '08:30', label: '天安門廣場', kind: 'sight' },
+      { time: '10:00', label: '故宮博物院（含講解）', kind: 'sight', tag: '預約' },
+      { time: '14:00', label: '景山公園・俯瞰中軸線', kind: 'sight' },
+      { time: '18:30', label: '南鑼鼓巷・四合院晚餐', kind: 'food' },
+  ]},
+  { day: 3, date: '06/28', dow: '六', city: '北京 · 天壇', stay: '北京', highlights: [
+      { time: '09:00', label: '天壇祈年殿', kind: 'sight', tag: '預約' },
+      { time: '11:30', label: '先農壇', kind: 'sight' },
+      { time: '14:00', label: '頤和園・昆明湖', kind: 'sight' },
+      { time: '19:00', label: '王府井小吃街', kind: 'food' },
+  ]},
+  { day: 4, date: '06/29', dow: '日', city: '北京 → 大同', stay: '大同', highlights: [
+      { time: '07:55', label: '北京西 → 大同南 高鐵', kind: 'transit', tag: '台胞證' },
+      { time: '11:30', label: '華嚴寺・薄伽教藏殿', kind: 'sight' },
+      { time: '15:00', label: '善化寺', kind: 'sight' },
+      { time: '19:30', label: '《如夢大同》表演', kind: 'event' },
+  ]},
+  { day: 5, date: '06/30', dow: '一', city: '大同 · 雲岡石窟', stay: '大同', highlights: [
+      { time: '08:30', label: '雲岡石窟（含講解）', kind: 'sight', tag: '預約' },
+      { time: '14:00', label: '大同古城牆', kind: 'sight' },
+      { time: '17:00', label: '九龍壁', kind: 'sight' },
+  ]},
+  { day: 6, date: '07/01', dow: '二', city: '大同 · 懸空寺・應縣木塔', stay: '大同', highlights: [
+      { time: '08:00', label: '應縣木塔', kind: 'sight' },
+      { time: '13:00', label: '懸空寺（恆山）', kind: 'sight', tag: '預約' },
+      { time: '18:00', label: '大同刀削麵晚餐', kind: 'food' },
+  ]},
+  { day: 7, date: '07/02', dow: '三', city: '大同 → 五台山', stay: '五台山', highlights: [
+      { time: '08:30', label: '大同 → 五台山 拉車', kind: 'transit' },
+      { time: '13:00', label: '顯通寺', kind: 'sight' },
+      { time: '15:00', label: '塔院寺・大白塔', kind: 'sight' },
+      { time: '16:30', label: '殊像寺', kind: 'sight' },
+  ]},
+  { day: 8, date: '07/03', dow: '四', city: '五台山 → 北京', stay: '北京', highlights: [
+      { time: '07:30', label: '黛螺頂・五方文殊', kind: 'sight' },
+      { time: '12:00', label: '五台山 → 北京 拉車', kind: 'transit' },
+      { time: '19:00', label: '北京烤鴨告別宴', kind: 'food' },
+  ]},
+  { day: 9, date: '07/04', dow: '五', city: '北京 → 台北', stay: '機上', highlights: [
+      { time: '10:00', label: '前門大街・伴手禮', kind: 'shopping' },
+      { time: '15:30', label: '前往首都機場', kind: 'transit' },
+      { time: '19:35', label: 'BR715 北京 → 桃園', kind: 'flight' },
+  ]},
+];
+
+const TICKETS = [
+  { name: '故宮博物院', sub: '成人 ¥60／60+ ¥30／學生 ¥20', total: 310, status: '5月中關注報名', icon: '宮' },
+  { name: '天壇', sub: '成人 ¥34／60+ 免費／18- 免費', total: 136, status: '6/22 0:00 開放', icon: '壇' },
+  { name: '先農壇', sub: '成人 ¥15／60+ 免費／18- 免費', total: 60, status: '現場購票', icon: '農' },
+  { name: '華嚴寺', sub: '成人 ¥50／60+ 免費／學生 ¥25', total: 250, status: '6/15 0:00 開放', icon: '華' },
+  { name: '善化寺', sub: '成人 ¥40／60+ 免費／學生 ¥20', total: 200, status: '6/24 0:00 開放', icon: '善' },
+  { name: '雲岡石窟', sub: '成人 ¥120／60+ 免費／學生 ¥60', total: 600, status: '6/15 7:00 開放', icon: '窟' },
+  { name: '如夢大同 表演', sub: '成人 ¥238／65+ ¥150／學生 ¥150', total: 1402, status: '現場購票', icon: '夢' },
+  { name: '應縣木塔', sub: '成人 ¥50／60+ 免費／學生 ¥25', total: 250, status: '隨時可約', icon: '塔' },
+  { name: '懸空寺', sub: '成人 ¥15／60+ 免費／學生 ¥8', total: 76, status: '6/25 0:00 開放', icon: '懸' },
+  { name: '五台山', sub: '成人 ¥135／60+ 免費／學生 ¥70', total: 680, status: '6/27 0:00 開放', icon: '台' },
+];
+
+const PAYERS = ['毓芸', '媽媽', '俊安', '哥哥'];
+const PAYER_COLORS = {
+  '毓芸': '#BE3A2A',
+  '媽媽':  '#B08D3F',
+  '俊安':  '#4A6B5C',
+  '哥哥':  '#5A6B8A',
+};
+
+const CHECKLIST_GROUPS = [
+  { title: '證件文件', items: ['台胞證（最重要）', '中華民國護照', '電子機票列印本', '住宿訂房單', '證件照 2 張備用'] },
+  { title: '電子用品', items: ['行動電源（< 27000mAh, CCC認證）', '充電線・轉接頭', '相機・備用電池', '行動WiFi 或 SIM卡', '微信／支付寶 已綁定'] },
+  { title: '衣著鞋類',  items: ['舒適運動鞋', '薄外套（早晚溫差）', '正裝（寺廟長褲長袖）', '防曬帽・墨鏡', '雨具'] },
+  { title: '隨身藥品', items: ['腸胃藥', '感冒藥', '休足時間／痠痛貼布', 'OK繃／優碘', '個人慣用處方藥'] },
+  { title: '其他細項', items: ['塗抹式防曬（高鐵限噴霧）', '保濕乳液（山西乾燥）', '雙肩背包', '輕便購物袋', '小額現金 ¥'] },
+];
+
+const KIND_META = {
+  flight:   { label: '航班', dot: '#BE3A2A' },
+  transit:  { label: '交通', dot: '#5A6B8A' },
+  sight:    { label: '景點', dot: '#B08D3F' },
+  food:     { label: '餐食', dot: '#4A6B5C' },
+  event:    { label: '表演', dot: '#8A4A6B' },
+  shopping: { label: '購物', dot: '#7A6A4F' },
+};
+
+Object.assign(window, { ITINERARY, TICKETS, PAYERS, PAYER_COLORS, CHECKLIST_GROUPS, KIND_META });
+
+</script>
+<script type="text/babel" data-presets="react">
+// Shared design tokens, motifs, and bottom nav
+
+const C = {
+  paper:   '#F5EFE4',   // warm ivory
+  paper2:  '#EFE7D7',   // slightly darker
+  card:    '#FFFDF9',   // off-white card
+  ink:     '#1A1612',   // warm black
+  ink2:    '#3A332C',   // softened ink
+  muted:   '#8C8174',
+  faint:   '#B8AC97',
+  line:    '#E5DBC6',
+  line2:   '#D7CAAF',
+  red:     '#B83A2A',   // vermillion / 朱
+  redDeep: '#8E2A1E',
+  gold:    '#B08D3F',
+  jade:    '#4A6B5C',
+  indigo:  '#3D4A6B',
+};
+
+const FONT_SERIF   = '"Noto Serif TC", "Songti SC", "STSong", serif';
+const FONT_SANS    = '"Noto Sans TC", -apple-system, system-ui, sans-serif';
+const FONT_MONO    = '"DM Mono", ui-monospace, "SF Mono", monospace';
+const FONT_BRUSH   = '"Ma Shan Zheng", "Long Cang", "Noto Serif TC", serif';
+const FONT_DISPLAY = '"ZCOOL XiaoWei", "Noto Serif TC", serif';
+const FONT_CURSIVE = '"Liu Jian Mao Cao", "Long Cang", cursive';
+
+// ─────────────────────────────────────────────────────────────
+// Decorative motifs
+// ─────────────────────────────────────────────────────────────
+
+// 印章 — square seal with single character (brush style)
+function Seal({ char = '京', size = 44, color = C.red, style = {}, round = false, brush = true }) {
+  return (
+    <div style={{
+      width: size, height: size, borderRadius: round ? '50%' : 6,
+      background: color, color: '#F5EFE4',
+      display: 'flex', alignItems: 'center', justifyContent: 'center',
+      fontFamily: brush ? FONT_BRUSH : FONT_SERIF, fontWeight: brush ? 400 : 600,
+      fontSize: size * (brush ? 0.68 : 0.55),
+      letterSpacing: -1,
+      boxShadow: round
+        ? `inset 0 0 0 2.5px rgba(245,239,228,0.85), inset 0 0 0 3.5px ${color}, 0 1px 0 rgba(0,0,0,0.05)`
+        : 'inset 0 0 0 2px rgba(245,239,228,0.18), 0 1px 0 rgba(0,0,0,0.05)',
+      position: 'relative',
+      // subtle weathered texture overlay
+      backgroundImage: `
+        radial-gradient(circle at 25% 20%, rgba(245,239,228,0.18) 0%, transparent 25%),
+        radial-gradient(circle at 75% 75%, rgba(0,0,0,0.12) 0%, transparent 30%),
+        radial-gradient(circle at 60% 30%, rgba(0,0,0,0.08) 0%, transparent 20%)
+      `,
+      ...style,
+    }}>
+      <span style={{ position: 'relative', top: brush ? -2 : 1, lineHeight: 1 }}>{char}</span>
+    </div>
+  );
+}
+
+// 回紋 / 雷紋 — Greek key meander border (Chinese style)
+function KeyMeanderBorder({ color = C.red, height = 14, style = {} }) {
+  // tileable rectilinear spiral
+  const svg = `
+    <svg xmlns='http://www.w3.org/2000/svg' width='28' height='${height}' viewBox='0 0 28 ${height}'>
+      <path d='M0 ${height-1} H6 V3 H22 V${height-3} H10 V7 H18 V${height-5} H14 V${height-7} M22 ${height-1} H28' 
+        fill='none' stroke='${encodeURIComponent(color)}' stroke-width='1.2'/>
+    </svg>`;
+  return (
+    <div style={{
+      height, width: '100%',
+      backgroundImage: `url("data:image/svg+xml;utf8,${svg.replace(/\n/g, '').replace(/#/g, '%23')}")`,
+      backgroundRepeat: 'repeat-x',
+      backgroundSize: `28px ${height}px`,
+      opacity: 0.6,
+      ...style,
+    }} />
+  );
+}
+
+// 山水 — distant mountain silhouette
+function MountainSilhouette({ color = C.ink, opacity = 0.08, style = {} }) {
+  return (
+    <svg viewBox="0 0 360 60" preserveAspectRatio="none" style={{ width: '100%', height: 60, display: 'block', ...style }}>
+      <path d="M0 60 L0 38 Q 20 30 35 36 Q 55 22 75 32 Q 95 18 120 30 Q 145 10 175 26 Q 200 16 225 28 Q 255 12 285 24 Q 315 18 340 30 Q 355 26 360 32 L360 60 Z"
+        fill={color} opacity={opacity * 0.5}/>
+      <path d="M0 60 L0 48 Q 30 40 60 46 Q 100 32 140 42 Q 180 30 220 40 Q 260 32 300 42 Q 330 36 360 44 L360 60 Z"
+        fill={color} opacity={opacity}/>
+    </svg>
+  );
+}
+
+// 水波 — traditional wave pattern
+function WavePattern({ color = C.indigo, opacity = 0.12, style = {} }) {
+  const c = encodeURIComponent(color);
+  const svg = `<svg xmlns='http://www.w3.org/2000/svg' width='40' height='14' viewBox='0 0 40 14'>
+    <path d='M0 7 Q 5 1, 10 7 T 20 7 T 30 7 T 40 7' fill='none' stroke='${c}' stroke-width='1.2'/>
+    <path d='M0 12 Q 5 6, 10 12 T 20 12 T 30 12 T 40 12' fill='none' stroke='${c}' stroke-width='1' opacity='0.5'/>
+  </svg>`;
+  return (
+    <div style={{
+      height: 14, width: '100%', opacity,
+      backgroundImage: `url("data:image/svg+xml;utf8,${svg.replace(/#/g, '%23')}")`,
+      backgroundRepeat: 'repeat-x', backgroundSize: '40px 14px',
+      ...style,
+    }} />
+  );
+}
+
+// 窗格 — lattice window pattern (subtle background)
+function LatticeBg({ color = C.red, opacity = 0.05, style = {} }) {
+  const c = encodeURIComponent(color);
+  const svg = `<svg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'>
+    <g fill='none' stroke='${c}' stroke-width='0.8'>
+      <rect x='10' y='10' width='40' height='40'/>
+      <path d='M30 10 V 50 M 10 30 H 50'/>
+      <path d='M20 20 L 30 10 L 40 20 L 30 30 Z'/>
+      <path d='M20 40 L 30 30 L 40 40 L 30 50 Z'/>
+      <path d='M20 20 L 10 30 L 20 40'/>
+      <path d='M40 20 L 50 30 L 40 40'/>
+    </g>
+  </svg>`;
+  return (
+    <div style={{
+      position: 'absolute', inset: 0, opacity, pointerEvents: 'none',
+      backgroundImage: `url("data:image/svg+xml;utf8,${svg.replace(/#/g, '%23')}")`,
+      backgroundRepeat: 'repeat', backgroundSize: '60px 60px',
+      ...style,
+    }} />
+  );
+}
+
+// 毛筆筆觸 — brush stroke underline
+function BrushStroke({ color = C.red, width = '100%', height = 8, style = {} }) {
+  return (
+    <svg viewBox="0 0 120 8" preserveAspectRatio="none"
+      style={{ width, height, display: 'block', ...style }}>
+      <path d="M2 5 Q 30 1, 60 4 T 118 3.5"
+        stroke={color} strokeWidth="2.5" strokeLinecap="round" fill="none" opacity="0.9"/>
+      <circle cx="118" cy="3.5" r="1.5" fill={color}/>
+    </svg>
+  );
+}
+
+// 雲紋 — cloud-curl divider with ink dot
+function CloudDivider({ color = C.line2, dotColor = C.red, style = {} }) {
+  return (
+    <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '4px 0', ...style }}>
+      <div style={{ flex: 1, height: 1, background: `linear-gradient(to right, transparent, ${color} 60%)` }} />
+      <svg width="58" height="12" viewBox="0 0 58 12" fill="none">
+        <path d="M2 6 Q 8 2, 14 6 Q 20 10, 26 6" stroke={color} strokeWidth="1" strokeLinecap="round" fill="none"/>
+        <path d="M32 6 Q 38 2, 44 6 Q 50 10, 56 6" stroke={color} strokeWidth="1" strokeLinecap="round" fill="none"/>
+        <circle cx="29" cy="6" r="2" fill={dotColor}/>
+      </svg>
+      <div style={{ flex: 1, height: 1, background: `linear-gradient(to left, transparent, ${color} 60%)` }} />
+    </div>
+  );
+}
+
+// Vertical Chinese label (e.g. for headers)
+function VerticalText({ text, size = 11, color = C.muted, style = {} }) {
+  return (
+    <div style={{
+      writingMode: 'vertical-rl',
+      fontFamily: FONT_SERIF, fontSize: size, color,
+      letterSpacing: 4, lineHeight: 1,
+      ...style,
+    }}>{text}</div>
+  );
+}
+
+// Section header with Chinese + small English subtitle
+function SectionHeader({ zh, en, right }) {
+  return (
+    <div style={{
+      display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between',
+      padding: '4px 0 14px',
+    }}>
+      <div>
+        <div style={{
+          fontFamily: FONT_DISPLAY, fontSize: 22, fontWeight: 400, color: C.ink,
+          letterSpacing: 3, lineHeight: 1,
+        }}>{zh}</div>
+        {en && <div style={{
+          fontFamily: FONT_MONO, fontSize: 10, color: C.faint,
+          letterSpacing: 2, marginTop: 6, textTransform: 'uppercase',
+        }}>{en}</div>}
+        <BrushStroke color={C.red} width={36} height={5} style={{ marginTop: 5, opacity: 0.7 }} />
+      </div>
+      {right}
+    </div>
+  );
+}
+
+// Card primitive
+function Card({ children, style = {}, pad = 16, onClick }) {
+  return (
+    <div onClick={onClick} style={{
+      background: C.card,
+      borderRadius: 14,
+      border: `1px solid ${C.line}`,
+      padding: pad,
+      boxShadow: '0 1px 0 rgba(60,40,20,0.02), 0 4px 12px rgba(60,40,20,0.04)',
+      ...style,
+    }}>{children}</div>
+  );
+}
+
+// Pill chip
+function Chip({ children, color = C.red, light = true, style = {} }) {
+  return (
+    <span style={{
+      display: 'inline-flex', alignItems: 'center',
+      padding: '3px 8px', borderRadius: 4,
+      fontFamily: FONT_SANS, fontSize: 10, fontWeight: 500,
+      letterSpacing: 1,
+      background: light ? `${color}14` : color,
+      color: light ? color : '#fff',
+      border: light ? `1px solid ${color}30` : 'none',
+      ...style,
+    }}>{children}</span>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────
+// Bottom Nav
+// ─────────────────────────────────────────────────────────────
+const TABS = [
+  { id: 'plan',  zh: '行程', en: 'PLAN' },
+  { id: 'tour',  zh: '導覽', en: 'TOUR' },
+  { id: 'cost',  zh: '記帳', en: 'COST' },
+  { id: 'list',  zh: '清單', en: 'LIST' },
+  { id: 'info',  zh: '須知', en: 'INFO' },
+];
+
+function BottomNav({ active, onChange }) {
+  return (
+    <div style={{
+      position: 'absolute', bottom: 0, left: 0, right: 0,
+      paddingBottom: 28, paddingTop: 8,
+      background: 'linear-gradient(to top, rgba(245,239,228,0.98) 60%, rgba(245,239,228,0.0))',
+      backdropFilter: 'blur(8px)',
+      zIndex: 30,
+    }}>
+      <div style={{
+        margin: '0 14px',
+        background: C.card,
+        borderRadius: 999,
+        border: `1px solid ${C.line}`,
+        boxShadow: '0 6px 20px rgba(60,40,20,0.08)',
+        display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)',
+        padding: 6,
+      }}>
+        {TABS.map(t => {
+          const isActive = active === t.id;
+          return (
+            <button key={t.id}
+              onClick={() => onChange(t.id)}
+              style={{
+                border: 'none', background: isActive ? C.ink : 'transparent',
+                color: isActive ? C.paper : C.muted,
+                borderRadius: 999, padding: '8px 0',
+                display: 'flex', flexDirection: 'column', alignItems: 'center',
+                gap: 1, transition: 'all 0.2s',
+              }}>
+              <span style={{
+                fontFamily: FONT_SERIF, fontSize: 14, fontWeight: 600, letterSpacing: 2,
+              }}>{t.zh}</span>
+              <span style={{
+                fontFamily: FONT_MONO, fontSize: 7, letterSpacing: 1.5,
+                color: isActive ? 'rgba(245,239,228,0.6)' : C.faint,
+              }}>{t.en}</span>
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+// App-level header (paper-textured with traditional motifs)
+function AppHeader({ tabId }) {
+  const titles = {
+    plan: { zh: '行程表', en: 'Itinerary · 9 Days', wm: '行' },
+    tour: { zh: '深度導覽', en: 'Audio Guide',      wm: '遊' },
+    cost: { zh: '記帳與匯率', en: 'Expenses',         wm: '帳' },
+    list: { zh: '旅遊清單',   en: 'Checklist',        wm: '備' },
+    info: { zh: '實用資訊',   en: 'Travel Info',      wm: '安' },
+  };
+  const t = titles[tabId];
+  return (
+    <div style={{
+      padding: '54px 22px 22px',
+      background: `
+        linear-gradient(180deg, ${C.paper2} 0%, ${C.paper} 100%)
+      `,
+      borderBottom: `1px solid ${C.line2}`,
+      position: 'relative', overflow: 'hidden',
+    }}>
+      <LatticeBg color={C.red} opacity={0.04} />
+
+      {/* brush calligraphy watermark */}
+      <div style={{
+        position: 'absolute', right: -6, top: 28,
+        fontFamily: FONT_BRUSH, fontSize: 150, color: `${C.red}14`,
+        fontWeight: 400, lineHeight: 1,
+        pointerEvents: 'none', userSelect: 'none',
+        transform: 'rotate(-4deg)',
+      }}>{t.wm}</div>
+
+      <div style={{
+        display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', gap: 12,
+        position: 'relative',
+      }}>
+        <div>
+          <div style={{
+            fontFamily: FONT_MONO, fontSize: 10, color: C.muted,
+            letterSpacing: 3, textTransform: 'uppercase',
+          }}>京 城 晉 韻 · 2026</div>
+          <div style={{
+            fontFamily: FONT_DISPLAY, fontSize: 34, fontWeight: 400,
+            color: C.ink, letterSpacing: 4, lineHeight: 1.1, marginTop: 4,
+          }}>{t.zh}</div>
+          <div style={{
+            fontFamily: FONT_MONO, fontSize: 10, color: C.faint,
+            letterSpacing: 2, marginTop: 6, textTransform: 'uppercase',
+          }}>{t.en}</div>
+          <BrushStroke color={C.red} width={70} height={6} style={{ marginTop: 8 }} />
+        </div>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 6, alignItems: 'center', marginBottom: 4 }}>
+          <Seal char={t.wm} size={44} color={C.red} round={true} style={{ transform: 'rotate(-3deg)' }} />
+          <div style={{
+            fontFamily: FONT_BRUSH, fontSize: 10, color: C.red, letterSpacing: 2,
+            opacity: 0.7,
+          }}>印</div>
+        </div>
+      </div>
+
+      <KeyMeanderBorder color={C.red} style={{ position: 'absolute', left: 0, right: 0, bottom: 0 }} />
+    </div>
+  );
+}
+
+Object.assign(window, {
+  C, FONT_SERIF, FONT_SANS, FONT_MONO, FONT_BRUSH, FONT_DISPLAY, FONT_CURSIVE,
+  Seal, CloudDivider, VerticalText, SectionHeader, Card, Chip,
+  KeyMeanderBorder, MountainSilhouette, WavePattern, LatticeBg, BrushStroke,
+  TABS, BottomNav, AppHeader,
+});
+
+</script>
+<script type="text/babel" data-presets="react">
+// Five tab screens — Plan / Tour / Cost / List / Info
+
+// ─────────────────────────────────────────────────────────────
+// PLAN — Itinerary
+// ─────────────────────────────────────────────────────────────
+function PlanScreen() {
+  const [openDay, setOpenDay] = React.useState(2);
+
+  return (
+    <div style={{ padding: '20px 18px 140px', position: 'relative' }}>
+      {/* Flight summary card */}
+      <Card pad={0} style={{ marginBottom: 22, overflow: 'hidden', position: 'relative' }}>
+        <MountainSilhouette color={C.ink} opacity={0.06}
+          style={{ position: 'absolute', left: 0, right: 0, bottom: 0 }} />
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr auto 1fr', position: 'relative' }}>
+          <FlightLeg date="06/26" code="BR716" from="TPE 桃園" to="PEK 北京" time="14:25 → 17:55" />
+          <div style={{
+            display: 'flex', flexDirection: 'column', alignItems: 'center',
+            justifyContent: 'center', padding: '0 10px',
+            borderLeft: `1px dashed ${C.line2}`, borderRight: `1px dashed ${C.line2}`,
+          }}>
+            <div style={{
+              fontFamily: FONT_BRUSH, fontSize: 44, color: C.red,
+              fontWeight: 400, lineHeight: 1,
+            }}>九</div>
+            <div style={{
+              fontFamily: FONT_SERIF, fontSize: 11, color: C.muted,
+              letterSpacing: 2, marginTop: 4,
+            }}>日遊</div>
+          </div>
+          <FlightLeg date="07/04" code="BR715" from="PEK 北京" to="TPE 桃園" time="19:35 → 22:50" align="right" />
+        </div>
+      </Card>
+
+      <SectionHeader zh="九日行程" en="Day by Day" right={
+        <div style={{ fontFamily: FONT_MONO, fontSize: 10, color: C.muted, letterSpacing: 1 }}>
+          BJ × 6 · SX × 3
+        </div>
+      } />
+
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+        {ITINERARY.map(d => (
+          <DayCard key={d.day} day={d} open={openDay === d.day} onToggle={() => setOpenDay(openDay === d.day ? -1 : d.day)} />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function FlightLeg({ date, code, from, to, time, align = 'left' }) {
+  return (
+    <div style={{ padding: 14, textAlign: align }}>
+      <div style={{ fontFamily: FONT_MONO, fontSize: 10, color: C.muted, letterSpacing: 1 }}>{date}</div>
+      <div style={{ fontFamily: FONT_SERIF, fontSize: 16, color: C.ink, fontWeight: 600, marginTop: 2 }}>{code}</div>
+      <div style={{ fontFamily: FONT_SANS, fontSize: 12, color: C.ink2, marginTop: 4 }}>{from}</div>
+      <div style={{ fontFamily: FONT_SANS, fontSize: 12, color: C.ink2 }}>→ {to}</div>
+      <div style={{ fontFamily: FONT_MONO, fontSize: 10, color: C.faint, marginTop: 3, letterSpacing: 0.5 }}>{time}</div>
+    </div>
+  );
+}
+
+function DayCard({ day, open, onToggle }) {
+  return (
+    <div style={{
+      background: C.card, borderRadius: 14,
+      border: `1px solid ${C.line}`,
+      overflow: 'hidden',
+      boxShadow: '0 4px 12px rgba(60,40,20,0.04)',
+    }}>
+      <button onClick={onToggle} style={{
+        width: '100%', border: 'none', background: 'transparent', textAlign: 'left',
+        padding: '14px 14px', display: 'flex', alignItems: 'center', gap: 14,
+      }}>
+        {/* Day stamp — brush calligraphy number */}
+        <div style={{
+          width: 54, height: 60, borderRadius: 4,
+          background: day.day === 1 || day.day === 9 ? C.ink : C.red,
+          color: C.paper,
+          display: 'flex', flexDirection: 'column',
+          alignItems: 'center', justifyContent: 'center',
+          flexShrink: 0, position: 'relative',
+          boxShadow: `inset 0 0 0 2.5px rgba(245,239,228,0.9), inset 0 0 0 3.5px ${day.day === 1 || day.day === 9 ? C.ink : C.red}`,
+          backgroundImage: `
+            radial-gradient(circle at 25% 20%, rgba(245,239,228,0.18) 0%, transparent 30%),
+            radial-gradient(circle at 75% 75%, rgba(0,0,0,0.15) 0%, transparent 35%)
+          `,
+        }}>
+          <div style={{ fontFamily: FONT_SERIF, fontSize: 8, letterSpacing: 1.5, opacity: 0.7 }}>第</div>
+          <div style={{
+            fontFamily: FONT_BRUSH, fontSize: 30, fontWeight: 400, lineHeight: 0.9,
+            marginTop: -2,
+          }}>{['','一','二','三','四','五','六','七','八','九'][day.day]}</div>
+          <div style={{ fontFamily: FONT_SERIF, fontSize: 8, marginTop: 1, opacity: 0.7, letterSpacing: 1 }}>日</div>
+        </div>
+
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            <span style={{ fontFamily: FONT_MONO, fontSize: 11, color: C.muted, letterSpacing: 1 }}>{day.date}</span>
+            <span style={{ fontFamily: FONT_SERIF, fontSize: 10, color: C.red, letterSpacing: 1 }}>星期{day.dow}</span>
+            <span style={{ width: 3, height: 3, borderRadius: 99, background: C.faint }} />
+            <span style={{ fontFamily: FONT_SANS, fontSize: 11, color: C.muted }}>宿 · {day.stay}</span>
+          </div>
+          <div style={{
+            fontFamily: FONT_DISPLAY, fontSize: 19, fontWeight: 400, color: C.ink,
+            letterSpacing: 2, marginTop: 4,
+          }}>{day.city}</div>
+        </div>
+
+        <div style={{
+          color: C.muted, fontSize: 14, transition: 'transform 0.2s',
+          transform: open ? 'rotate(90deg)' : 'rotate(0)',
+        }}>›</div>
+      </button>
+
+      {open && (
+        <div style={{ padding: '0 18px 18px 18px' }}>
+          <CloudDivider style={{ marginBottom: 10 }} />
+          <div style={{ position: 'relative', paddingLeft: 14 }}>
+            {/* timeline line */}
+            <div style={{
+              position: 'absolute', left: 4, top: 6, bottom: 6,
+              width: 1, background: `linear-gradient(to bottom, ${C.line2}, ${C.line2} 60%, transparent)`,
+            }} />
+            {day.highlights.map((h, i) => {
+              const meta = KIND_META[h.kind] || KIND_META.sight;
+              return (
+                <div key={i} style={{
+                  display: 'flex', gap: 12, alignItems: 'flex-start',
+                  padding: '7px 0',
+                }}>
+                  <div style={{
+                    width: 9, height: 9, borderRadius: 99,
+                    background: meta.dot, marginLeft: -14, marginTop: 6,
+                    boxShadow: `0 0 0 3px ${C.card}`,
+                    flexShrink: 0,
+                  }} />
+                  <div style={{
+                    fontFamily: FONT_MONO, fontSize: 11, color: C.muted,
+                    width: 44, flexShrink: 0, paddingTop: 2,
+                  }}>{h.time}</div>
+                  <div style={{ flex: 1, paddingTop: 1 }}>
+                    <div style={{
+                      fontFamily: FONT_SANS, fontSize: 13.5, color: C.ink, lineHeight: 1.45,
+                    }}>{h.label}</div>
+                    <div style={{ display: 'flex', gap: 6, marginTop: 4, alignItems: 'center' }}>
+                      <span style={{
+                        fontFamily: FONT_SERIF, fontSize: 10, color: meta.dot, letterSpacing: 1.5,
+                      }}>{meta.label}</span>
+                      {h.tag && <Chip color={C.red}>{h.tag}</Chip>}
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────
+// TOUR — Deep audio guide
+// ─────────────────────────────────────────────────────────────
+const TOUR_SITES = [
+  { city: '北京', char: '宮', name: '故宮博物院', sub: '紫禁城 · 24 帝王居所', mins: 18, level: '經典', accent: C.red },
+  { city: '北京', char: '壇', name: '天壇祈年殿', sub: '明清皇家祭天聖地', mins: 12, level: '核心', accent: C.gold },
+  { city: '北京', char: '頤', name: '頤和園', sub: '皇家園林・昆明湖光', mins: 15, level: '經典', accent: C.jade },
+  { city: '大同', char: '雲', name: '雲岡石窟', sub: '北魏石刻 · 世界遺產', mins: 22, level: '必訪', accent: C.red },
+  { city: '大同', char: '懸', name: '懸空寺', sub: '北嶽恆山 · 千年木構', mins: 10, level: '驚奇', accent: C.indigo },
+  { city: '大同', char: '木', name: '應縣木塔', sub: '釋迦塔 · 世界最高木構', mins: 14, level: '核心', accent: C.gold },
+  { city: '五台山', char: '台', name: '塔院寺·大白塔', sub: '文殊菩薩道場', mins: 11, level: '聖地', accent: C.jade },
+  { city: '五台山', char: '黛', name: '黛螺頂', sub: '五方文殊・小朝台', mins: 9,  level: '聖地', accent: C.indigo },
+];
+
+function TourScreen() {
+  const [city, setCity] = React.useState('全部');
+  const cities = ['全部', '北京', '大同', '五台山'];
+  const filtered = city === '全部' ? TOUR_SITES : TOUR_SITES.filter(s => s.city === city);
+
+  return (
+    <div style={{ padding: '20px 18px 140px' }}>
+      <SectionHeader zh="精選名勝" en="Featured Sites" right={
+        <div style={{ fontFamily: FONT_MONO, fontSize: 10, color: C.muted }}>{filtered.length} 處</div>
+      } />
+
+      {/* City filter pills */}
+      <div style={{ display: 'flex', gap: 8, marginBottom: 16, flexWrap: 'wrap' }}>
+        {cities.map(c => (
+          <button key={c} onClick={() => setCity(c)} style={{
+            border: 'none',
+            background: city === c ? C.ink : 'transparent',
+            color: city === c ? C.paper : C.ink2,
+            padding: '7px 14px', borderRadius: 999,
+            fontFamily: FONT_SERIF, fontSize: 13, letterSpacing: 1.5,
+            borderColor: 'transparent', boxShadow: city === c ? 'none' : `inset 0 0 0 1px ${C.line2}`,
+          }}>{c}</button>
+        ))}
+      </div>
+
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+        {filtered.map((s, i) => <TourCard key={i} site={s} />)}
+      </div>
+    </div>
+  );
+}
+
+function TourCard({ site }) {
+  return (
+    <Card pad={0} style={{ overflow: 'hidden' }}>
+      {/* Image placeholder with calligraphy character */}
+      <div style={{
+        height: 120, position: 'relative', overflow: 'hidden',
+        background: `linear-gradient(135deg, ${site.accent}18 0%, ${C.paper2} 100%)`,
+        borderBottom: `1px solid ${C.line}`,
+      }}>
+        <LatticeBg color={site.accent} opacity={0.06} />
+        {/* brush calligraphy character */}
+        <div style={{
+          position: 'absolute', right: 6, bottom: -18,
+          fontFamily: FONT_BRUSH, fontSize: 130, color: `${site.accent}55`,
+          fontWeight: 400, lineHeight: 1,
+          transform: 'rotate(-2deg)',
+        }}>{site.char}</div>
+        <WavePattern color={site.accent} opacity={0.18}
+          style={{ position: 'absolute', left: 0, right: 0, bottom: 0 }} />
+        <div style={{ position: 'absolute', top: 12, left: 14, display: 'flex', alignItems: 'center', gap: 8 }}>
+          <Chip color={site.accent} light={false}>{site.city}</Chip>
+          <Chip color={C.ink}>{site.level}</Chip>
+        </div>
+        <div style={{
+          position: 'absolute', bottom: 16, left: 14,
+          fontFamily: FONT_MONO, fontSize: 9, color: C.muted, letterSpacing: 1,
+        }}>PHOTO · {site.name}</div>
+      </div>
+
+      <div style={{ padding: 14, display: 'flex', alignItems: 'center', gap: 12 }}>
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <div style={{
+            fontFamily: FONT_DISPLAY, fontSize: 19, fontWeight: 400,
+            color: C.ink, letterSpacing: 2,
+          }}>{site.name}</div>
+          <div style={{ fontFamily: FONT_SANS, fontSize: 12, color: C.muted, marginTop: 3 }}>{site.sub}</div>
+        </div>
+        <button style={{
+          border: `1px solid ${C.line2}`, background: C.paper,
+          width: 44, height: 44, borderRadius: 999,
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          color: C.red, flexShrink: 0,
+        }}>
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor">
+            <path d="M3 2v10l9-5z"/>
+          </svg>
+        </button>
+      </div>
+      <div style={{
+        padding: '8px 14px', borderTop: `1px dashed ${C.line2}`,
+        display: 'flex', alignItems: 'center', gap: 10,
+        fontFamily: FONT_MONO, fontSize: 10, color: C.muted, letterSpacing: 1,
+      }}>
+        <span>導覽 {site.mins} 分鐘</span>
+        <span style={{ color: C.faint }}>·</span>
+        <span>中文語音</span>
+        <span style={{ color: C.faint }}>·</span>
+        <span>離線可用</span>
+      </div>
+    </Card>
+  );
+}
+
+Object.assign(window, { PlanScreen, TourScreen });
+
+</script>
+<script type="text/babel" data-presets="react">
+// Cost / List / Info screens
+
+// ─────────────────────────────────────────────────────────────
+// COST — Accounting & exchange rate
+// ─────────────────────────────────────────────────────────────
+const RATE = 4.65; // 1 ¥ = NT$ 4.65
+
+function CostScreen() {
+  const [entries, setEntries] = React.useState([
+    { id: 1, name: '前門大街・烤鴨晚餐',  payer: '媽媽', amt: 488,  currency: '¥', cat: '餐食' },
+    { id: 2, name: '故宮博物院 講解門票', payer: '俊安', amt: 1200, currency: '¥', cat: '門票' },
+    { id: 3, name: '計程車（首都機場 → 飯店）', payer: '毓芸', amt: 220, currency: '¥', cat: '交通' },
+  ]);
+  const [showForm, setShowForm] = React.useState(false);
+
+  const totalNT = entries.reduce((s, e) => s + e.amt * (e.currency === '¥' ? RATE : 1), 0);
+  const ticketTotal = TICKETS.reduce((s, t) => s + t.total, 0);
+
+  return (
+    <div style={{ padding: '20px 18px 140px' }}>
+      {/* Total spent — hero */}
+      <Card style={{
+        background: `linear-gradient(135deg, ${C.ink} 0%, #2A211B 100%)`,
+        color: C.paper, border: 'none', marginBottom: 18, position: 'relative',
+        overflow: 'hidden',
+      }}>
+        <LatticeBg color={C.red} opacity={0.07} />
+        <div style={{
+          position: 'absolute', right: -10, top: -20,
+          fontFamily: FONT_BRUSH, fontSize: 160, color: 'rgba(184,58,42,0.22)',
+          fontWeight: 400, lineHeight: 1,
+          transform: 'rotate(-4deg)',
+        }}>帳</div>
+        <KeyMeanderBorder color={C.red} height={10}
+          style={{ position: 'absolute', left: 0, right: 0, bottom: 0, opacity: 0.45 }} />
+        <div style={{ position: 'relative' }}>
+          <div style={{ fontFamily: FONT_MONO, fontSize: 10, letterSpacing: 2, opacity: 0.6 }}>TOTAL · NT$</div>
+          <div style={{
+            fontFamily: FONT_SERIF, fontSize: 38, fontWeight: 600,
+            marginTop: 4, letterSpacing: 1,
+          }}>
+            {Math.round(totalNT).toLocaleString()}
+            <span style={{ fontSize: 14, opacity: 0.6, marginLeft: 8 }}>NT$</span>
+          </div>
+          <div style={{
+            display: 'flex', gap: 14, marginTop: 14,
+            fontFamily: FONT_MONO, fontSize: 10, opacity: 0.7, letterSpacing: 1,
+          }}>
+            <span>匯率 1 ¥ = NT$ {RATE}</span>
+            <span>·</span>
+            <span>{entries.length} 筆紀錄</span>
+          </div>
+        </div>
+      </Card>
+
+      {/* Estimated tickets */}
+      <SectionHeader zh="預估門票" en="Estimated Tickets" right={
+        <div style={{ textAlign: 'right' }}>
+          <div style={{ fontFamily: FONT_SERIF, fontSize: 18, color: C.red, fontWeight: 600 }}>
+            ¥ {ticketTotal.toLocaleString()}
+          </div>
+          <div style={{ fontFamily: FONT_MONO, fontSize: 9, color: C.muted, letterSpacing: 1, marginTop: 1 }}>
+            ≈ NT$ {Math.round(ticketTotal * RATE).toLocaleString()}
+          </div>
+        </div>
+      } />
+      <div style={{
+        fontFamily: FONT_SANS, fontSize: 11, color: C.muted, lineHeight: 1.6,
+        background: `${C.gold}10`, border: `1px solid ${C.gold}30`,
+        padding: '8px 12px', borderRadius: 8, marginBottom: 12,
+      }}>
+        此區僅為預估清單，不計入下方記帳歷史與總花費中。
+      </div>
+
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 24 }}>
+        {TICKETS.map((t, i) => <TicketRow key={i} t={t} />)}
+      </div>
+
+      {/* Add entry */}
+      <SectionHeader zh="記帳歷史" en="Transactions" right={
+        <button onClick={() => setShowForm(true)} style={{
+          border: 'none', background: C.red, color: C.paper,
+          padding: '8px 16px', borderRadius: 999,
+          fontFamily: FONT_SERIF, fontSize: 12, letterSpacing: 2,
+          display: 'flex', alignItems: 'center', gap: 4,
+        }}>
+          <span style={{ fontSize: 14, lineHeight: 1 }}>＋</span> 新增
+        </button>
+      } />
+
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+        {entries.map(e => <EntryRow key={e.id} e={e} onDelete={() => setEntries(entries.filter(x => x.id !== e.id))} />)}
+      </div>
+
+      {showForm && <AddEntryModal onClose={() => setShowForm(false)} onSave={(e) => {
+        setEntries([{ ...e, id: Date.now() }, ...entries]);
+        setShowForm(false);
+      }} />}
+    </div>
+  );
+}
+
+function TicketRow({ t }) {
+  return (
+    <Card pad={12} style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+      <Seal char={t.icon} size={38} color={C.red} />
+      <div style={{ flex: 1, minWidth: 0 }}>
+        <div style={{ fontFamily: FONT_SERIF, fontSize: 15, fontWeight: 600, color: C.ink, letterSpacing: 0.5 }}>
+          {t.name}
+        </div>
+        <div style={{ fontFamily: FONT_SANS, fontSize: 11, color: C.muted, marginTop: 2 }}>
+          {t.sub}
+        </div>
+        <div style={{ fontFamily: FONT_MONO, fontSize: 9.5, color: C.gold, marginTop: 3, letterSpacing: 0.5 }}>
+          {t.status}
+        </div>
+      </div>
+      <div style={{ textAlign: 'right' }}>
+        <div style={{ fontFamily: FONT_SERIF, fontSize: 16, fontWeight: 600, color: C.ink }}>
+          ¥{t.total}
+        </div>
+        <div style={{ fontFamily: FONT_MONO, fontSize: 9, color: C.faint, marginTop: 1 }}>
+          NT${Math.round(t.total * RATE)}
+        </div>
+      </div>
+    </Card>
+  );
+}
+
+function EntryRow({ e, onDelete }) {
+  return (
+    <Card pad={12} style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+      <div style={{
+        width: 8, height: 36, borderRadius: 99,
+        background: PAYER_COLORS[e.payer] || C.muted,
+      }} />
+      <div style={{ flex: 1, minWidth: 0 }}>
+        <div style={{ fontFamily: FONT_SANS, fontSize: 14, fontWeight: 500, color: C.ink }}>
+          {e.name}
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginTop: 3 }}>
+          <span style={{ fontFamily: FONT_SERIF, fontSize: 11, color: PAYER_COLORS[e.payer], letterSpacing: 1 }}>
+            {e.payer} 支付
+          </span>
+          <span style={{ width: 3, height: 3, borderRadius: 99, background: C.faint }} />
+          <span style={{ fontFamily: FONT_MONO, fontSize: 10, color: C.muted, letterSpacing: 1 }}>{e.cat}</span>
+        </div>
+      </div>
+      <div style={{ textAlign: 'right' }}>
+        <div style={{ fontFamily: FONT_SERIF, fontSize: 15, fontWeight: 600, color: C.ink }}>
+          {e.currency}{e.amt.toLocaleString()}
+        </div>
+        <button onClick={onDelete} style={{
+          border: 'none', background: 'transparent', padding: 0,
+          fontFamily: FONT_MONO, fontSize: 9, color: C.faint, marginTop: 3,
+        }}>刪除</button>
+      </div>
+    </Card>
+  );
+}
+
+function AddEntryModal({ onClose, onSave }) {
+  const [name, setName] = React.useState('');
+  const [amt, setAmt] = React.useState('');
+  const [payer, setPayer] = React.useState('毓芸');
+  const [currency, setCurrency] = React.useState('¥');
+  const [cat, setCat] = React.useState('餐食');
+
+  const cats = ['餐食', '門票', '交通', '住宿', '購物', '其他'];
+
+  return (
+    <div onClick={onClose} style={{
+      position: 'absolute', inset: 0, zIndex: 100,
+      background: 'rgba(26,22,18,0.4)', backdropFilter: 'blur(4px)',
+      display: 'flex', alignItems: 'flex-end',
+    }}>
+      <div onClick={e => e.stopPropagation()} style={{
+        background: C.paper, width: '100%',
+        borderTopLeftRadius: 24, borderTopRightRadius: 24,
+        padding: '20px 22px 40px', maxHeight: '85%', overflow: 'auto',
+        boxShadow: '0 -20px 40px rgba(0,0,0,0.15)',
+      }}>
+        <div style={{
+          width: 40, height: 4, background: C.line2, borderRadius: 99,
+          margin: '0 auto 16px',
+        }} />
+        <SectionHeader zh="新增消費" en="Add Entry" right={
+          <button onClick={onClose} style={{
+            border: 'none', background: 'transparent',
+            fontFamily: FONT_MONO, fontSize: 11, color: C.muted, letterSpacing: 1,
+          }}>取消</button>
+        } />
+
+        <Field label="項目名稱">
+          <input value={name} onChange={e => setName(e.target.value)}
+            placeholder="例：前門大街晚餐"
+            style={inputStyle} />
+        </Field>
+
+        <Field label="金額">
+          <div style={{ display: 'flex', gap: 8 }}>
+            <div style={{ display: 'flex', background: C.card, borderRadius: 10, padding: 3, border: `1px solid ${C.line}` }}>
+              {['¥', 'NT$'].map(c => (
+                <button key={c} onClick={() => setCurrency(c)} style={{
+                  border: 'none', padding: '6px 12px', borderRadius: 7,
+                  background: currency === c ? C.ink : 'transparent',
+                  color: currency === c ? C.paper : C.muted,
+                  fontFamily: FONT_SERIF, fontSize: 12, letterSpacing: 1,
+                }}>{c}</button>
+              ))}
+            </div>
+            <input value={amt} onChange={e => setAmt(e.target.value)}
+              type="number" placeholder="0"
+              style={{ ...inputStyle, flex: 1 }} />
+          </div>
+        </Field>
+
+        <Field label="付款人">
+          <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
+            {PAYERS.map(p => (
+              <button key={p} onClick={() => setPayer(p)} style={{
+                border: `1px solid ${payer === p ? PAYER_COLORS[p] : C.line2}`,
+                background: payer === p ? `${PAYER_COLORS[p]}14` : C.card,
+                color: payer === p ? PAYER_COLORS[p] : C.ink2,
+                padding: '8px 16px', borderRadius: 999,
+                fontFamily: FONT_SERIF, fontSize: 13, letterSpacing: 1,
+              }}>{p}</button>
+            ))}
+          </div>
+        </Field>
+
+        <Field label="類別">
+          <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
+            {cats.map(c => (
+              <button key={c} onClick={() => setCat(c)} style={{
+                border: `1px solid ${cat === c ? C.ink : C.line2}`,
+                background: cat === c ? C.ink : C.card,
+                color: cat === c ? C.paper : C.ink2,
+                padding: '6px 12px', borderRadius: 999,
+                fontFamily: FONT_SERIF, fontSize: 12, letterSpacing: 1,
+              }}>{c}</button>
+            ))}
+          </div>
+        </Field>
+
+        <button
+          disabled={!name || !amt}
+          onClick={() => onSave({ name, amt: Number(amt), payer, currency, cat })}
+          style={{
+            width: '100%', marginTop: 8,
+            border: 'none',
+            background: (!name || !amt) ? C.line2 : C.red,
+            color: C.paper, padding: '14px', borderRadius: 12,
+            fontFamily: FONT_SERIF, fontSize: 15, letterSpacing: 3,
+          }}>
+          確認新增
+        </button>
+      </div>
+    </div>
+  );
+}
+
+const inputStyle = {
+  width: '100%', boxSizing: 'border-box',
+  border: `1px solid ${C.line}`, background: C.card,
+  borderRadius: 10, padding: '11px 14px',
+  fontFamily: FONT_SANS, fontSize: 14, color: C.ink,
+  outline: 'none',
+};
+
+function Field({ label, children }) {
+  return (
+    <div style={{ marginBottom: 14 }}>
+      <div style={{
+        fontFamily: FONT_SERIF, fontSize: 12, color: C.muted,
+        letterSpacing: 2, marginBottom: 6,
+      }}>{label}</div>
+      {children}
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────
+// LIST — Checklist + Memo
+// ─────────────────────────────────────────────────────────────
+function ListScreen() {
+  const [checked, setChecked] = React.useState(() => {
+    try { return JSON.parse(localStorage.getItem('ft_check') || '{}'); } catch { return {}; }
+  });
+  const [memo, setMemo] = React.useState(() => localStorage.getItem('ft_memo') || '');
+
+  React.useEffect(() => { localStorage.setItem('ft_check', JSON.stringify(checked)); }, [checked]);
+  React.useEffect(() => { localStorage.setItem('ft_memo', memo); }, [memo]);
+
+  const toggle = (key) => setChecked(c => ({ ...c, [key]: !c[key] }));
+
+  const totalItems = CHECKLIST_GROUPS.reduce((s, g) => s + g.items.length, 0);
+  const doneItems = Object.values(checked).filter(Boolean).length;
+  const pct = Math.round((doneItems / totalItems) * 100);
+
+  return (
+    <div style={{ padding: '20px 18px 140px' }}>
+      {/* Progress card */}
+      <Card style={{ marginBottom: 22, position: 'relative', overflow: 'hidden' }}>
+        <LatticeBg color={C.red} opacity={0.04} />
+        <div style={{
+          position: 'absolute', right: -10, top: -16,
+          fontFamily: FONT_BRUSH, fontSize: 130, color: `${C.red}1c`,
+          fontWeight: 400, letterSpacing: 0, lineHeight: 1,
+          transform: 'rotate(-3deg)',
+        }}>備</div>
+        <div style={{ position: 'relative' }}>
+          <div style={{ display: 'flex', alignItems: 'baseline', gap: 8 }}>
+            <div style={{ fontFamily: FONT_BRUSH, fontSize: 48, fontWeight: 400, color: C.red, lineHeight: 0.9 }}>
+              {pct}<span style={{ fontFamily: FONT_SERIF, fontSize: 18, color: C.muted, marginLeft: 4, fontWeight: 600 }}>%</span>
+            </div>
+            <div style={{ fontFamily: FONT_SANS, fontSize: 12, color: C.muted, marginLeft: 'auto' }}>
+              {doneItems} / {totalItems} 已完成
+            </div>
+          </div>
+          <div style={{
+            height: 6, background: C.paper2, borderRadius: 99, marginTop: 12,
+            overflow: 'hidden', position: 'relative',
+          }}>
+            <div style={{
+              position: 'absolute', left: 0, top: 0, bottom: 0,
+              width: `${pct}%`, background: `linear-gradient(to right, ${C.red}, ${C.gold})`,
+              borderRadius: 99, transition: 'width 0.3s',
+            }} />
+          </div>
+          <button onClick={() => setChecked({})} style={{
+            border: 'none', background: 'transparent', padding: 0,
+            fontFamily: FONT_MONO, fontSize: 10, color: C.faint, letterSpacing: 1,
+            marginTop: 10,
+          }}>清空所有勾選</button>
+        </div>
+      </Card>
+
+      {/* Checklist groups */}
+      {CHECKLIST_GROUPS.map((g, gi) => (
+        <div key={gi} style={{ marginBottom: 18 }}>
+          <SectionHeader zh={g.title} en={`Group ${gi + 1}`} />
+          <div style={{ background: C.card, borderRadius: 14, border: `1px solid ${C.line}`, overflow: 'hidden' }}>
+            {g.items.map((item, ii) => {
+              const key = `${gi}-${ii}`;
+              const isChecked = !!checked[key];
+              return (
+                <button key={ii} onClick={() => toggle(key)} style={{
+                  width: '100%', border: 'none', background: 'transparent',
+                  padding: '12px 14px', display: 'flex', alignItems: 'center', gap: 12,
+                  borderTop: ii > 0 ? `1px solid ${C.line}` : 'none',
+                  textAlign: 'left',
+                }}>
+                  <div style={{
+                    width: 22, height: 22, borderRadius: 5,
+                    border: `1.5px solid ${isChecked ? C.red : C.line2}`,
+                    background: isChecked ? C.red : 'transparent',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    flexShrink: 0, transition: 'all 0.15s',
+                  }}>
+                    {isChecked && <svg width="11" height="9" viewBox="0 0 11 9" fill="none">
+                      <path d="M1 4.5L4 7.5L10 1" stroke={C.paper} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>}
+                  </div>
+                  <div style={{
+                    flex: 1,
+                    fontFamily: FONT_SANS, fontSize: 14,
+                    color: isChecked ? C.faint : C.ink,
+                    textDecoration: isChecked ? 'line-through' : 'none',
+                  }}>{item}</div>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      ))}
+
+      {/* Memo */}
+      <SectionHeader zh="個人備忘錄" en="Personal Notes" />
+      <div style={{ background: C.card, borderRadius: 14, border: `1px solid ${C.line}`, padding: 14 }}>
+        <textarea value={memo} onChange={e => setMemo(e.target.value)}
+          placeholder="記下任何想記下的事⋯⋯"
+          style={{
+            width: '100%', boxSizing: 'border-box',
+            border: 'none', outline: 'none', resize: 'vertical',
+            background: 'transparent',
+            fontFamily: FONT_SANS, fontSize: 14, color: C.ink,
+            minHeight: 100, lineHeight: 1.7,
+          }} />
+        <div style={{
+          fontFamily: FONT_MONO, fontSize: 10, color: C.faint,
+          letterSpacing: 1, marginTop: 6, textAlign: 'right',
+        }}>{memo.length} 字 · 自動儲存</div>
+      </div>
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────
+// INFO — Weather, emergency, tips
+// ─────────────────────────────────────────────────────────────
+const TIPS = [
+  {
+    char: '宮', title: '北京故宮與天壇', accent: C.red, items: [
+      '景區占地極廣，且多為石板路，務必穿著最舒適的運動鞋。',
+      '夏季北京悶熱，隨身攜帶陽傘、墨鏡與足夠飲水。',
+      '實名制預約嚴格，務必隨身攜帶台胞證查驗。',
+    ]
+  },
+  {
+    char: '鐵', title: '搭乘高鐵注意事項', accent: C.indigo, items: [
+      '安檢嚴格，防曬噴霧、指甲油等易燃物品容量有限制，建議帶塗抹式防曬。',
+      '不能攜帶：濃度大於 70% 的酒精、刀刃超過 6cm 的刀具。',
+      '行動電源容量在 100Wh（約 27000mAh）以下，且須有 CCC 認證標籤。',
+      '進站、乘車皆需刷台胞證，請統一妥善保管。',
+    ]
+  },
+  {
+    char: '山', title: '山西古建與佛教名山', accent: C.jade, items: [
+      '五台山為佛教聖地，參觀寺廟請遵守規定：不踩門檻、不大聲喧嘩、穿著端莊。',
+      '山西氣候乾燥，早晚溫差大，請備好保濕用品與薄外套。',
+      '日照強烈，建議塗抹式防曬乳，並戴帽子或撐傘。',
+    ]
+  },
+];
+
+const SAFETY = [
+  { char: '證', title: '財物與證件', body: '台胞證等同通行證，住宿、高鐵、景區驗票都需實名制。建議由專人統一保管或各自妥善保管，千萬不可遺失。大部分地區使用微信或支付寶，建議提前確認餘額與綁定，現金備用即可。' },
+  { char: '食', title: '健康與飲食', body: '北方飲食口味偏重（鹹、酸），可提醒店家少鹽少油。夏季步行量極大，定時提醒所有人喝水休息，預防中暑與鐵腿。隨身準備腸胃藥、感冒藥、休足時間或痠痛貼布。' },
+  { char: '聚', title: '防走散', body: '故宮、前門大街、高鐵站人潮擁擠，約定好走散時的集合地點或聯絡方式（確保手機有網路）。只要在戶外小孩都牽緊，不要離開大人視線。' },
+];
+
+function InfoScreen() {
+  return (
+    <div style={{ padding: '20px 18px 140px' }}>
+      {/* Weather */}
+      <SectionHeader zh="當地天氣" en="Weather Forecast" />
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 22 }}>
+        <WeatherCard city="北京" en="Beijing" temp="32°" lo="22°" cond="晴" href="https://www.accuweather.com/zh/cn/beijing/101066/weather-forecast/101066" />
+        <WeatherCard city="大同" en="Datong" temp="28°" lo="16°" cond="多雲" href="https://www.accuweather.com/zh/cn/datong/106364/weather-forecast/106364" />
+      </div>
+
+      {/* Emergency */}
+      <SectionHeader zh="緊急聯絡" en="Emergency · CN" />
+      <div style={{
+        background: C.card, border: `1px solid ${C.line}`, borderRadius: 14,
+        overflow: 'hidden', marginBottom: 22,
+      }}>
+        <EmergencyRow char="警" label="報警" number="110" color={C.indigo} />
+        <EmergencyRow char="救" label="救護" number="120" color={C.red} />
+        <EmergencyRow char="消" label="消防" number="119" color={C.gold} />
+      </div>
+
+      {/* Trip-specific tips */}
+      <SectionHeader zh="行程特殊提醒" en="Trip Notes" />
+      <div style={{
+        fontFamily: FONT_SANS, fontSize: 12, color: C.muted, lineHeight: 1.7,
+        marginBottom: 12,
+      }}>
+        北京歷史景區面積廣大需大量步行；山西氣候較為乾燥且日照強烈，請注意以下事項。
+      </div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 12, marginBottom: 22 }}>
+        {TIPS.map((t, i) => <TipCard key={i} t={t} />)}
+      </div>
+
+      {/* Safety */}
+      <SectionHeader zh="團隊安全守則" en="Group Safety" />
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+        {SAFETY.map((s, i) => (
+          <Card key={i} pad={14} style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
+            <Seal char={s.char} size={40} color={C.ink} />
+            <div style={{ flex: 1 }}>
+              <div style={{ fontFamily: FONT_SERIF, fontSize: 15, fontWeight: 600, color: C.ink, letterSpacing: 1 }}>
+                {s.title}
+              </div>
+              <div style={{
+                fontFamily: FONT_SANS, fontSize: 12.5, color: C.ink2,
+                lineHeight: 1.75, marginTop: 6,
+              }}>{s.body}</div>
+            </div>
+          </Card>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function WeatherCard({ city, en, temp, lo, cond, href }) {
+  return (
+    <a href={href} target="_blank" rel="noreferrer" style={{ textDecoration: 'none' }}>
+      <Card pad={14} style={{ position: 'relative', overflow: 'hidden' }}>
+        <div style={{
+          position: 'absolute', right: -6, top: -6,
+          fontFamily: FONT_SERIF, fontSize: 70, color: `${C.gold}18`,
+          fontWeight: 700, lineHeight: 1,
+        }}>{city[0]}</div>
+        <div style={{ fontFamily: FONT_SERIF, fontSize: 16, fontWeight: 600, color: C.ink, letterSpacing: 1 }}>
+          {city}
+        </div>
+        <div style={{ fontFamily: FONT_MONO, fontSize: 9, color: C.muted, letterSpacing: 1, marginTop: 1 }}>
+          {en.toUpperCase()}
+        </div>
+        <div style={{
+          fontFamily: FONT_SERIF, fontSize: 30, fontWeight: 600, color: C.red,
+          marginTop: 12, lineHeight: 1,
+        }}>{temp}</div>
+        <div style={{ display: 'flex', gap: 8, marginTop: 6, fontFamily: FONT_SANS, fontSize: 11, color: C.muted }}>
+          <span>{cond}</span>
+          <span>·</span>
+          <span>↓ {lo}</span>
+        </div>
+      </Card>
+    </a>
+  );
+}
+
+function EmergencyRow({ char, label, number, color }) {
+  return (
+    <a href={`tel:${number}`} style={{
+      textDecoration: 'none',
+      display: 'flex', alignItems: 'center', gap: 14,
+      padding: '14px 16px',
+      borderTop: char !== '警' ? `1px solid ${C.line}` : 'none',
+    }}>
+      <Seal char={char} size={42} color={color} />
+      <div style={{ flex: 1 }}>
+        <div style={{ fontFamily: FONT_SERIF, fontSize: 15, color: C.ink, fontWeight: 600, letterSpacing: 1 }}>
+          {label}
+        </div>
+        <div style={{ fontFamily: FONT_MONO, fontSize: 10, color: C.muted, marginTop: 2, letterSpacing: 1 }}>
+          中國大陸 · 24h
+        </div>
+      </div>
+      <div style={{
+        fontFamily: FONT_SERIF, fontSize: 24, fontWeight: 700, color: color,
+        letterSpacing: 1,
+      }}>{number}</div>
+      <svg width="10" height="14" viewBox="0 0 10 14" fill="none" style={{ marginLeft: 6 }}>
+        <path d="M2 1L8 7L2 13" stroke={C.faint} strokeWidth="1.5" strokeLinecap="round"/>
+      </svg>
+    </a>
+  );
+}
+
+function TipCard({ t }) {
+  return (
+    <Card pad={0} style={{ overflow: 'hidden' }}>
+      <div style={{
+        display: 'flex', alignItems: 'center', gap: 12,
+        padding: '12px 14px',
+        background: `linear-gradient(to right, ${t.accent}10, transparent)`,
+        borderBottom: `1px dashed ${C.line2}`,
+      }}>
+        <Seal char={t.char} size={36} color={t.accent} />
+        <div style={{ fontFamily: FONT_SERIF, fontSize: 16, fontWeight: 600, color: C.ink, letterSpacing: 1 }}>
+          {t.title}
+        </div>
+      </div>
+      <div style={{ padding: '12px 16px 14px' }}>
+        {t.items.map((it, i) => (
+          <div key={i} style={{ display: 'flex', gap: 10, padding: '6px 0', alignItems: 'flex-start' }}>
+            <div style={{
+              minWidth: 18, height: 18, borderRadius: 99,
+              background: `${t.accent}18`, color: t.accent,
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              fontFamily: FONT_SERIF, fontSize: 11, fontWeight: 600,
+              marginTop: 1,
+            }}>{i + 1}</div>
+            <div style={{ flex: 1, fontFamily: FONT_SANS, fontSize: 12.5, color: C.ink2, lineHeight: 1.7 }}>
+              {it}
+            </div>
+          </div>
+        ))}
+      </div>
+    </Card>
+  );
+}
+
+Object.assign(window, { CostScreen, ListScreen, InfoScreen });
+
+</script>
+<script type="text/babel" data-presets="react">
+// Main app + tweaks
+
+const DEFAULTS = /*EDITMODE-BEGIN*/{
+  "accent": "#B83A2A",
+  "paper":  "#F5EFE4",
+  "darkNav": true,
+  "showStamps": true,
+  "serifHeadings": true
+}/*EDITMODE-END*/;
+
+function App() {
+  const [tab, setTab] = React.useState('plan');
+  const [tweaks, setTweak] = useTweaks(DEFAULTS);
+
+  // Apply tweaks to global C palette overrides (mutable)
+  React.useEffect(() => {
+    window.C.red = tweaks.accent;
+    window.C.paper = tweaks.paper;
+  }, [tweaks]);
+
+  const screens = {
+    plan: <PlanScreen />,
+    tour: <TourScreen />,
+    cost: <CostScreen />,
+    list: <ListScreen />,
+    info: <InfoScreen />,
+  };
+
+  return (
+    <div style={{ display: 'flex', gap: 24, alignItems: 'flex-start' }}>
+      <IOSDevice width={402} height={874}>
+        <div style={{
+          background: tweaks.paper,
+          minHeight: '100%',
+          position: 'relative',
+          fontFamily: '"Noto Sans TC", -apple-system, sans-serif',
+          color: '#1A1612',
+        }}>
+          <AppHeader tabId={tab} />
+          <div data-screen-label={`Tab ${tab}`}>
+            {screens[tab]}
+          </div>
+          <BottomNav active={tab} onChange={setTab} />
+        </div>
+      </IOSDevice>
+
+      <TweaksPanel title="風格調整">
+        <TweakSection title="主色">
+          <TweakColor
+            label="朱紅 / 主色"
+            value={tweaks.accent}
+            onChange={(v) => setTweak('accent', v)}
+            options={['#B83A2A', '#8E2A1E', '#C2410C', '#A55A3D', '#6B3A2A']}
+          />
+        </TweakSection>
+        <TweakSection title="底色">
+          <TweakColor
+            label="紙張底色"
+            value={tweaks.paper}
+            onChange={(v) => setTweak('paper', v)}
+            options={['#F5EFE4', '#F0E8D7', '#FAF6EE', '#EDE3CE', '#E8DEC4']}
+          />
+        </TweakSection>
+        <TweakSection title="顯示">
+          <TweakToggle label="深色底部導航" value={tweaks.darkNav}
+            onChange={(v) => setTweak('darkNav', v)} />
+          <TweakToggle label="顯示印章徽記" value={tweaks.showStamps}
+            onChange={(v) => setTweak('showStamps', v)} />
+          <TweakToggle label="標題使用宋體" value={tweaks.serifHeadings}
+            onChange={(v) => setTweak('serifHeadings', v)} />
+        </TweakSection>
+      </TweaksPanel>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+
+</script>
+</body>
+</html>
