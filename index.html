@@ -2,8 +2,19 @@
 <html lang="zh-Hant">
 <head>
 <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no" />
 <title>京城晉韻 · 北京山西 9日遊</title>
+
+<!-- PWA / Add to Home Screen -->
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+<meta name="apple-mobile-web-app-title" content="京城晉韻" />
+<meta name="theme-color" content="#F5EFE4" />
+
+<!-- Apple Touch Icon (紅色「行」印章,SVG → data URI) -->
+<link rel="apple-touch-icon" href="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Crect width='180' height='180' rx='40' fill='%23F5EFE4'/%3E%3Ccircle cx='90' cy='90' r='58' fill='%23B83A2A'/%3E%3Ctext x='90' y='112' font-family='serif' font-size='72' font-weight='700' fill='%23F5EFE4' text-anchor='middle'%3E行%3C/text%3E%3C/svg%3E" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='28' fill='%23B83A2A'/%3E%3Ctext x='32' y='42' font-family='serif' font-size='32' font-weight='700' fill='%23F5EFE4' text-anchor='middle'%3E行%3C/text%3E%3C/svg%3E" />
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -12,24 +23,26 @@
 <style>
   :root {
     color-scheme: light;
+    /* 預設桌機模式 — 深色背景 + 居中手機框 */
+    --app-bg: radial-gradient(1200px 600px at 50% -10%, #2c2620 0%, #19150f 60%, #110e09 100%);
+    --app-padding: 32px 16px;
   }
   html, body {
     margin: 0;
     padding: 0;
-    background: #1f1c18;
     min-height: 100vh;
     font-family: 'Noto Sans TC', -apple-system, system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    overscroll-behavior-y: none;
   }
   body {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 32px 16px;
+    padding: var(--app-padding);
     box-sizing: border-box;
-    background:
-      radial-gradient(1200px 600px at 50% -10%, #2c2620 0%, #19150f 60%, #110e09 100%);
+    background: var(--app-bg);
   }
   #root { display: contents; }
 
@@ -42,10 +55,274 @@
     -webkit-tap-highlight-color: transparent;
   }
   button { cursor: pointer; }
+
+  /* ───────────────────────────────────────────────
+     手機模式 (≤ 820px) — 移除手機外框,全螢幕填滿
+     ─────────────────────────────────────────────── */
+  @media (max-width: 820px) {
+    :root {
+      --app-bg: #F5EFE4;
+      --app-padding: 0;
+    }
+    body {
+      align-items: stretch;
+      justify-content: stretch;
+      min-height: 100vh;
+      min-height: 100dvh;
+    }
+    /* 隱藏手機外框、Dynamic Island、Home Indicator、狀態列(用真的) */
+    .device-frame {
+      width: 100% !important;
+      height: auto !important;
+      min-height: 100vh !important;
+      min-height: 100dvh !important;
+      border-radius: 0 !important;
+      box-shadow: none !important;
+      background: #F5EFE4 !important;
+    }
+    .device-frame > .device-island,
+    .device-frame > .device-statusbar,
+    .device-frame > .device-home-indicator {
+      display: none !important;
+    }
+    /* 隱藏右側風格調整面板 */
+    .tweaks-panel { display: none !important; }
+    .app-outer { gap: 0 !important; }
+    /* 安全區留白 — 給瀏海/Home Indicator/Safari 網址列 */
+    .app-safe-top { padding-top: env(safe-area-inset-top, 0px); }
+    .app-safe-bottom { padding-bottom: env(safe-area-inset-bottom, 0px); }
+  }
+
+  /* ───────────────────────────────────────────────
+     A2HS 引導彈窗 — 從底部滑入
+     ─────────────────────────────────────────────── */
+  .a2hs-backdrop {
+    position: fixed; inset: 0; z-index: 9998;
+    background: rgba(0,0,0,0.35);
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+  .a2hs-backdrop.show { opacity: 1; pointer-events: auto; }
+  .a2hs-card {
+    position: fixed; left: 12px; right: 12px;
+    bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+    z-index: 9999;
+    background: #F5EFE4;
+    border-radius: 22px;
+    padding: 20px 22px 22px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3), 0 0 0 1px rgba(184,58,42,0.15);
+    transform: translateY(140%);
+    transition: transform 0.4s cubic-bezier(0.32, 0.72, 0, 1);
+    font-family: 'Noto Sans TC', -apple-system, system-ui, sans-serif;
+    color: #1A1612;
+    max-width: 460px;
+    margin: 0 auto;
+  }
+  .a2hs-card.show { transform: translateY(0); }
+  .a2hs-card .a2hs-arrow {
+    position: absolute;
+    right: 22px;
+    bottom: -14px;
+    width: 28px;
+    height: 28px;
+    background: #F5EFE4;
+    transform: rotate(45deg);
+    border-radius: 4px;
+    box-shadow: 0 8px 12px rgba(0,0,0,0.08);
+    z-index: -1;
+  }
+  .a2hs-title {
+    display: flex; align-items: center; gap: 10px;
+    font-family: 'Noto Serif TC', serif;
+    font-weight: 700; font-size: 17px;
+    margin-bottom: 6px; color: #1A1612;
+  }
+  .a2hs-title .a2hs-stamp {
+    width: 32px; height: 32px; border-radius: 50%;
+    background: #B83A2A; color: #F5EFE4;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; font-weight: 700;
+    box-shadow: 0 2px 4px rgba(184,58,42,0.3);
+  }
+  .a2hs-subtitle {
+    font-size: 13px; color: #6B5D4F;
+    margin-bottom: 14px; line-height: 1.5;
+  }
+  .a2hs-steps {
+    background: rgba(255,255,255,0.5);
+    border-radius: 14px;
+    padding: 12px 14px;
+    margin-bottom: 14px;
+  }
+  .a2hs-step {
+    display: flex; align-items: center; gap: 10px;
+    padding: 6px 0;
+    font-size: 14px; color: #2a2218;
+  }
+  .a2hs-step + .a2hs-step {
+    border-top: 1px solid rgba(184,58,42,0.1);
+  }
+  .a2hs-step-num {
+    flex-shrink: 0;
+    width: 22px; height: 22px; border-radius: 50%;
+    background: #B83A2A; color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 600;
+    font-family: 'DM Mono', monospace;
+  }
+  .a2hs-step-icon {
+    display: inline-flex; align-items: center;
+    margin: 0 2px;
+    vertical-align: middle;
+  }
+  .a2hs-actions {
+    display: flex; gap: 10px;
+  }
+  .a2hs-btn {
+    flex: 1;
+    padding: 11px 14px;
+    border-radius: 12px;
+    font-size: 14px; font-weight: 600;
+    border: none;
+    font-family: inherit;
+    transition: opacity 0.15s, transform 0.1s;
+  }
+  .a2hs-btn:active { transform: scale(0.97); }
+  .a2hs-btn-primary {
+    background: #B83A2A; color: #F5EFE4;
+  }
+  .a2hs-btn-secondary {
+    background: transparent; color: #6B5D4F;
+    border: 1px solid rgba(107,93,79,0.25);
+  }
+
+  /* ───────────────────────────────────────────────
+     standalone 模式(從主畫面開啟,真的像 App)
+     ─────────────────────────────────────────────── */
+  @media (display-mode: standalone) {
+    body { background: #F5EFE4 !important; }
+  }
 </style>
 </head>
 <body>
 <div id="root"></div>
+
+<!-- ─────────────────────────────────────────
+     加入主畫面引導彈窗 (iOS Safari 專用)
+     ───────────────────────────────────────── -->
+<div class="a2hs-backdrop" id="a2hs-backdrop"></div>
+<div class="a2hs-card" id="a2hs-card" role="dialog" aria-modal="true" aria-labelledby="a2hs-title">
+  <div class="a2hs-title" id="a2hs-title">
+    <span class="a2hs-stamp">行</span>
+    <span>加入主畫面,出遊隨身帶</span>
+  </div>
+  <div class="a2hs-subtitle">
+    把行程表加到 iPhone 主畫面,點開就像 App 一樣全螢幕、不顯示網址列。
+  </div>
+  <div class="a2hs-steps">
+    <div class="a2hs-step">
+      <span class="a2hs-step-num">1</span>
+      <span>
+        點下方
+        <span class="a2hs-step-icon" aria-label="分享">
+          <svg width="18" height="22" viewBox="0 0 18 22" fill="none">
+            <path d="M9 1L9 14M9 1L5 5M9 1L13 5" stroke="#007AFF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M3 9H1.5C1.22 9 1 9.22 1 9.5V20C1 20.5523 1.44772 21 2 21H16C16.5523 21 17 20.5523 17 20V9.5C17 9.22 16.78 9 16.5 9H15" stroke="#007AFF" stroke-width="1.8" stroke-linecap="round"/>
+          </svg>
+        </span>
+        分享按鈕
+      </span>
+    </div>
+    <div class="a2hs-step">
+      <span class="a2hs-step-num">2</span>
+      <span>
+        往下捲動,選
+        <span class="a2hs-step-icon" aria-label="加入">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+            <rect x="1" y="1" width="16" height="16" rx="4" stroke="#1A1612" stroke-width="1.6"/>
+            <path d="M9 5V13M5 9H13" stroke="#1A1612" stroke-width="1.6" stroke-linecap="round"/>
+          </svg>
+        </span>
+        <strong>加入主畫面</strong>
+      </span>
+    </div>
+    <div class="a2hs-step">
+      <span class="a2hs-step-num">3</span>
+      <span>右上角點「加入」就完成了 ✨</span>
+    </div>
+  </div>
+  <div class="a2hs-actions">
+    <button class="a2hs-btn a2hs-btn-secondary" id="a2hs-dismiss">不再顯示</button>
+    <button class="a2hs-btn a2hs-btn-primary" id="a2hs-later">知道了</button>
+  </div>
+</div>
+
+<script>
+  // A2HS 引導彈窗控制
+  (function() {
+    var STORAGE_KEY = 'a2hs_dismissed_v1';
+    var SESSION_KEY = 'a2hs_shown_session';
+
+    function isIOS() {
+      return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+    }
+    function isInStandaloneMode() {
+      // iOS Safari 的 standalone 屬性
+      return ('standalone' in window.navigator) && window.navigator.standalone === true
+        || window.matchMedia('(display-mode: standalone)').matches;
+    }
+    function isSafari() {
+      var ua = navigator.userAgent;
+      // 排除 LINE/Facebook/Chrome iOS in-app browser
+      if (/CriOS|FxiOS|EdgiOS|OPiOS|Line|FBAN|FBAV|Instagram/.test(ua)) return false;
+      return /Safari/.test(ua);
+    }
+
+    var backdrop = document.getElementById('a2hs-backdrop');
+    var card = document.getElementById('a2hs-card');
+    var btnLater = document.getElementById('a2hs-later');
+    var btnDismiss = document.getElementById('a2hs-dismiss');
+
+    function showCard() {
+      backdrop.classList.add('show');
+      card.classList.add('show');
+    }
+    function hideCard() {
+      backdrop.classList.remove('show');
+      card.classList.remove('show');
+    }
+    function dismissForever() {
+      try { localStorage.setItem(STORAGE_KEY, '1'); } catch(e) {}
+      hideCard();
+    }
+    function dismissThisSession() {
+      try { sessionStorage.setItem(SESSION_KEY, '1'); } catch(e) {}
+      hideCard();
+    }
+
+    btnLater.addEventListener('click', dismissThisSession);
+    btnDismiss.addEventListener('click', dismissForever);
+    backdrop.addEventListener('click', dismissThisSession);
+
+    // 判斷是否該顯示
+    function maybeShow() {
+      if (isInStandaloneMode()) return;       // 已經是主畫面開啟
+      if (!isIOS() || !isSafari()) return;    // 只對 iOS Safari 顯示
+      try {
+        if (localStorage.getItem(STORAGE_KEY) === '1') return;   // 永久不再顯示
+        if (sessionStorage.getItem(SESSION_KEY) === '1') return; // 本次 session 已關閉
+      } catch(e) {}
+      // 延遲 1.5 秒後彈出,避免太干擾
+      setTimeout(showCard, 1500);
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', maybeShow);
+    } else {
+      maybeShow();
+    }
+  })();
+</script>
 
 <template id="__bundler_thumbnail">
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
@@ -254,7 +531,7 @@ function IOSDevice({
   title, keyboard = false,
 }) {
   return (
-    <div style={{
+    <div className="device-frame" style={{
       width, height, borderRadius: 48, overflow: 'hidden',
       position: 'relative', background: dark ? '#000' : '#F2F2F7',
       boxShadow: '0 40px 80px rgba(0,0,0,0.18), 0 0 0 1px rgba(0,0,0,0.12)',
@@ -262,12 +539,12 @@ function IOSDevice({
       WebkitFontSmoothing: 'antialiased',
     }}>
       {/* dynamic island */}
-      <div style={{
+      <div className="device-island" style={{
         position: 'absolute', top: 11, left: '50%', transform: 'translateX(-50%)',
         width: 126, height: 37, borderRadius: 24, background: '#000', zIndex: 50,
       }} />
       {/* status bar (absolute) */}
-      <div style={{ position: 'absolute', top: 0, left: 0, right: 0, zIndex: 10 }}>
+      <div className="device-statusbar" style={{ position: 'absolute', top: 0, left: 0, right: 0, zIndex: 10 }}>
         <IOSStatusBar dark={dark} />
       </div>
       {/* nav + content */}
@@ -277,7 +554,7 @@ function IOSDevice({
         {keyboard && <IOSKeyboard dark={dark} />}
       </div>
       {/* home indicator — always on top */}
-      <div style={{
+      <div className="device-home-indicator" style={{
         position: 'absolute', bottom: 0, left: 0, right: 0, zIndex: 60,
         height: 34, display: 'flex', justifyContent: 'center', alignItems: 'flex-end',
         paddingBottom: 8, pointerEvents: 'none',
@@ -2302,7 +2579,7 @@ function App() {
   };
 
   return (
-    <div style={{ display: 'flex', gap: 24, alignItems: 'flex-start' }}>
+    <div className="app-outer" style={{ display: 'flex', gap: 24, alignItems: 'flex-start' }}>
       <IOSDevice width={402} height={874}>
         <div style={{
           background: tweaks.paper,
@@ -2319,6 +2596,7 @@ function App() {
         </div>
       </IOSDevice>
 
+      <div className="tweaks-panel">
       <TweaksPanel title="風格調整">
         <TweakSection title="主色">
           <TweakColor
@@ -2345,6 +2623,7 @@ function App() {
             onChange={(v) => setTweak('serifHeadings', v)} />
         </TweakSection>
       </TweaksPanel>
+      </div>
     </div>
   );
 }
