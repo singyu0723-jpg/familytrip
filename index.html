@@ -1944,113 +1944,459 @@ function DayCard({ day, open, onToggle }) {
 // ─────────────────────────────────────────────────────────────
 // TOUR — Deep audio guide
 // ─────────────────────────────────────────────────────────────
-const TOUR_SITES = [
-  { city: '北京', char: '宮', name: '故宮博物院', sub: '明清皇宮・紫禁城', mins: 18, level: '經典', accent: C.red },
-  { city: '北京', char: '壇', name: '天壇祈年殿', sub: '皇家祭天聖地', mins: 12, level: '核心', accent: C.gold },
-  { city: '北京', char: '農', name: '先農壇', sub: '皇家親耕祭祀場所', mins: 10, level: '深度', accent: C.jade },
-  { city: '北京', char: '門', name: '前門大街', sub: '京味老字號商業街', mins: 8, level: '經典', accent: C.indigo },
-  { city: '北京', char: '鑼', name: '南鑼鼓巷', sub: '老北京胡同四合院', mins: 10, level: '經典', accent: C.red },
-  { city: '大同', char: '同', name: '大同古城', sub: '塞外古都・北魏平城', mins: 14, level: '經典', accent: C.gold },
-  { city: '大同', char: '雲', name: '雲岡石窟', sub: '北魏石刻・世界遺產', mins: 22, level: '必訪', accent: C.red },
-  { city: '大同', char: '懸', name: '懸空寺', sub: '北嶽恆山・千年木構', mins: 10, level: '驚奇', accent: C.indigo },
-  { city: '大同', char: '木', name: '應縣木塔', sub: '釋迦塔・世界最高木構', mins: 14, level: '核心', accent: C.gold },
-  { city: '五台山', char: '台', name: '塔院寺・大白塔', sub: '文殊菩薩道場', mins: 11, level: '聖地', accent: C.jade },
-  { city: '五台山', char: '黛', name: '黛螺頂', sub: '五方文殊・小朝台', mins: 9, level: '聖地', accent: C.indigo },
-  { city: '忻州', char: '忻', name: '忻州古城', sub: '晉北鎖鑰・打鐵花表演', mins: 12, level: '經典', accent: C.red },
+
+
+// ─── 酒店介紹(團隊內部規劃資料)───
+const HOTEL_GUIDES = [
+  {
+    title: '漢庭酒店(北京前門店)',
+    subtitle: 'DAY 1 - DAY 3',
+    char: '漢',
+    accent: C.red,
+    intro: '前門商圈,步行可達鮮魚口、大柵欄、前門大街。',
+    rooms: [
+      '家庭房:2 張 1.5 米雙人床',
+      '親子房:1 張 1.5 米雙人床 + 1 張 1.2 米單人床',
+      '可向前台免費索取加被',
+    ],
+    facilities: '機器人服務、洗衣房、乾衣機、熨燙機、1 樓飲水機',
+    inRoom: '瓶裝水、熱水壺、沐浴乳、洗髮乳、浴帽、吹風機、毛巾、拖鞋',
+    onRequest: '牙刷、牙膏、梳子、刮鬍刀',
+  },
+  {
+    title: '益海府邸民宿(大同華嚴寺店)',
+    subtitle: 'DAY 4 - DAY 5',
+    char: '邸',
+    accent: C.gold,
+    intro: '大同古城內,鄰華嚴寺,步行可達古城景點。',
+    rooms: [
+      '望月軒複式觀景房:2 張 1.8 米大床 + 榻榻米 + 兒童帳篷',
+      '清風軒:1 張 1.8 米大床',
+      '全屋智能、迷你冰箱、乾溼三區分離、歡迎水果',
+      '可向前台免費索取加被',
+    ],
+    facilities: '洗衣房、乾衣機、熨燙機。無飲水機,需用熱水壺自煮。',
+    inRoom: '牙刷、牙膏、梳子、刮鬍刀、瓶裝水、熱水壺、沐浴乳、洗髮乳、浴帽、吹風機、毛巾、拖鞋、迷你吧',
+    onRequest: '兒童洗漱用品、額外瓶裝水',
+  },
+  {
+    title: '五台山青峰觀嵐酒店',
+    subtitle: 'DAY 6',
+    char: '嵐',
+    accent: C.jade,
+    intro: '五台山楊柏峪村,詳細資料後補。',
+    rooms: [],
+    facilities: '',
+    inRoom: '',
+    onRequest: '',
+  },
+  {
+    title: '南宸‧汐上民宿',
+    subtitle: 'DAY 7',
+    char: '宸',
+    accent: C.indigo,
+    intro: '忻州古城,詳細資料後補。',
+    rooms: [],
+    facilities: '',
+    inRoom: '',
+    onRequest: '',
+  },
+  {
+    title: '香柏藝術酒店(南鑼鼓巷後海店)',
+    subtitle: 'DAY 8',
+    char: '柏',
+    accent: C.red,
+    intro: '南鑼鼓巷菊兒胡同 33 號。',
+    rooms: [
+      '2 間福祥家庭房:2 張 1.5 米雙人床',
+      '獨立客廳、乾溼分離、雙投屏電視',
+      '每房贈 1 份迷你吧 + 1 份歡迎飲品',
+      '可向前台免費索取加被',
+    ],
+    facilities: '洗衣房、乾衣機、熨燙機、機器人服務、健身房。無飲水機,熱水可至前台取。',
+    inRoom: '瓶裝水、熱水壺、沐浴乳、洗髮乳、吹風機、毛巾、拖鞋',
+    onRequest: '牙刷、牙膏、梳子、刮鬍刀、浴帽、兒童洗漱用品',
+  },
+];
+
+// ─── 景點介紹(公知歷史事實 + 行程路線)───
+const ATTRACTION_GUIDES = [
+  {
+    title: '北京故宮',
+    subtitle: '紫禁城 · 明清皇宮',
+    char: '宮',
+    accent: C.red,
+    facts: [
+      '別稱:紫禁城',
+      '建成:明永樂四年(1406)動工',
+      '面積:約 72 萬平方米,宮殿 70+ 座',
+      '地位:1987 世界文化遺產',
+      '文物:典藏逾 186 萬件',
+    ],
+    route: '午門 → 太和門 → 太和殿 → 中和殿 → 保和殿 → 乾清宮 → 交泰殿 → 坤寧宮 → 御花園 → 東六宮 → 珍寶館 → 皇極殿 → 寧壽宮 → 養性殿 → 樂壽堂 → 珍妃井 → 神武門',
+  },
+  {
+    title: '前門大街',
+    subtitle: '百年老字號商業街',
+    char: '門',
+    accent: C.gold,
+    facts: [
+      '位置:北京中軸線南端,正陽門箭樓北側',
+      '建成:明正統元年(1436)',
+      '原為明清皇帝出城赴天壇的御路',
+      '老字號:全聚德、同仁堂、六必居等',
+      '2008 年風貌修繕後重新開放',
+    ],
+    route: '鮮魚口街 → 前門大街(下半部) → 大柵欄 → 前門大街(上半部)',
+  },
+  {
+    title: '天壇',
+    subtitle: '明清皇家祭天祈穀地',
+    char: '壇',
+    accent: C.jade,
+    facts: [
+      '位置:北京城南',
+      '建成:明永樂十八年(1420)',
+      '主建築:祈年殿、皇穹宇、圜丘壇',
+      '佈局:依「天圓地方」思想',
+      '聲學奇觀:回音壁、三音石',
+      '地位:1998 世界文化遺產',
+    ],
+    route: '東門進 → 七星石 → 七十二長廊 → 祈年殿 → 齋宮 → 丹陛橋 → 回音壁 → 圜丘 → 南門出',
+  },
+  {
+    title: '先農壇',
+    subtitle: '皇家祭祀先農與親耕場所',
+    char: '農',
+    accent: C.indigo,
+    facts: [
+      '位置:北京中軸線南端西側,與天壇東西相對',
+      '建成:明永樂十八年(1420)',
+      '功能:皇帝祭祀先農神、行親耕禮',
+      '主建築:太歲殿、觀耕台、神倉、慶成宮',
+      '現設有北京古代建築博物館',
+      '地位:2024 列入「北京中軸線」世界遺產',
+    ],
+    route: '北門進 → 太歲殿院落(拜殿) → 神廚院落(文創店) → 先農壇 → 觀耕台(一畝三分地) → 具服殿 → 焚帛爐 → 神倉 → 北門離開',
+  },
+  {
+    title: '大同古城',
+    subtitle: '塞外古都 · 北魏平城',
+    char: '同',
+    accent: C.red,
+    facts: [
+      '古稱:平城',
+      '歷史:北魏都城、遼金陪都、明清重鎮',
+      '城池:明洪武五年(1372)徐達增築,周長 7.24 公里',
+      '格局:棋盤式里坊,四大街八小巷',
+      '古蹟:華嚴寺、善化寺、九龍壁等遼金明代建築',
+      '地位:首批國家級歷史文化名城',
+    ],
+    route: '夜遊:華嚴寺廣場 → 鼓樓東西街 → 東南邑 → 和陽門 → 太平樓 → 四牌樓
+日遊:華嚴寺廣場 → 純陽宮 → 善化寺 → 大同府文廟 → 帝君廟 → 鼓樓 → 九龍壁 → 代王府 → 法華寺',
+  },
+  {
+    title: '雲岡石窟',
+    subtitle: '中國四大石窟之一',
+    char: '雲',
+    accent: C.gold,
+    facts: [
+      '位置:山西大同武周山南麓',
+      '開鑿:北魏和平元年(460),由曇曜主持',
+      '規模:東西綿延約 1 公里',
+      '洞窟:主要 45 個,造像逾 59,000 尊',
+      '代表:曇曜五窟、第 20 窟露天大佛',
+      '地位:2001 列入世界遺產名錄',
+    ],
+    route: '景區入口 → 曇曜廣場 → 禮佛大道 → 靈岩寺 → 第 1～20 窟 → 雲崗禮物 → 返程(步行或電瓶車)',
+  },
+  {
+    title: '應縣木塔',
+    subtitle: '世界最古老最高的木塔',
+    char: '木',
+    accent: C.indigo,
+    facts: [
+      '全名:佛宮寺釋迦塔',
+      '位置:山西朔州應縣',
+      '建成:遼清寧二年(1056)',
+      '高度:67.31 米',
+      '底層直徑:30.27 米,重逾 7,400 噸',
+      '構造:純木結構樓閣式,無一鐵釘,卯榫咬合',
+      '斗拱:54 種不同形制',
+      '地位:1961 全國重點文物保護單位、2016 認證世界最高木塔',
+    ],
+    route: '',
+  },
+  {
+    title: '懸空寺',
+    subtitle: '北嶽恆山 · 千年木構奇蹟',
+    char: '懸',
+    accent: C.jade,
+    facts: [
+      '位置:山西渾源恆山',
+      '建造年代:北魏後期',
+      '特色:建築懸於峭壁',
+      '宗教:儒、釋、道三教合一',
+      '本次行程僅於下方觀賞,不登臨',
+    ],
+    route: '',
+  },
+  {
+    title: '五台山',
+    subtitle: '中國佛教四大名山之首',
+    char: '台',
+    accent: C.red,
+    facts: [
+      '位置:山西忻州',
+      '地位:中國佛教四大名山之首、世界五大佛教聖地之一',
+      '道場:文殊菩薩',
+      '傳承:漢傳與藏傳佛教並存(中國唯一)',
+      '歷史:佛教傳承始於東漢',
+      '2009 列入世界文化遺產',
+    ],
+    route: '五爺廟 → 塔院寺 → 顯通寺 → 菩薩頂 → 殊像寺',
+  },
+  {
+    title: '忻州古城',
+    subtitle: '晉北鎖鑰 · 中俄萬里茶路重鎮',
+    char: '忻',
+    accent: C.gold,
+    facts: [
+      '古稱:秀容古城',
+      '建成:東漢建安二十年(215),逾 1,800 年',
+      '別稱:晉北鎖鑰',
+      '格局:四面城牆八座門',
+      '古蹟:秀容書院、關帝廟、泰山廟',
+      '特色表演:非遺打鐵花',
+      '2017 啟動保護改造',
+    ],
+    route: '夜遊:北門城樓 → 南北大街 → 明月樓 → 秀容書院 → 關帝廟 → 南門城樓
+日遊:南門 → 關帝廟 → 秀容書院 → 西園 → 財神廟 → 泰山廟巷 → 南北大街 → 明月樓 → 北門',
+  },
+  {
+    title: '南鑼鼓巷',
+    subtitle: '老北京胡同四合院',
+    char: '鑼',
+    accent: C.indigo,
+    facts: [
+      '位置:北京東城區,北起鼓樓東大街,南至平安大街',
+      '尺寸:全長 787 米,寬 8 米',
+      '歷史:與元大都同期(1267),逾 700 年',
+      '格局:元代胡同院落,東西 16 條對稱胡同',
+      '別稱:蜈蚣街',
+      '為現存最完整的棋盤式傳統民居區',
+    ],
+    route: '建議遊玩路線後補',
+  },
 ];
 
 function TourScreen() {
-  const [city, setCity] = React.useState('全部');
-  const cities = ['全部', '北京', '大同', '五台山'];
-  const filtered = city === '全部' ? TOUR_SITES : TOUR_SITES.filter(s => s.city === city);
+  const [section, setSection] = React.useState('attraction'); // 'hotel' or 'attraction'
+  const [expanded, setExpanded] = React.useState(null);
+
+  const data = section === 'hotel' ? HOTEL_GUIDES : ATTRACTION_GUIDES;
+
+  React.useEffect(() => { setExpanded(null); }, [section]);
 
   return (
     <div style={{ padding: '20px 18px 140px' }} className="screen-content">
-      <SectionHeader zh="精選名勝" en="Featured Sites" right={
-        <div style={{ fontFamily: FONT_MONO, fontSize: 10, color: C.muted }}>{filtered.length} 處</div>
-      } />
-
-      {/* City filter pills */}
-      <div style={{ display: 'flex', gap: 8, marginBottom: 16, flexWrap: 'wrap' }}>
-        {cities.map(c => (
-          <button key={c} onClick={() => setCity(c)} style={{
-            border: 'none',
-            background: city === c ? C.ink : 'transparent',
-            color: city === c ? C.paper : C.ink2,
-            padding: '7px 14px', borderRadius: 999,
-            fontFamily: FONT_SERIF, fontSize: 13, letterSpacing: 1.5,
-            borderColor: 'transparent', boxShadow: city === c ? 'none' : `inset 0 0 0 1px ${C.line2}`,
-          }}>{c}</button>
-        ))}
+      {/* Section tabs — 酒店 / 景點 */}
+      <div style={{
+        display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 6,
+        background: C.card, padding: 5, borderRadius: 12,
+        border: `1px solid ${C.line}`, marginBottom: 18,
+      }}>
+        {[
+          { id: 'attraction', zh: '景點介紹', en: 'Attractions', char: '景' },
+          { id: 'hotel', zh: '酒店介紹', en: 'Hotels', char: '宿' },
+        ].map(s => {
+          const on = section === s.id;
+          return (
+            <button key={s.id} onClick={() => setSection(s.id)} style={{
+              border: 'none',
+              background: on ? C.ink : 'transparent',
+              color: on ? C.paper : C.ink2,
+              padding: '10px 8px', borderRadius: 9,
+              fontFamily: FONT_SERIF, fontSize: 14, letterSpacing: 2,
+              display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6,
+              transition: 'all 0.2s',
+            }}>
+              <span style={{
+                fontFamily: FONT_BRUSH, fontSize: 18,
+                color: on ? C.red : C.faint, lineHeight: 1,
+              }}>{s.char}</span>
+              <span>{s.zh}</span>
+            </button>
+          );
+        })}
       </div>
 
+      <SectionHeader
+        zh={section === 'hotel' ? '本次住宿' : '行程景點'}
+        en={section === 'hotel' ? 'Accommodation' : 'Sites on Itinerary'}
+        right={
+          <div style={{ fontFamily: FONT_MONO, fontSize: 10, color: C.muted }}>
+            {data.length} 處
+          </div>
+        }
+      />
+
       <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-        {filtered.map((s, i) => <TourCard key={i} site={s} />)}
+        {data.map((item, i) => (
+          <GuideCard
+            key={`${section}-${i}`}
+            item={item}
+            type={section}
+            open={expanded === i}
+            onToggle={() => setExpanded(expanded === i ? null : i)}
+          />
+        ))}
       </div>
     </div>
   );
 }
 
-function TourCard({ site }) {
+function GuideCard({ item, type, open, onToggle }) {
   return (
     <Card pad={0} style={{ overflow: 'hidden' }}>
-      {/* Image placeholder with calligraphy character */}
-      <div style={{
-        height: 120, position: 'relative', overflow: 'hidden',
-        background: `linear-gradient(135deg, ${site.accent}18 0%, ${C.paper2} 100%)`,
-        borderBottom: `1px solid ${C.line}`,
+      {/* Header — 印章字 + 標題 + 副標 */}
+      <button onClick={onToggle} style={{
+        width: '100%', border: 'none', background: 'transparent',
+        padding: '14px 14px', display: 'flex', alignItems: 'center', gap: 14,
+        textAlign: 'left', cursor: 'pointer',
       }}>
-        <LatticeBg color={site.accent} opacity={0.06} />
-        {/* brush calligraphy character */}
-        <div style={{
-          position: 'absolute', right: 6, bottom: -18,
-          fontFamily: FONT_BRUSH, fontSize: 130, color: `${site.accent}55`,
-          fontWeight: 400, lineHeight: 1,
-          transform: 'rotate(-2deg)',
-        }}>{site.char}</div>
-        <WavePattern color={site.accent} opacity={0.18}
-          style={{ position: 'absolute', left: 0, right: 0, bottom: 0 }} />
-        <div style={{ position: 'absolute', top: 12, left: 14, display: 'flex', alignItems: 'center', gap: 8 }}>
-          <Chip color={site.accent} light={false}>{site.city}</Chip>
-          <Chip color={C.ink}>{site.level}</Chip>
-        </div>
-        <div style={{
-          position: 'absolute', bottom: 16, left: 14,
-          fontFamily: FONT_MONO, fontSize: 9, color: C.muted, letterSpacing: 1,
-        }}>PHOTO · {site.name}</div>
-      </div>
-
-      <div style={{ padding: 14, display: 'flex', alignItems: 'center', gap: 12 }}>
+        <Seal char={item.char} size={44} color={item.accent} round={true} />
         <div style={{ flex: 1, minWidth: 0 }}>
           <div style={{
-            fontFamily: FONT_DISPLAY, fontSize: 19, fontWeight: 400,
-            color: C.ink, letterSpacing: 2,
-          }}>{site.name}</div>
-          <div style={{ fontFamily: FONT_SANS, fontSize: 12, color: C.muted, marginTop: 3 }}>{site.sub}</div>
+            fontFamily: FONT_DISPLAY, fontSize: 17, fontWeight: 400,
+            color: C.ink, letterSpacing: 1.5,
+          }}>{item.title}</div>
+          <div style={{
+            fontFamily: FONT_MONO, fontSize: 10, color: C.muted,
+            letterSpacing: 1.5, marginTop: 3, textTransform: 'uppercase',
+          }}>{item.subtitle}</div>
         </div>
-        <button style={{
-          border: `1px solid ${C.line2}`, background: C.paper,
-          width: 44, height: 44, borderRadius: 999,
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
-          color: C.red, flexShrink: 0,
+        <div style={{
+          color: C.muted, fontSize: 14, transition: 'transform 0.2s',
+          transform: open ? 'rotate(90deg)' : 'rotate(0)',
+        }}>›</div>
+      </button>
+
+      {open && (
+        <div style={{
+          padding: '0 16px 16px',
+          borderTop: `1px dashed ${C.line2}`, paddingTop: 12,
         }}>
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor">
-            <path d="M3 2v10l9-5z"/>
-          </svg>
-        </button>
-      </div>
-      <div style={{
-        padding: '8px 14px', borderTop: `1px dashed ${C.line2}`,
-        display: 'flex', alignItems: 'center', gap: 10,
-        fontFamily: FONT_MONO, fontSize: 10, color: C.muted, letterSpacing: 1,
-      }}>
-        <span>導覽 {site.mins} 分鐘</span>
-        <span style={{ color: C.faint }}>·</span>
-        <span>中文語音</span>
-        <span style={{ color: C.faint }}>·</span>
-        <span>離線可用</span>
-      </div>
+          {/* 簡介(若有)*/}
+          {item.intro && (
+            <div style={{
+              fontFamily: FONT_SANS, fontSize: 13, color: C.ink2,
+              lineHeight: 1.75, marginBottom: 14,
+              padding: '10px 12px',
+              background: `${item.accent}08`,
+              borderLeft: `2px solid ${item.accent}`,
+              borderRadius: 4,
+            }}>{item.intro}</div>
+          )}
+
+          {/* 景點 — 事實清單 */}
+          {type === 'attraction' && item.facts && item.facts.length > 0 && (
+            <GuideSection title="基本資訊" accent={item.accent}>
+              {item.facts.map((f, i) => (
+                <div key={i} style={{
+                  display: 'flex', gap: 8, padding: '4px 0',
+                  fontFamily: FONT_SANS, fontSize: 12.5, color: C.ink2,
+                  lineHeight: 1.65,
+                }}>
+                  <span style={{
+                    color: item.accent, flexShrink: 0,
+                    fontFamily: FONT_SERIF, fontWeight: 600,
+                  }}>·</span>
+                  <span style={{ flex: 1 }}>{f}</span>
+                </div>
+              ))}
+            </GuideSection>
+          )}
+
+          {/* 酒店 — 房型 */}
+          {type === 'hotel' && item.rooms && item.rooms.length > 0 && (
+            <GuideSection title="入住房型" accent={item.accent}>
+              {item.rooms.map((r, i) => (
+                <div key={i} style={{
+                  display: 'flex', gap: 8, padding: '4px 0',
+                  fontFamily: FONT_SANS, fontSize: 12.5, color: C.ink2,
+                  lineHeight: 1.65,
+                }}>
+                  <span style={{
+                    color: item.accent, flexShrink: 0,
+                    fontFamily: FONT_SERIF, fontWeight: 600,
+                  }}>·</span>
+                  <span style={{ flex: 1 }}>{r}</span>
+                </div>
+              ))}
+            </GuideSection>
+          )}
+
+          {/* 酒店 — 設施 */}
+          {type === 'hotel' && item.facilities && (
+            <GuideSection title="酒店設施(皆免費)" accent={item.accent}>
+              <div style={{
+                fontFamily: FONT_SANS, fontSize: 12.5, color: C.ink2,
+                lineHeight: 1.7,
+              }}>{item.facilities}</div>
+            </GuideSection>
+          )}
+
+          {/* 酒店 — 客房用品 */}
+          {type === 'hotel' && item.inRoom && (
+            <GuideSection title="客房內已備" accent={item.accent}>
+              <div style={{
+                fontFamily: FONT_SANS, fontSize: 12.5, color: C.ink2,
+                lineHeight: 1.7,
+              }}>{item.inRoom}</div>
+            </GuideSection>
+          )}
+
+          {/* 酒店 — 需向前台索取 */}
+          {type === 'hotel' && item.onRequest && (
+            <GuideSection title="可向前台免費索取" accent={item.accent}>
+              <div style={{
+                fontFamily: FONT_SANS, fontSize: 12.5, color: C.ink2,
+                lineHeight: 1.7,
+              }}>{item.onRequest}</div>
+            </GuideSection>
+          )}
+
+          {/* 景點 — 建議遊玩路線 */}
+          {type === 'attraction' && item.route && (
+            <GuideSection title="建議遊玩路線" accent={item.accent}>
+              <div style={{
+                fontFamily: FONT_SANS, fontSize: 12.5, color: item.accent,
+                lineHeight: 1.85, whiteSpace: 'pre-wrap', fontWeight: 500,
+              }}>{item.route}</div>
+            </GuideSection>
+          )}
+        </div>
+      )}
     </Card>
+  );
+}
+
+function GuideSection({ title, accent, children }) {
+  return (
+    <div style={{ marginBottom: 12 }}>
+      <div style={{
+        fontFamily: FONT_SERIF, fontSize: 11.5, fontWeight: 600,
+        color: accent, letterSpacing: 2, marginBottom: 6,
+        display: 'flex', alignItems: 'center', gap: 6,
+      }}>
+        <span style={{
+          width: 14, height: 1, background: accent, opacity: 0.5,
+        }} />
+        {title}
+      </div>
+      <div>{children}</div>
+    </div>
   );
 }
 
@@ -2113,7 +2459,31 @@ function CostScreen() {
         </div>
       </Card>
 
-      {/* Estimated tickets */}
+      {/* Add entry — moved up for quick access */}
+      <SectionHeader zh="記帳歷史" en="Transactions" right={
+        <button onClick={() => setShowForm(true)} style={{
+          border: 'none', background: C.red, color: C.paper,
+          padding: '8px 16px', borderRadius: 999,
+          fontFamily: FONT_SERIF, fontSize: 12, letterSpacing: 2,
+          display: 'flex', alignItems: 'center', gap: 4,
+        }}>
+          <span style={{ fontSize: 14, lineHeight: 1 }}>＋</span> 新增
+        </button>
+      } />
+
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 28 }}>
+        {entries.length === 0 ? (
+          <div style={{
+            padding: '32px 16px', textAlign: 'center',
+            background: C.card, border: `1px dashed ${C.line2}`, borderRadius: 14,
+            fontFamily: FONT_SANS, fontSize: 13, color: C.muted,
+          }}>
+            目前沒有記帳紀錄,點右上「＋ 新增」開始
+          </div>
+        ) : entries.map(e => <EntryRow key={e.id} e={e} onDelete={() => setEntries(entries.filter(x => x.id !== e.id))} />)}
+      </div>
+
+      {/* Estimated tickets — moved to bottom as reference */}
       <SectionHeader zh="預估門票" en="Estimated Tickets" right={
         <div style={{ textAlign: 'right' }}>
           <div style={{ fontFamily: FONT_SERIF, fontSize: 18, color: C.red, fontWeight: 600 }}>
@@ -2129,27 +2499,11 @@ function CostScreen() {
         background: `${C.gold}10`, border: `1px solid ${C.gold}30`,
         padding: '8px 12px', borderRadius: 8, marginBottom: 12,
       }}>
-        此區僅為預估清單，不計入下方記帳歷史與總花費中。
+        此區僅為預估清單,不計入上方記帳歷史與總花費中。
       </div>
-
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 24 }}>
-        {TICKETS.map((t, i) => <TicketRow key={i} t={t} />)}
-      </div>
-
-      {/* Add entry */}
-      <SectionHeader zh="記帳歷史" en="Transactions" right={
-        <button onClick={() => setShowForm(true)} style={{
-          border: 'none', background: C.red, color: C.paper,
-          padding: '8px 16px', borderRadius: 999,
-          fontFamily: FONT_SERIF, fontSize: 12, letterSpacing: 2,
-          display: 'flex', alignItems: 'center', gap: 4,
-        }}>
-          <span style={{ fontSize: 14, lineHeight: 1 }}>＋</span> 新增
-        </button>
-      } />
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-        {entries.map(e => <EntryRow key={e.id} e={e} onDelete={() => setEntries(entries.filter(x => x.id !== e.id))} />)}
+        {TICKETS.map((t, i) => <TicketRow key={i} t={t} />)}
       </div>
 
       {showForm && <AddEntryModal onClose={() => setShowForm(false)} onSave={(e) => {
@@ -2228,21 +2582,32 @@ function AddEntryModal({ onClose, onSave }) {
 
   const cats = ['餐食', '門票', '交通', '住宿', '購物', '其他'];
 
+  // 防止背景捲動
+  React.useEffect(() => {
+    const orig = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => { document.body.style.overflow = orig; };
+  }, []);
+
   return (
     <div onClick={onClose} style={{
-      position: 'absolute', inset: 0, zIndex: 100,
-      background: 'rgba(26,22,18,0.4)', backdropFilter: 'blur(4px)',
-      display: 'flex', alignItems: 'flex-end',
+      position: 'fixed', inset: 0, zIndex: 9000,
+      background: 'rgba(26,22,18,0.5)', backdropFilter: 'blur(4px)',
+      display: 'flex', alignItems: 'flex-end', justifyContent: 'center',
     }}>
       <div onClick={e => e.stopPropagation()} style={{
-        background: C.paper, width: '100%',
+        background: C.paper, width: '100%', maxWidth: 460,
         borderTopLeftRadius: 24, borderTopRightRadius: 24,
-        padding: '20px 22px 40px', maxHeight: '85%', overflow: 'auto',
-        boxShadow: '0 -20px 40px rgba(0,0,0,0.15)',
+        padding: '14px 22px',
+        paddingBottom: 'calc(28px + env(safe-area-inset-bottom, 0px))',
+        maxHeight: '92dvh',
+        overflowY: 'auto', WebkitOverflowScrolling: 'touch',
+        boxShadow: '0 -20px 40px rgba(0,0,0,0.25)',
+        boxSizing: 'border-box',
       }}>
         <div style={{
           width: 40, height: 4, background: C.line2, borderRadius: 99,
-          margin: '0 auto 16px',
+          margin: '0 auto 14px',
         }} />
         <SectionHeader zh="新增消費" en="Add Entry" right={
           <button onClick={onClose} style={{
@@ -2253,13 +2618,13 @@ function AddEntryModal({ onClose, onSave }) {
 
         <Field label="項目名稱">
           <input value={name} onChange={e => setName(e.target.value)}
-            placeholder="例：前門大街晚餐"
+            placeholder="例:前門大街晚餐"
             style={inputStyle} />
         </Field>
 
         <Field label="金額">
           <div style={{ display: 'flex', gap: 8 }}>
-            <div style={{ display: 'flex', background: C.card, borderRadius: 10, padding: 3, border: `1px solid ${C.line}` }}>
+            <div style={{ display: 'flex', background: C.card, borderRadius: 10, padding: 3, border: `1px solid ${C.line}`, flexShrink: 0 }}>
               {['¥', 'NT$'].map(c => (
                 <button key={c} onClick={() => setCurrency(c)} style={{
                   border: 'none', padding: '6px 12px', borderRadius: 7,
@@ -2270,8 +2635,8 @@ function AddEntryModal({ onClose, onSave }) {
               ))}
             </div>
             <input value={amt} onChange={e => setAmt(e.target.value)}
-              type="number" placeholder="0"
-              style={{ ...inputStyle, flex: 1 }} />
+              type="number" inputMode="decimal" placeholder="0"
+              style={{ ...inputStyle, flex: 1, minWidth: 0 }} />
           </div>
         </Field>
 
@@ -2307,7 +2672,7 @@ function AddEntryModal({ onClose, onSave }) {
           disabled={!name || !amt}
           onClick={() => onSave({ name, amt: Number(amt), payer, currency, cat })}
           style={{
-            width: '100%', marginTop: 8,
+            width: '100%', marginTop: 10,
             border: 'none',
             background: (!name || !amt) ? C.line2 : C.red,
             color: C.paper, padding: '14px', borderRadius: 12,
