@@ -64,6 +64,10 @@
       --app-bg: #F5EFE4;
       --app-padding: 0;
     }
+    html, body {
+      width: 100%;
+      overflow-x: hidden;
+    }
     body {
       align-items: stretch;
       justify-content: stretch;
@@ -73,6 +77,7 @@
     /* 隱藏手機外框、Dynamic Island、Home Indicator、狀態列(用真的) */
     .device-frame {
       width: 100% !important;
+      max-width: 100vw !important;
       height: auto !important;
       min-height: 100vh !important;
       min-height: 100dvh !important;
@@ -87,10 +92,44 @@
     }
     /* 隱藏右側風格調整面板 */
     .tweaks-panel { display: none !important; }
-    .app-outer { gap: 0 !important; }
-    /* 安全區留白 — 給瀏海/Home Indicator/Safari 網址列 */
-    .app-safe-top { padding-top: env(safe-area-inset-top, 0px); }
-    .app-safe-bottom { padding-bottom: env(safe-area-inset-bottom, 0px); }
+    .app-outer {
+      gap: 0 !important;
+      width: 100% !important;
+      max-width: 100vw !important;
+    }
+    .app-outer > * {
+      max-width: 100vw !important;
+    }
+    /* 全域防止內容溢出 */
+    .device-frame *,
+    .device-frame *::before,
+    .device-frame *::after {
+      max-width: 100%;
+      box-sizing: border-box;
+    }
+    /* 底部導航 — fixed 置底 */
+    .bottom-nav {
+      position: fixed !important;
+      bottom: 0 !important;
+      left: 0 !important;
+      right: 0 !important;
+      width: 100% !important;
+      padding-bottom: calc(20px + env(safe-area-inset-bottom, 0px)) !important;
+      z-index: 100 !important;
+    }
+    /* 螢幕內容區留白,避免被 fixed 底部導航擋住 */
+    .screen-content {
+      padding-bottom: calc(120px + env(safe-area-inset-bottom, 0px)) !important;
+    }
+    /* AppHeader 頂部留安全區 */
+    .app-header {
+      padding-top: calc(20px + env(safe-area-inset-top, 0px)) !important;
+    }
+  }
+
+  /* 響應式內距 — 較窄的手機(iPhone SE / mini)更緊湊 */
+  @media (max-width: 380px) {
+    .screen-content { padding-left: 14px !important; padding-right: 14px !important; }
   }
 
   /* ───────────────────────────────────────────────
@@ -1252,84 +1291,131 @@ Object.assign(window, {
 // Data layer — itinerary, tickets, checklist, info
 
 const ITINERARY = [
-  { day: 1, date: '06/26', dow: '四', city: '台北 → 北京', stay: '北京', highlights: [
-      { time: '14:25', label: 'BR716 桃園 → 北京首都', kind: 'flight' },
-      { time: '18:00', label: '抵達北京・入境通關', kind: 'transit' },
-      { time: '20:30', label: '前門大街・晚餐', kind: 'food' },
+  { day: 1, date: '06/26', dow: '四', city: '台灣 → 北京', stay: '漢庭(前門)', highlights: [
+      { time: '12:05', label: '富宇君品集合', kind: 'transit' },
+      { time: '16:05', label: 'BR716 飛往北京首都', kind: 'flight' },
+      { time: '19:30', label: '抵達北京・入境', kind: 'transit' },
+      { time: '21:30', label: '抵達漢庭酒店', kind: 'sight' },
   ]},
-  { day: 2, date: '06/27', dow: '五', city: '北京 · 故宮', stay: '北京', highlights: [
-      { time: '08:30', label: '天安門廣場', kind: 'sight' },
-      { time: '10:00', label: '故宮博物院（含講解）', kind: 'sight', tag: '預約' },
-      { time: '14:00', label: '景山公園・俯瞰中軸線', kind: 'sight' },
-      { time: '18:30', label: '南鑼鼓巷・四合院晚餐', kind: 'food' },
+  { day: 2, date: '06/27', dow: '五', city: '北京 · 故宮', stay: '漢庭(前門)', highlights: [
+      { time: '08:00', label: '前往北京故宮', kind: 'transit' },
+      { time: '08:30', label: '故宮博物院・含講解', kind: 'sight', tag: '預約' },
+      { time: '14:30', label: '自由活動・休息', kind: 'sight' },
+      { time: '17:00', label: '宮宴換裝拍照', kind: 'event' },
+      { time: '19:00', label: '北京宮宴晚宴', kind: 'food', tag: '預約' },
   ]},
-  { day: 3, date: '06/28', dow: '六', city: '北京 · 天壇', stay: '北京', highlights: [
+  { day: 3, date: '06/28', dow: '六', city: '北京 · 天壇先農壇', stay: '漢庭(前門)', highlights: [
       { time: '09:00', label: '天壇祈年殿', kind: 'sight', tag: '預約' },
-      { time: '11:30', label: '先農壇', kind: 'sight' },
-      { time: '14:00', label: '頤和園・昆明湖', kind: 'sight' },
-      { time: '19:00', label: '王府井小吃街', kind: 'food' },
+      { time: '11:30', label: '南門涮肉午餐', kind: 'food' },
+      { time: '13:45', label: '先農壇', kind: 'sight' },
+      { time: '18:00', label: '前門大街・大柵欄', kind: 'food' },
   ]},
-  { day: 4, date: '06/29', dow: '日', city: '北京 → 大同', stay: '大同', highlights: [
-      { time: '07:55', label: '北京西 → 大同南 高鐵', kind: 'transit', tag: '台胞證' },
-      { time: '11:30', label: '華嚴寺・薄伽教藏殿', kind: 'sight' },
-      { time: '15:00', label: '善化寺', kind: 'sight' },
-      { time: '19:30', label: '《如夢大同》表演', kind: 'event' },
+  { day: 4, date: '06/29', dow: '日', city: '北京 → 大同', stay: '益海府邸民宿', highlights: [
+      { time: '08:20', label: '北京北 → 大同南 高鐵', kind: 'transit', tag: '台胞證' },
+      { time: '11:30', label: '喜晉道刀削麵', kind: 'food' },
+      { time: '15:30', label: '毓芸華嚴寺拍攝', kind: 'event' },
+      { time: '17:30', label: '鳳臨閣晚餐', kind: 'food', tag: '預約' },
+      { time: '19:30', label: '大同古城夜遊', kind: 'sight' },
   ]},
-  { day: 5, date: '06/30', dow: '一', city: '大同 · 雲岡石窟', stay: '大同', highlights: [
-      { time: '08:30', label: '雲岡石窟（含講解）', kind: 'sight', tag: '預約' },
-      { time: '14:00', label: '大同古城牆', kind: 'sight' },
-      { time: '17:00', label: '九龍壁', kind: 'sight' },
+  { day: 5, date: '06/30', dow: '一', city: '大同 · 雲岡石窟', stay: '益海府邸民宿', highlights: [
+      { time: '08:30', label: '前往雲岡石窟', kind: 'transit' },
+      { time: '09:15', label: '雲岡石窟', kind: 'sight', tag: '預約' },
+      { time: '14:45', label: '大同古城續遊', kind: 'sight' },
+      { time: '18:00', label: '花園大飯店中餐廳', kind: 'food' },
+      { time: '21:00', label: '《如夢大同》表演', kind: 'event' },
   ]},
-  { day: 6, date: '07/01', dow: '二', city: '大同 · 懸空寺・應縣木塔', stay: '大同', highlights: [
-      { time: '08:00', label: '應縣木塔', kind: 'sight' },
-      { time: '13:00', label: '懸空寺（恆山）', kind: 'sight', tag: '預約' },
-      { time: '18:00', label: '大同刀削麵晚餐', kind: 'food' },
+  { day: 6, date: '07/01', dow: '二', city: '大同 → 五台山', stay: '五台山青峰觀嵐', highlights: [
+      { time: '08:00', label: '前往應縣木塔', kind: 'transit' },
+      { time: '09:30', label: '應縣木塔', kind: 'sight' },
+      { time: '12:00', label: '蔡家酒樓午餐', kind: 'food' },
+      { time: '13:30', label: '懸空寺・下方觀賞', kind: 'sight' },
+      { time: '18:30', label: '清涼一品香素齋', kind: 'food' },
   ]},
-  { day: 7, date: '07/02', dow: '三', city: '大同 → 五台山', stay: '五台山', highlights: [
-      { time: '08:30', label: '大同 → 五台山 拉車', kind: 'transit' },
-      { time: '13:00', label: '顯通寺', kind: 'sight' },
-      { time: '15:00', label: '塔院寺・大白塔', kind: 'sight' },
-      { time: '16:30', label: '殊像寺', kind: 'sight' },
+  { day: 7, date: '07/02', dow: '三', city: '五台山 → 忻州', stay: '南宸‧汐上民宿', highlights: [
+      { time: '07:30', label: '五爺廟・塔院寺・顯通寺', kind: 'sight' },
+      { time: '12:00', label: '菩薩頂素齋', kind: 'food' },
+      { time: '13:00', label: '殊像寺', kind: 'sight' },
+      { time: '17:30', label: '悦華老菜館', kind: 'food' },
+      { time: '19:30', label: '忻州古城・打鐵花', kind: 'event' },
   ]},
-  { day: 8, date: '07/03', dow: '四', city: '五台山 → 北京', stay: '北京', highlights: [
-      { time: '07:30', label: '黛螺頂・五方文殊', kind: 'sight' },
-      { time: '12:00', label: '五台山 → 北京 拉車', kind: 'transit' },
-      { time: '19:00', label: '北京烤鴨告別宴', kind: 'food' },
+  { day: 8, date: '07/03', dow: '四', city: '忻州 → 北京', stay: '香柏(南鑼鼓巷)', highlights: [
+      { time: '09:00', label: '忻州古城晨遊', kind: 'sight' },
+      { time: '14:49', label: '忻州西 → 北京北 高鐵', kind: 'transit', tag: '台胞證' },
+      { time: '19:30', label: '璟雅軒・一鴨九吃', kind: 'food' },
+      { time: '21:00', label: '南鑼鼓巷夜遊', kind: 'sight' },
   ]},
-  { day: 9, date: '07/04', dow: '五', city: '北京 → 台北', stay: '機上', highlights: [
-      { time: '10:00', label: '前門大街・伴手禮', kind: 'shopping' },
-      { time: '15:30', label: '前往首都機場', kind: 'transit' },
-      { time: '19:35', label: 'BR715 北京 → 桃園', kind: 'flight' },
+  { day: 9, date: '07/04', dow: '五', city: '北京 → 台灣', stay: '溫暖的家', highlights: [
+      { time: '09:30', label: '前往北京首都機場', kind: 'transit' },
+      { time: '13:55', label: 'BR715 飛回桃園', kind: 'flight' },
+      { time: '17:05', label: '抵達桃園・入境', kind: 'transit' },
+      { time: '19:00', label: '富宇君品晚餐', kind: 'food' },
   ]},
 ];
 
 const TICKETS = [
   { name: '故宮博物院', sub: '成人 ¥60／60+ ¥30／學生 ¥20', total: 310, status: '5月中關注報名', icon: '宮' },
-  { name: '天壇', sub: '成人 ¥34／60+ 免費／18- 免費', total: 136, status: '6/22 0:00 開放', icon: '壇' },
-  { name: '先農壇', sub: '成人 ¥15／60+ 免費／18- 免費', total: 60, status: '現場購票', icon: '農' },
-  { name: '華嚴寺', sub: '成人 ¥50／60+ 免費／學生 ¥25', total: 250, status: '6/15 0:00 開放', icon: '華' },
-  { name: '善化寺', sub: '成人 ¥40／60+ 免費／學生 ¥20', total: 200, status: '6/24 0:00 開放', icon: '善' },
-  { name: '雲岡石窟', sub: '成人 ¥120／60+ 免費／學生 ¥60', total: 600, status: '6/15 7:00 開放', icon: '窟' },
-  { name: '如夢大同 表演', sub: '成人 ¥238／65+ ¥150／學生 ¥150', total: 1402, status: '現場購票', icon: '夢' },
-  { name: '應縣木塔', sub: '成人 ¥50／60+ 免費／學生 ¥25', total: 250, status: '隨時可約', icon: '塔' },
-  { name: '懸空寺', sub: '成人 ¥15／60+ 免費／學生 ¥8', total: 76, status: '6/25 0:00 開放', icon: '懸' },
-  { name: '五台山', sub: '成人 ¥135／60+ 免費／學生 ¥70', total: 680, status: '6/27 0:00 開放', icon: '台' },
+  { name: '天壇', sub: '成人 ¥34／60+ 免費／18- 免費', total: 136, status: '6/22 0:00 開放購票', icon: '壇' },
+  { name: '先農壇', sub: '成人 ¥15／60+ 免費／18- 免費', total: 60, status: '現場購票即可', icon: '農' },
+  { name: '華嚴寺', sub: '成人 ¥50／60+ 免費／學生 ¥25', total: 250, status: '6/15 0:00 開放購票', icon: '華' },
+  { name: '善化寺', sub: '成人 ¥40／60+ 免費／學生 ¥20', total: 200, status: '6/24 0:00 開放購票', icon: '善' },
+  { name: '雲岡石窟', sub: '成人 ¥120／60+ 免費／學生 ¥60', total: 600, status: '6/15 7:00 開放購票', icon: '窟' },
+  { name: '如夢大同 表演', sub: '成人 ¥238／65+ ¥150／學生 ¥150', total: 1402, status: '現場購票（兒童票只能現場）', icon: '夢' },
+  { name: '應縣木塔', sub: '成人 ¥50／60+ 免費／學生 ¥25', total: 250, status: '隨時可約（目前未約）', icon: '塔' },
+  { name: '懸空寺', sub: '成人 ¥15／60+ 免費／學生 ¥8', total: 76, status: '6/25 0:00 開放購票', icon: '懸' },
+  { name: '五台山', sub: '成人 ¥135／60+ 免費／學生 ¥70', total: 680, status: '成人 6/27 0:00 開放購票・學生限線下', icon: '台' },
 ];
 
 const PAYERS = ['毓芸', '媽媽', '俊安', '哥哥'];
 const PAYER_COLORS = {
   '毓芸': '#BE3A2A',
-  '媽媽':  '#B08D3F',
-  '俊安':  '#4A6B5C',
-  '哥哥':  '#5A6B8A',
+  '媽媽': '#B08D3F',
+  '俊安': '#4A6B5C',
+  '哥哥': '#5A6B8A',
 };
 
 const CHECKLIST_GROUPS = [
-  { title: '證件文件', items: ['台胞證（最重要）', '中華民國護照', '電子機票列印本', '住宿訂房單', '證件照 2 張備用'] },
-  { title: '電子用品', items: ['行動電源（< 27000mAh, CCC認證）', '充電線・轉接頭', '相機・備用電池', '行動WiFi 或 SIM卡', '微信／支付寶 已綁定'] },
-  { title: '衣著鞋類',  items: ['舒適運動鞋', '薄外套（早晚溫差）', '正裝（寺廟長褲長袖）', '防曬帽・墨鏡', '雨具'] },
-  { title: '隨身藥品', items: ['腸胃藥', '感冒藥', '休足時間／痠痛貼布', 'OK繃／優碘', '個人慣用處方藥'] },
-  { title: '其他細項', items: ['塗抹式防曬（高鐵限噴霧）', '保濕乳液（山西乾燥）', '雙肩背包', '輕便購物袋', '小額現金 ¥'] },
+  { title: '證件與財物', items: [
+      '台胞證 / 護照',
+      '信用卡',
+      '微信支付 / 支付寶 / 滴滴打車（已綁卡）',
+      '適量人民幣（備用）',
+  ]},
+  { title: '衣物（夏季透氣防曬）', items: [
+      '至少 9 套衣物（飯店有洗衣房可少帶幾套）',
+      '睡衣',
+      '長袖薄外套 / 防曬外套',
+      '入寺廟端莊服飾（不可無袖、短褲裙）',
+      '內衣褲、襪子 × 9',
+      '輕便雨具（能抗紫外線佳）',
+      '登山杖',
+  ]},
+  { title: '鞋類', items: [
+      '極舒適好走的運動鞋',
+      '輕便拖鞋 / 涼鞋',
+  ]},
+  { title: '防護保濕（北方乾燥）', items: [
+      '高倍數防曬（塗抹式，噴霧過不了高鐵安檢）',
+      '太陽帽、遮陽傘、墨鏡',
+      '保濕乳液、護唇膏、面膜',
+      '消毒濕紙巾、面紙',
+  ]},
+  { title: '藥品類', items: [
+      '腸胃藥、感冒藥、退燒藥、過敏藥',
+      '休足時間、痠痛貼布',
+      '暈車藥（部分山路備用）',
+      'OK 繃、個人常備藥',
+  ]},
+  { title: '電子設備', items: [
+      '手機、相機、行動電源（< 100Wh / 27000mAh、CCC 認證、隨身手提）',
+      '充電器與充電線',
+      '三腳架 / 手機穩定器',
+      '電源轉接頭',
+  ]},
+  { title: '其他雜項', items: [
+      '輕便雙肩包或隨身防盜小包',
+      '保溫水壺',
+      '牙刷牙膏、個人洗漱用品',
+  ]},
 ];
 
 const KIND_META = {
@@ -1579,7 +1665,7 @@ const TABS = [
 
 function BottomNav({ active, onChange }) {
   return (
-    <div style={{
+    <div className="bottom-nav" style={{
       position: 'absolute', bottom: 0, left: 0, right: 0,
       paddingBottom: 28, paddingTop: 8,
       background: 'linear-gradient(to top, rgba(245,239,228,0.98) 60%, rgba(245,239,228,0.0))',
@@ -1633,7 +1719,7 @@ function AppHeader({ tabId }) {
   };
   const t = titles[tabId];
   return (
-    <div style={{
+    <div className="app-header" style={{
       padding: '54px 22px 22px',
       background: `
         linear-gradient(180deg, ${C.paper2} 0%, ${C.paper} 100%)
@@ -1703,7 +1789,7 @@ function PlanScreen() {
   const [openDay, setOpenDay] = React.useState(2);
 
   return (
-    <div style={{ padding: '20px 18px 140px', position: 'relative' }}>
+    <div style={{ padding: '20px 18px 140px', position: 'relative' }} className="screen-content">
       {/* Flight summary card */}
       <Card pad={0} style={{ marginBottom: 22, overflow: 'hidden', position: 'relative' }}>
         <MountainSilhouette color={C.ink} opacity={0.06}
@@ -1859,14 +1945,18 @@ function DayCard({ day, open, onToggle }) {
 // TOUR — Deep audio guide
 // ─────────────────────────────────────────────────────────────
 const TOUR_SITES = [
-  { city: '北京', char: '宮', name: '故宮博物院', sub: '紫禁城 · 24 帝王居所', mins: 18, level: '經典', accent: C.red },
-  { city: '北京', char: '壇', name: '天壇祈年殿', sub: '明清皇家祭天聖地', mins: 12, level: '核心', accent: C.gold },
-  { city: '北京', char: '頤', name: '頤和園', sub: '皇家園林・昆明湖光', mins: 15, level: '經典', accent: C.jade },
-  { city: '大同', char: '雲', name: '雲岡石窟', sub: '北魏石刻 · 世界遺產', mins: 22, level: '必訪', accent: C.red },
-  { city: '大同', char: '懸', name: '懸空寺', sub: '北嶽恆山 · 千年木構', mins: 10, level: '驚奇', accent: C.indigo },
-  { city: '大同', char: '木', name: '應縣木塔', sub: '釋迦塔 · 世界最高木構', mins: 14, level: '核心', accent: C.gold },
-  { city: '五台山', char: '台', name: '塔院寺·大白塔', sub: '文殊菩薩道場', mins: 11, level: '聖地', accent: C.jade },
-  { city: '五台山', char: '黛', name: '黛螺頂', sub: '五方文殊・小朝台', mins: 9,  level: '聖地', accent: C.indigo },
+  { city: '北京', char: '宮', name: '故宮博物院', sub: '明清皇宮・紫禁城', mins: 18, level: '經典', accent: C.red },
+  { city: '北京', char: '壇', name: '天壇祈年殿', sub: '皇家祭天聖地', mins: 12, level: '核心', accent: C.gold },
+  { city: '北京', char: '農', name: '先農壇', sub: '皇家親耕祭祀場所', mins: 10, level: '深度', accent: C.jade },
+  { city: '北京', char: '門', name: '前門大街', sub: '京味老字號商業街', mins: 8, level: '經典', accent: C.indigo },
+  { city: '北京', char: '鑼', name: '南鑼鼓巷', sub: '老北京胡同四合院', mins: 10, level: '經典', accent: C.red },
+  { city: '大同', char: '同', name: '大同古城', sub: '塞外古都・北魏平城', mins: 14, level: '經典', accent: C.gold },
+  { city: '大同', char: '雲', name: '雲岡石窟', sub: '北魏石刻・世界遺產', mins: 22, level: '必訪', accent: C.red },
+  { city: '大同', char: '懸', name: '懸空寺', sub: '北嶽恆山・千年木構', mins: 10, level: '驚奇', accent: C.indigo },
+  { city: '大同', char: '木', name: '應縣木塔', sub: '釋迦塔・世界最高木構', mins: 14, level: '核心', accent: C.gold },
+  { city: '五台山', char: '台', name: '塔院寺・大白塔', sub: '文殊菩薩道場', mins: 11, level: '聖地', accent: C.jade },
+  { city: '五台山', char: '黛', name: '黛螺頂', sub: '五方文殊・小朝台', mins: 9, level: '聖地', accent: C.indigo },
+  { city: '忻州', char: '忻', name: '忻州古城', sub: '晉北鎖鑰・打鐵花表演', mins: 12, level: '經典', accent: C.red },
 ];
 
 function TourScreen() {
@@ -1875,7 +1965,7 @@ function TourScreen() {
   const filtered = city === '全部' ? TOUR_SITES : TOUR_SITES.filter(s => s.city === city);
 
   return (
-    <div style={{ padding: '20px 18px 140px' }}>
+    <div style={{ padding: '20px 18px 140px' }} className="screen-content">
       <SectionHeader zh="精選名勝" en="Featured Sites" right={
         <div style={{ fontFamily: FONT_MONO, fontSize: 10, color: C.muted }}>{filtered.length} 處</div>
       } />
@@ -1987,7 +2077,7 @@ function CostScreen() {
   const ticketTotal = TICKETS.reduce((s, t) => s + t.total, 0);
 
   return (
-    <div style={{ padding: '20px 18px 140px' }}>
+    <div style={{ padding: '20px 18px 140px' }} className="screen-content">
       {/* Total spent — hero */}
       <Card style={{
         background: `linear-gradient(135deg, ${C.ink} 0%, #2A211B 100%)`,
@@ -2269,7 +2359,7 @@ function ListScreen() {
   const pct = Math.round((doneItems / totalItems) * 100);
 
   return (
-    <div style={{ padding: '20px 18px 140px' }}>
+    <div style={{ padding: '20px 18px 140px' }} className="screen-content">
       {/* Progress card */}
       <Card style={{ marginBottom: 22, position: 'relative', overflow: 'hidden' }}>
         <LatticeBg color={C.red} opacity={0.04} />
@@ -2372,37 +2462,37 @@ function ListScreen() {
 const TIPS = [
   {
     char: '宮', title: '北京故宮與天壇', accent: C.red, items: [
-      '景區占地極廣，且多為石板路，務必穿著最舒適的運動鞋。',
-      '夏季北京悶熱，隨身攜帶陽傘、墨鏡與足夠飲水。',
-      '實名制預約嚴格，務必隨身攜帶台胞證查驗。',
+      '景區占地極廣,且多為石板路,務必穿著最舒適的運動鞋。',
+      '夏季北京悶熱,隨身攜帶陽傘、墨鏡與足夠飲水。',
+      '實名制預約嚴格,務必隨身攜帶台胞證查驗。',
     ]
   },
   {
     char: '鐵', title: '搭乘高鐵注意事項', accent: C.indigo, items: [
-      '安檢嚴格，防曬噴霧、指甲油等易燃物品容量有限制，建議帶塗抹式防曬。',
-      '不能攜帶：濃度大於 70% 的酒精、刀刃超過 6cm 的刀具。',
-      '行動電源容量在 100Wh（約 27000mAh）以下，且須有 CCC 認證標籤。',
-      '進站、乘車皆需刷台胞證，請統一妥善保管。',
+      '安檢嚴格,防曬噴霧、指甲油等易燃物品有容量限制,建議帶塗抹式防曬。',
+      '不能攜帶:濃度大於 70% 的酒精、刀刃超過 6cm 的刀具。',
+      '行動電源容量需在 100Wh(約 27000mAh)以下,且須有 CCC 認證標籤。',
+      '噴霧瓶不超過 150ml、非壓力噴瓶單瓶不超過 100ml。',
+      '進站、乘車皆需刷台胞證,請統一妥善保管。',
     ]
   },
   {
     char: '山', title: '山西古建與佛教名山', accent: C.jade, items: [
-      '五台山為佛教聖地，參觀寺廟請遵守規定：不踩門檻、不大聲喧嘩、穿著端莊。',
-      '山西氣候乾燥，早晚溫差大，請備好保濕用品與薄外套。',
-      '日照強烈，建議塗抹式防曬乳，並戴帽子或撐傘。',
+      '五台山為佛教聖地,參觀寺廟請守規:不踩門檻、不大聲喧嘩、穿著端莊(勿無袖短褲裙)。',
+      '山西氣候乾燥,早晚溫差大,請備好保濕用品與薄外套。',
     ]
   },
 ];
 
 const SAFETY = [
-  { char: '證', title: '財物與證件', body: '台胞證等同通行證，住宿、高鐵、景區驗票都需實名制。建議由專人統一保管或各自妥善保管，千萬不可遺失。大部分地區使用微信或支付寶，建議提前確認餘額與綁定，現金備用即可。' },
-  { char: '食', title: '健康與飲食', body: '北方飲食口味偏重（鹹、酸），可提醒店家少鹽少油。夏季步行量極大，定時提醒所有人喝水休息，預防中暑與鐵腿。隨身準備腸胃藥、感冒藥、休足時間或痠痛貼布。' },
-  { char: '聚', title: '防走散', body: '故宮、前門大街、高鐵站人潮擁擠，約定好走散時的集合地點或聯絡方式（確保手機有網路）。只要在戶外小孩都牽緊，不要離開大人視線。' },
+  { char: '證', title: '財物與證件(台胞證最重要)', body: '台胞證等同通行證,住宿、高鐵、景區驗票都需實名制。建議由專人統一保管或各自妥善保管,千萬不可遺失。大部分地區使用微信或支付寶,建議提前確認餘額與綁定,現金備用即可。' },
+  { char: '食', title: '健康與飲食', body: '北方飲食口味偏重(鹹、酸),可提醒店家少鹽少油。夏季步行量極大,定時提醒所有人喝水休息,預防中暑與鐵腿。隨身準備腸胃藥、感冒藥、休足時間或痠痛貼布。' },
+  { char: '聚', title: '防走散', body: '故宮、前門大街、高鐵站人潮擁擠,約定好走散時的集合地點或聯絡方式(確保手機有網路)。只要在戶外小孩都牽緊,不要離開大人視線。' },
 ];
 
 function InfoScreen() {
   return (
-    <div style={{ padding: '20px 18px 140px' }}>
+    <div style={{ padding: '20px 18px 140px' }} className="screen-content">
       {/* Weather */}
       <SectionHeader zh="當地天氣" en="Weather Forecast" />
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 22 }}>
