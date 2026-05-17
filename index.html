@@ -1291,64 +1291,117 @@ Object.assign(window, {
 // Data layer — itinerary, tickets, checklist, info
 
 const ITINERARY = [
-  { day: 1, date: '06/26', dow: '四', city: '台灣 → 北京', stay: '漢庭(前門)', highlights: [
-      { time: '12:05', label: '富宇君品集合', kind: 'transit' },
-      { time: '16:05', label: 'BR716 飛往北京首都', kind: 'flight' },
-      { time: '19:30', label: '抵達北京・入境', kind: 'transit' },
-      { time: '21:30', label: '抵達漢庭酒店', kind: 'sight' },
+  { day: 1, date: '06/26', dow: '四', city: '台灣 → 北京', stay: '漢庭酒店(北京前門店)', events: [
+      { time: '12:05', title: '富宇君品集合', star: true, details: ['Google 地圖:maps.app.goo.gl/CBDfdMVADSrvhZEw8'] },
+      { time: '12:20', title: '桃園國際機場', transport: { kind: 'bus', label: '接駁車' }, details: ['機場接駁車(未預定)'] },
+      { time: '13:05', title: 'CHECK IN 逛免稅店' },
+      { time: '16:05', title: '飛往北京首都國際機場', star: true, transport: { kind: 'plane', label: '航班' }, details: ['長榮航空(BR716)'] },
+      { time: '19:30', title: '抵達北京首都國際機場 入境', star: true },
+      { time: '20:30', title: '前往漢庭酒店(北京前門店)', transport: { kind: 'bus', label: '接駁車' }, details: ['機場接駁車(6 月初預定)'] },
+      { time: '21:30', title: '抵達酒店 CHECK IN & 休息', details: ['住宿:漢庭酒店(北京前門店)'] },
   ]},
-  { day: 2, date: '06/27', dow: '五', city: '北京 · 故宮', stay: '漢庭(前門)', highlights: [
-      { time: '08:00', label: '前往北京故宮', kind: 'transit' },
-      { time: '08:30', label: '故宮博物院・含講解', kind: 'sight', tag: '預約' },
-      { time: '14:30', label: '自由活動・休息', kind: 'sight' },
-      { time: '17:00', label: '宮宴換裝拍照', kind: 'event' },
-      { time: '19:00', label: '北京宮宴晚宴', kind: 'food', tag: '預約' },
+  { day: 2, date: '06/27', dow: '五', city: '北京市區', stay: '漢庭酒店(北京前門店)', events: [
+      { time: '06:30', title: '起床盥洗' },
+      { time: '07:00', title: '吃早餐', details: ['美團外賣 - 護國寺小吃(東單店)', '前一晚先點餐'] },
+      { time: '08:00', title: '前往北京故宮博物院', star: true, transport: { kind: 'taxi', label: '打車' } },
+      { time: '08:30', title: '遊覽北京故宮博物院', details: ['請講解(未預約)'] },
+      { time: '12:30', title: '回飯店', transport: { kind: 'taxi', label: '打車' }, details: ['神武門出來後往右走到景山東街打車'] },
+      { time: '13:00', title: '吃午餐', details: ['美團外賣 - 紫光園(崇文門店)', '前一晚先點餐'] },
+      { time: '14:30', title: '自由活動 & 休息', details: ['姊姊一家自由活動', '媽媽如果累了就先飯店休息一陣子,休息好可下去三里河公園逛逛', '毓芸跟俊安看體力去附近走走'] },
+      { time: '16:45', title: '前往北京宮宴', star: true, transport: { kind: 'walk', label: '步行' } },
+      { time: '17:00', title: '宮宴換裝 + 拍照' },
+      { time: '19:00', title: '北京宮宴', star: true },
+      { time: '21:00', title: '返回酒店', transport: { kind: 'walk', label: '步行' }, details: ['住宿:漢庭酒店(北京前門店)'] },
   ]},
-  { day: 3, date: '06/28', dow: '六', city: '北京 · 天壇先農壇', stay: '漢庭(前門)', highlights: [
-      { time: '09:00', label: '天壇祈年殿', kind: 'sight', tag: '預約' },
-      { time: '11:30', label: '南門涮肉午餐', kind: 'food' },
-      { time: '13:45', label: '先農壇', kind: 'sight' },
-      { time: '18:00', label: '前門大街・大柵欄', kind: 'food' },
+  { day: 3, date: '06/28', dow: '六', city: '北京市區', stay: '漢庭酒店(北京前門店)', events: [
+      { time: '07:30', title: '起床盥洗' },
+      { time: '08:00', title: '吃早餐', details: ['美團外賣 - 尹三豆汁(前門店)', '前一晚先點餐'] },
+      { time: '09:00', title: '前往天壇', star: true, transport: { kind: 'taxi', label: '打車' } },
+      { time: '09:30', title: '遊覽天壇' },
+      { time: '11:30', title: '吃午餐 - 南門涮肉', details: ['聽說超多人要排隊先取號,或是網路找代排隊'] },
+      { time: '13:30', title: '前往先農壇', star: true, transport: { kind: 'taxi', label: '打車' } },
+      { time: '13:45', title: '遊覽先農壇' },
+      { time: '15:45', title: '回飯店休息', transport: { kind: 'taxi', label: '打車' } },
+      { time: '17:30', title: '前往前門大街', star: true, transport: { kind: 'walk', label: '步行' } },
+      { time: '18:00', title: '前門大街、大柵欄逛吃', details: ['推薦必吃:都一處燒賣(有素)、吳裕泰冰淇淋、門釘肉餅、糖葫蘆、老北京酸奶、陳記鹵煮'] },
+      { time: '20:00', title: '返回飯店', transport: { kind: 'walk', label: '步行' }, details: ['住宿:漢庭酒店(北京前門店)'] },
   ]},
-  { day: 4, date: '06/29', dow: '日', city: '北京 → 大同', stay: '益海府邸民宿', highlights: [
-      { time: '08:20', label: '北京北 → 大同南 高鐵', kind: 'transit', tag: '台胞證' },
-      { time: '11:30', label: '喜晉道刀削麵', kind: 'food' },
-      { time: '15:30', label: '毓芸華嚴寺拍攝', kind: 'event' },
-      { time: '17:30', label: '鳳臨閣晚餐', kind: 'food', tag: '預約' },
-      { time: '19:30', label: '大同古城夜遊', kind: 'sight' },
+  { day: 4, date: '06/29', dow: '日', city: '北京 → 山西大同', stay: '益海府邸民宿(大同華嚴寺店)', events: [
+      { time: '06:00', title: '起床盥洗' },
+      { time: '06:30', title: '吃早餐', details: ['美團外賣 - 黑窯廠糖油餅', '前一晚先點餐,早上沒吃完可以帶著到高鐵站吃'] },
+      { time: '07:00', title: '退房 & 前往高鐵北京北站', star: true, transport: { kind: 'van', label: '包車' }, details: ['高鐵接送包車(未預約)'] },
+      { time: '08:20', title: '搭乘高鐵前往山西大同', star: true, transport: { kind: 'train', label: '高鐵' } },
+      { time: '10:06', title: '抵達高鐵大同南站', star: true },
+      { time: '10:30', title: '前往益海府邸民宿(大同華嚴寺店)', transport: { kind: 'van', label: '包車' }, details: ['持續關注看甚麼時候可預訂', '高鐵接送包車(已預約 3 台 5 人座)'] },
+      { time: '11:00', title: 'CHECK IN 休息一下' },
+      { time: '11:30', title: '前往喜晉道 - 刀削麵 吃午餐', transport: { kind: 'walk', label: '步行' }, details: ['午餐暫定這家,如果人多再去備案(晉北劉姥姥豆麵)'] },
+      { time: '12:30', title: '毓芸前往琉璃境做妝造', details: ['其他人可以先回民宿休息一下', '休息好可先到華嚴寺逛逛 or 大同古城隨意逛'] },
+      { time: '15:00', title: '搶鳳臨閣晚餐排隊號碼', star: true, details: ['俊安負責'] },
+      { time: '15:30', title: '毓芸華嚴寺拍攝' },
+      { time: '17:00', title: '拍攝結束還衣服' },
+      { time: '17:30', title: '前往鳳臨閣 吃晚餐', star: true, transport: { kind: 'walk', label: '步行' }, details: ['如果沒搶到 備案:1. 花園大飯店中餐廳 2. 北魏家宴'] },
+      { time: '19:30', title: '大同古城夜遊' },
+      { time: '22:00', title: '返回民宿', transport: { kind: 'walk', label: '步行' }, details: ['住宿:益海府邸民宿(大同華嚴寺店)'] },
   ]},
-  { day: 5, date: '06/30', dow: '一', city: '大同 · 雲岡石窟', stay: '益海府邸民宿', highlights: [
-      { time: '08:30', label: '前往雲岡石窟', kind: 'transit' },
-      { time: '09:15', label: '雲岡石窟', kind: 'sight', tag: '預約' },
-      { time: '14:45', label: '大同古城續遊', kind: 'sight' },
-      { time: '18:00', label: '花園大飯店中餐廳', kind: 'food' },
-      { time: '21:00', label: '《如夢大同》表演', kind: 'event' },
+  { day: 5, date: '06/30', dow: '一', city: '山西大同', stay: '益海府邸民宿(大同華嚴寺店)', events: [
+      { time: '07:00', title: '起床盥洗' },
+      { time: '07:30', title: '吃早餐', details: ['美團外賣 - 孫記包子(迎澤街店)', '前一晚先點餐'] },
+      { time: '08:30', title: '前往雲岡石窟', star: true, transport: { kind: 'van', label: '包車' }, details: ['包車 9 人座(已預約)'] },
+      { time: '09:15', title: '遊覽雲岡石窟', details: ['午餐在景區內解決,小吃街找一家人少的吃'] },
+      { time: '14:00', title: '返回大同古城', star: true, transport: { kind: 'van', label: '包車' }, details: ['包車 9 人座(已預約)'] },
+      { time: '14:45', title: '大同古城續遊', details: ['媽媽如果累了可以回民宿休息', '下午就在古城輕鬆逛'] },
+      { time: '18:00', title: '晚餐:花園大飯店中餐廳', star: true, details: ['如果前一晚沒吃到鳳臨閣這天可以再搶看看', '花園大飯店人太多就吃北魏家宴'] },
+      { time: '21:00', title: '前往觀看 如夢大同表演', star: true, transport: { kind: 'walk', label: '步行' }, details: ['要去的人可以一起去'] },
+      { time: '22:30', title: '返回飯店', details: ['住宿:益海府邸民宿(大同華嚴寺店)'] },
   ]},
-  { day: 6, date: '07/01', dow: '二', city: '大同 → 五台山', stay: '五台山青峰觀嵐', highlights: [
-      { time: '08:00', label: '前往應縣木塔', kind: 'transit' },
-      { time: '09:30', label: '應縣木塔', kind: 'sight' },
-      { time: '12:00', label: '蔡家酒樓午餐', kind: 'food' },
-      { time: '13:30', label: '懸空寺・下方觀賞', kind: 'sight' },
-      { time: '18:30', label: '清涼一品香素齋', kind: 'food' },
+  { day: 6, date: '07/01', dow: '二', city: '大同 → 五台山', stay: '五台山青峰觀嵐酒店', events: [
+      { time: '06:30', title: '起床盥洗' },
+      { time: '07:00', title: '吃早餐', details: ['美團外賣 - 龍聚祥燒賣(鼓樓店)', '前一晚先點餐'] },
+      { time: '08:00', title: '退房 & 出發前往應縣木塔', star: true, transport: { kind: 'van', label: '包車' }, details: ['包車 9 人座 全日(已預約)'] },
+      { time: '09:30', title: '遊覽應縣木塔' },
+      { time: '11:00', title: '出發渾源吃午餐', transport: { kind: 'van', label: '包車' } },
+      { time: '12:00', title: '吃午餐 - 蔡家酒樓', details: ['如果人太多就改吃北越恒山村'] },
+      { time: '13:30', title: '遊覽懸空寺', star: true, transport: { kind: 'van', label: '包車' }, details: ['僅在下面看不登臨'] },
+      { time: '14:30', title: '出發前往五台山 - 楊柏峪村', star: true, transport: { kind: 'van', label: '包車' } },
+      { time: '18:00', title: '抵達酒店 CHECK IN', details: ['住宿:五台山青峰觀嵐酒店'] },
+      { time: '18:30', title: '吃晚餐:清涼一品香素齋', star: true, transport: { kind: 'walk', label: '步行' }, details: ['如果人很多就去吃 天天向上素食餐廳'] },
+      { time: '20:00', title: '楊柏峪村 夜遊', details: ['可以逛一逛文創店(清嵐書社)', '媽媽如果累了可以先回飯店休息'] },
+      { time: '22:00', title: '返回飯店', details: ['住宿:五台山青峰觀嵐酒店'] },
   ]},
-  { day: 7, date: '07/02', dow: '三', city: '五台山 → 忻州', stay: '南宸‧汐上民宿', highlights: [
-      { time: '07:30', label: '五爺廟・塔院寺・顯通寺', kind: 'sight' },
-      { time: '12:00', label: '菩薩頂素齋', kind: 'food' },
-      { time: '13:00', label: '殊像寺', kind: 'sight' },
-      { time: '17:30', label: '悦華老菜館', kind: 'food' },
-      { time: '19:30', label: '忻州古城・打鐵花', kind: 'event' },
+  { day: 7, date: '07/02', dow: '三', city: '五台山 → 忻州', stay: '南宸‧汐上民宿', events: [
+      { time: '06:00', title: '起床盥洗' },
+      { time: '06:30', title: '退房 & 前往 德克士 吃早餐', star: true, transport: { kind: 'van', label: '包車' } },
+      { time: '07:30', title: '前往五爺廟 開始遊覽五台山', star: true, details: ['五爺廟 - 塔院寺 - 顯通寺 - 菩薩頂'] },
+      { time: '12:00', title: '菩薩頂素齋', details: ['如果結束的早可以去普化寺素齋'] },
+      { time: '13:00', title: '前往殊像寺', star: true, transport: { kind: 'van', label: '包車' }, details: ['車子到菩薩頂載我們過去', '殊像寺逛完可以去大文殊寺'] },
+      { time: '15:00', title: '下山前往忻州古城', star: true, transport: { kind: 'van', label: '包車' }, details: ['包車 9 人座(已預約)'] },
+      { time: '17:00', title: '抵達南宸‧汐上民宿 CHECK IN' },
+      { time: '17:30', title: '前往悦華老菜館', star: true, transport: { kind: 'van', label: '包車' }, details: ['包車載我們到菜館後結束'] },
+      { time: '18:00', title: '吃晚餐' },
+      { time: '19:30', title: '前往忻洲古城', star: true, transport: { kind: 'taxi', label: '打車' }, details: ['看非遺打鐵花表演!'] },
+      { time: '20:30', title: '忻洲古城夜遊', details: ['從打鐵花表演場慢慢逛回民宿'] },
+      { time: '22:00', title: '返回民宿', details: ['住宿:南宸‧汐上民宿'] },
   ]},
-  { day: 8, date: '07/03', dow: '四', city: '忻州 → 北京', stay: '香柏(南鑼鼓巷)', highlights: [
-      { time: '09:00', label: '忻州古城晨遊', kind: 'sight' },
-      { time: '14:49', label: '忻州西 → 北京北 高鐵', kind: 'transit', tag: '台胞證' },
-      { time: '19:30', label: '璟雅軒・一鴨九吃', kind: 'food' },
-      { time: '21:00', label: '南鑼鼓巷夜遊', kind: 'sight' },
+  { day: 8, date: '07/03', dow: '四', city: '忻州 → 北京', stay: '香柏藝術酒店(南鑼鼓巷後海店)', events: [
+      { time: '07:30', title: '起床盥洗' },
+      { time: '08:00', title: '前往吃早餐 - 光明早餐店', transport: { kind: 'walk', label: '步行' }, details: ['現場吃'] },
+      { time: '09:00', title: '退房寄存行李 & 忻州古城晨遊', details: ['漫步忻州古城', '中午在古城裡簡單吃', '推薦必吃:烤豬蹄、麻葉、酸奶、豆腐丸子、保德油糕、新疆羊肉串、鮮榨沙棘汁、鹵豬蹄'] },
+      { time: '13:50', title: '前往高鐵忻州西站', star: true, transport: { kind: 'car', label: '民宿接送' } },
+      { time: '14:20', title: '抵達高鐵忻州西站' },
+      { time: '14:49', title: '搭乘高鐵前往北京北站', star: true, transport: { kind: 'train', label: '高鐵' } },
+      { time: '18:12', title: '抵達北京 前往香柏藝術酒店', star: true, transport: { kind: 'van', label: '包車' }, details: ['高鐵接駁包車(未預定)'] },
+      { time: '19:30', title: '晚餐:璟雅軒 一鴨九吃', star: true, details: ['備案:菊兒人家', '如果人都很多就在南鑼鼓巷逛吃', '南鑼鼓巷推薦必吃:文宇奶酪、鬼味烤翅、稻香村(伴手禮)、吉士果、紫光園(酸奶)、尹三豆汁兒冰淇淋', '夜遊可去:菊兒胡同(新式四合院)、帽兒胡同(婉容故居)、雨兒胡同(齊白石故居)、鼓樓、什煞海、煙袋斜巷商業街'] },
+      { time: '22:00', title: '返回飯店', transport: { kind: 'walk', label: '步行' }, details: ['住宿:香柏藝術酒店(南鑼鼓巷後海店)'] },
   ]},
-  { day: 9, date: '07/04', dow: '五', city: '北京 → 台灣', stay: '溫暖的家', highlights: [
-      { time: '09:30', label: '前往北京首都機場', kind: 'transit' },
-      { time: '13:55', label: 'BR715 飛回桃園', kind: 'flight' },
-      { time: '17:05', label: '抵達桃園・入境', kind: 'transit' },
-      { time: '19:00', label: '富宇君品晚餐', kind: 'food' },
+  { day: 9, date: '07/04', dow: '五', city: '北京 → 台灣', stay: '溫暖的家', events: [
+      { time: '08:30', title: '吃早餐', details: ['美團外賣 - 待定', '前一晚先點餐'] },
+      { time: '09:30', title: '退房 & 前往北京首都國際機場', star: true, transport: { kind: 'bus', label: '接駁車' }, details: ['機場接駁車(未預定)'] },
+      { time: '10:30', title: 'CHECK IN 免稅店', star: true },
+      { time: '13:55', title: '飛往桃園國際機場', star: true, transport: { kind: 'plane', label: '航班' }, details: ['長榮航空(BR715)'] },
+      { time: '17:05', title: '抵達桃園 入境', star: true },
+      { time: '18:00', title: '返回富宇君品', transport: { kind: 'bus', label: '接駁車' }, details: ['機場接送(未預約)'] },
+      { time: '19:00', title: '抵達富宇君品吃晚餐', details: ['火鍋世家'] },
+      { time: '21:00', title: '休息睡覺' },
   ]},
 ];
 
@@ -1842,6 +1895,12 @@ function FlightLeg({ date, code, from, to, time, align = 'left' }) {
 }
 
 function DayCard({ day, open, onToggle }) {
+  const [openEvent, setOpenEvent] = React.useState(null);
+
+  React.useEffect(() => {
+    if (!open) setOpenEvent(null);
+  }, [open]);
+
   return (
     <div style={{
       background: C.card, borderRadius: 14,
@@ -1853,7 +1912,7 @@ function DayCard({ day, open, onToggle }) {
         width: '100%', border: 'none', background: 'transparent', textAlign: 'left',
         padding: '14px 14px', display: 'flex', alignItems: 'center', gap: 14,
       }}>
-        {/* Day stamp — brush calligraphy number */}
+        {/* Day stamp */}
         <div style={{
           width: 54, height: 60, borderRadius: 4,
           background: day.day === 1 || day.day === 9 ? C.ink : C.red,
@@ -1876,16 +1935,17 @@ function DayCard({ day, open, onToggle }) {
         </div>
 
         <div style={{ flex: 1, minWidth: 0 }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
             <span style={{ fontFamily: FONT_MONO, fontSize: 11, color: C.muted, letterSpacing: 1 }}>{day.date}</span>
             <span style={{ fontFamily: FONT_SERIF, fontSize: 10, color: C.red, letterSpacing: 1 }}>星期{day.dow}</span>
-            <span style={{ width: 3, height: 3, borderRadius: 99, background: C.faint }} />
-            <span style={{ fontFamily: FONT_SANS, fontSize: 11, color: C.muted }}>宿 · {day.stay}</span>
           </div>
           <div style={{
-            fontFamily: FONT_DISPLAY, fontSize: 19, fontWeight: 400, color: C.ink,
-            letterSpacing: 2, marginTop: 4,
+            fontFamily: FONT_DISPLAY, fontSize: 18, fontWeight: 400, color: C.ink,
+            letterSpacing: 1.5, marginTop: 4, lineHeight: 1.3,
           }}>{day.city}</div>
+          <div style={{
+            fontFamily: FONT_SANS, fontSize: 11, color: C.muted, marginTop: 3,
+          }}>宿 · {day.stay}</div>
         </div>
 
         <div style={{
@@ -1895,46 +1955,134 @@ function DayCard({ day, open, onToggle }) {
       </button>
 
       {open && (
-        <div style={{ padding: '0 18px 18px 18px' }}>
+        <div style={{ padding: '0 16px 16px 16px' }}>
           <CloudDivider style={{ marginBottom: 10 }} />
-          <div style={{ position: 'relative', paddingLeft: 14 }}>
+          <div style={{ position: 'relative', paddingLeft: 12 }}>
             {/* timeline line */}
             <div style={{
-              position: 'absolute', left: 4, top: 6, bottom: 6,
-              width: 1, background: `linear-gradient(to bottom, ${C.line2}, ${C.line2} 60%, transparent)`,
+              position: 'absolute', left: 4, top: 4, bottom: 4,
+              width: 1, background: `linear-gradient(to bottom, ${C.line2}, ${C.line2} 70%, transparent)`,
             }} />
-            {day.highlights.map((h, i) => {
-              const meta = KIND_META[h.kind] || KIND_META.sight;
-              return (
-                <div key={i} style={{
-                  display: 'flex', gap: 12, alignItems: 'flex-start',
-                  padding: '7px 0',
-                }}>
-                  <div style={{
-                    width: 9, height: 9, borderRadius: 99,
-                    background: meta.dot, marginLeft: -14, marginTop: 6,
-                    boxShadow: `0 0 0 3px ${C.card}`,
-                    flexShrink: 0,
-                  }} />
-                  <div style={{
-                    fontFamily: FONT_MONO, fontSize: 11, color: C.muted,
-                    width: 44, flexShrink: 0, paddingTop: 2,
-                  }}>{h.time}</div>
-                  <div style={{ flex: 1, paddingTop: 1 }}>
-                    <div style={{
-                      fontFamily: FONT_SANS, fontSize: 13.5, color: C.ink, lineHeight: 1.45,
-                    }}>{h.label}</div>
-                    <div style={{ display: 'flex', gap: 6, marginTop: 4, alignItems: 'center' }}>
-                      <span style={{
-                        fontFamily: FONT_SERIF, fontSize: 10, color: meta.dot, letterSpacing: 1.5,
-                      }}>{meta.label}</span>
-                      {h.tag && <Chip color={C.red}>{h.tag}</Chip>}
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
+            {day.events.map((ev, i) => (
+              <EventRow
+                key={i}
+                ev={ev}
+                open={openEvent === i}
+                onToggle={() => setOpenEvent(openEvent === i ? null : i)}
+              />
+            ))}
           </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// 交通工具圖示對應(SVG)
+const TRANSPORT_ICONS = {
+  bus:   { char: '接駁', color: '#5A6B8A' },
+  plane: { char: '航班', color: '#BE3A2A' },
+  taxi:  { char: '打車', color: '#B08D3F' },
+  walk:  { char: '步行', color: '#4A6B5C' },
+  van:   { char: '包車', color: '#8E5A2E' },
+  train: { char: '高鐵', color: '#BE3A2A' },
+  car:   { char: '接送', color: '#5A6B8A' },
+};
+
+function TransportBadge({ transport }) {
+  if (!transport) return null;
+  const meta = TRANSPORT_ICONS[transport.kind] || TRANSPORT_ICONS.car;
+  return (
+    <span style={{
+      display: 'inline-flex', alignItems: 'center', gap: 4,
+      padding: '2px 8px', borderRadius: 99,
+      background: `${meta.color}14`,
+      border: `1px solid ${meta.color}40`,
+      fontFamily: FONT_SERIF, fontSize: 10, color: meta.color,
+      letterSpacing: 1, fontWeight: 500,
+      whiteSpace: 'nowrap',
+    }}>
+      <span style={{ fontFamily: FONT_BRUSH, fontSize: 11, lineHeight: 1 }}>{meta.char[0]}</span>
+      {transport.label}
+    </span>
+  );
+}
+
+function EventRow({ ev, open, onToggle }) {
+  const hasDetails = (ev.details && ev.details.length > 0) || ev.transport;
+  const dotColor = ev.star ? C.red : C.line2;
+
+  return (
+    <div style={{ position: 'relative' }}>
+      <button
+        onClick={hasDetails ? onToggle : undefined}
+        disabled={!hasDetails}
+        style={{
+          width: '100%', border: 'none', background: 'transparent',
+          padding: '8px 0', textAlign: 'left',
+          display: 'flex', gap: 10, alignItems: 'flex-start',
+          cursor: hasDetails ? 'pointer' : 'default',
+        }}
+      >
+        {/* timeline dot */}
+        <div style={{
+          width: ev.star ? 11 : 9,
+          height: ev.star ? 11 : 9,
+          borderRadius: 99,
+          background: dotColor,
+          marginLeft: ev.star ? -15 : -14,
+          marginTop: 6,
+          boxShadow: `0 0 0 3px ${C.card}`,
+          flexShrink: 0,
+          border: ev.star ? `1.5px solid ${C.paper}` : 'none',
+        }} />
+        {/* time */}
+        <div style={{
+          fontFamily: FONT_MONO, fontSize: 11,
+          color: ev.star ? C.red : C.muted,
+          fontWeight: ev.star ? 600 : 400,
+          width: 42, flexShrink: 0, paddingTop: 3,
+          letterSpacing: 0.5,
+        }}>{ev.time}</div>
+        {/* title */}
+        <div style={{ flex: 1, minWidth: 0, paddingTop: 1 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
+            <span style={{
+              fontFamily: FONT_SANS, fontSize: 13.5,
+              color: ev.star ? C.ink : C.ink2,
+              fontWeight: ev.star ? 600 : 400,
+              lineHeight: 1.4,
+            }}>{ev.title}</span>
+            {ev.transport && <TransportBadge transport={ev.transport} />}
+          </div>
+        </div>
+        {hasDetails && (
+          <div style={{
+            color: C.faint, fontSize: 10, marginTop: 6, marginLeft: 4,
+            transition: 'transform 0.2s', flexShrink: 0,
+            transform: open ? 'rotate(90deg)' : 'rotate(0)',
+          }}>›</div>
+        )}
+      </button>
+
+      {open && hasDetails && ev.details && ev.details.length > 0 && (
+        <div style={{
+          marginLeft: 52, marginRight: 0, marginBottom: 8,
+          padding: '8px 12px',
+          background: `${C.red}06`,
+          borderLeft: `2px solid ${C.red}30`,
+          borderRadius: 4,
+        }}>
+          {ev.details.map((d, i) => (
+            <div key={i} style={{
+              fontFamily: FONT_SANS, fontSize: 12, color: C.ink2,
+              lineHeight: 1.7, padding: '2px 0',
+              display: 'flex', gap: 6, alignItems: 'flex-start',
+            }}>
+              <span style={{ color: C.red, opacity: 0.6, flexShrink: 0 }}>·</span>
+              <span style={{ flex: 1, wordBreak: 'break-word' }}>{d}</span>
+            </div>
+          ))}
         </div>
       )}
     </div>
@@ -2411,9 +2559,13 @@ const RATE = 4.65; // 1 ¥ = NT$ 4.65
 
 function CostScreen() {
   const [entries, setEntries] = React.useState([
-    { id: 1, name: '前門大街・烤鴨晚餐',  payer: '媽媽', amt: 488,  currency: '¥', cat: '餐食' },
-    { id: 2, name: '故宮博物院 講解門票', payer: '俊安', amt: 1200, currency: '¥', cat: '門票' },
-    { id: 3, name: '計程車（首都機場 → 飯店）', payer: '毓芸', amt: 220, currency: '¥', cat: '交通' },
+    { id: 7, name: 'DAY1-4 漢庭酒店',         payer: '毓芸', amt: 4410.48, currency: '¥',   cat: '住宿' },
+    { id: 6, name: 'DAY4-6 益海府邸民宿',     payer: '毓芸', amt: 1920,    currency: '¥',   cat: '住宿' },
+    { id: 5, name: 'DAY8-9 香柏藝術酒店',     payer: '毓芸', amt: 2424,    currency: '¥',   cat: '住宿' },
+    { id: 4, name: '天壇講解',                payer: '毓芸', amt: 1010,    currency: '¥',   cat: '門票' },
+    { id: 3, name: '山西包車3天',             payer: '毓芸', amt: 3900,    currency: '¥',   cat: '交通' },
+    { id: 2, name: '山西高鐵接送(3台5人座)',   payer: '毓芸', amt: 125,     currency: '¥',   cat: '交通' },
+    { id: 1, name: '來回機票',                payer: '毓芸', amt: 79819,   currency: 'NT$', cat: '交通' },
   ]);
   const [showForm, setShowForm] = React.useState(false);
 
