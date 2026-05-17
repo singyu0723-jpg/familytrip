@@ -12,9 +12,9 @@
 <meta name="apple-mobile-web-app-title" content="京城晉韻" />
 <meta name="theme-color" content="#F5EFE4" />
 
-<!-- Apple Touch Icon (紅色「行」印章,SVG → data URI) -->
-<link rel="apple-touch-icon" href="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Crect width='180' height='180' rx='40' fill='%23F5EFE4'/%3E%3Ccircle cx='90' cy='90' r='58' fill='%23B83A2A'/%3E%3Ctext x='90' y='112' font-family='serif' font-size='72' font-weight='700' fill='%23F5EFE4' text-anchor='middle'%3E行%3C/text%3E%3C/svg%3E" />
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='28' fill='%23B83A2A'/%3E%3Ctext x='32' y='42' font-family='serif' font-size='32' font-weight='700' fill='%23F5EFE4' text-anchor='middle'%3E行%3C/text%3E%3C/svg%3E" />
+<!-- Apple Touch Icon · 兩階段:先用簡單 SVG 印章,等 Ma Shan Zheng 載入後,JS 重新用 Canvas 渲染成真實毛筆書法,動態更新 href -->
+<link rel="apple-touch-icon" id="apple-touch-icon" href="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Crect width='180' height='180' fill='%23F2EAD8'/%3E%3Crect x='32' y='40' width='116' height='116' rx='4' fill='%23B83A2A'/%3E%3Ctext x='90' y='112' font-family='serif' font-size='80' font-weight='900' fill='%23F8EBC8' text-anchor='middle'%3E韻%3C/text%3E%3C/svg%3E" />
+<link rel="icon" type="image/svg+xml" id="favicon" href="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='8' fill='%23B83A2A'/%3E%3Ctext x='32' y='44' font-family='serif' font-size='40' font-weight='900' fill='%23F8EBC8' text-anchor='middle'%3E韻%3C/text%3E%3C/svg%3E" />
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -363,11 +363,180 @@
   })();
 </script>
 
+<script>
+  // ─────────────────────────────────────────
+  // 動態 App 圖示 — 等 Ma Shan Zheng 毛筆字型載入後,用 Canvas 渲染高品質書法印章
+  // 並動態更新 apple-touch-icon 與 favicon 的 href
+  // iOS Safari「加入主畫面」會抓取當前 DOM 內的 link href
+  // ─────────────────────────────────────────
+  (function() {
+    function drawIcon(size) {
+      const c = document.createElement('canvas');
+      c.width = size; c.height = size;
+      const ctx = c.getContext('2d');
+      const S = size / 1024;
+
+      // 紙底
+      const bg = ctx.createRadialGradient(512*S, 430*S, 0, 512*S, 430*S, 770*S);
+      bg.addColorStop(0, '#FBF6EC');
+      bg.addColorStop(0.6, '#F2EAD8');
+      bg.addColorStop(1, '#E0D2B0');
+      ctx.fillStyle = bg; ctx.fillRect(0, 0, size, size);
+
+      // 微網格
+      ctx.strokeStyle = '#8A6B4A';
+      ctx.globalAlpha = 0.06;
+      ctx.lineWidth = 1*S;
+      [256, 512, 768].forEach(v => {
+        ctx.beginPath(); ctx.moveTo(0, v*S); ctx.lineTo(size, v*S); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(v*S, 0); ctx.lineTo(v*S, size); ctx.stroke();
+      });
+      ctx.globalAlpha = 1;
+
+      // 四角雷紋
+      ctx.strokeStyle = '#B8956A';
+      ctx.globalAlpha = 0.55;
+      ctx.lineWidth = 3.5*S;
+      ctx.lineJoin = 'round';
+      function drawCorner(path) {
+        ctx.beginPath();
+        const cmds = path.match(/[A-Z][^A-Z]*/g);
+        let x = 0, y = 0;
+        cmds.forEach(cmd => {
+          const t = cmd[0];
+          const nums = cmd.slice(1).trim().split(/[\s,]+/).map(Number);
+          if (t === 'M') { x = nums[0]*S; y = nums[1]*S; ctx.moveTo(x, y); }
+          else if (t === 'H') { x = nums[0]*S; ctx.lineTo(x, y); }
+          else if (t === 'V') { y = nums[0]*S; ctx.lineTo(x, y); }
+        });
+        ctx.stroke();
+      }
+      drawCorner('M 70 70 H 200 V 105 H 105 V 165 H 145 V 145 H 125');
+      drawCorner('M 954 70 H 824 V 105 H 919 V 165 H 879 V 145 H 899');
+      drawCorner('M 70 954 H 200 V 919 H 105 V 859 H 145 V 879 H 125');
+      drawCorner('M 954 954 H 824 V 919 H 919 V 859 H 879 V 879 H 899');
+      ctx.globalAlpha = 1;
+
+      // 上方品名 (mono)
+      // (上方 BEIJING · SHANXI 已移除,讓印章成為視覺中心)
+      ctx.globalAlpha = 1;
+
+      // 印章紅色矩形(置中)
+      const sealG = ctx.createLinearGradient(180*S, 180*S, 844*S, 844*S);
+      sealG.addColorStop(0, '#C84A38');
+      sealG.addColorStop(1, '#8E2A1E');
+      ctx.fillStyle = sealG;
+      ctx.beginPath();
+      if (ctx.roundRect) ctx.roundRect(180*S, 180*S, 664*S, 664*S, 12*S);
+      else ctx.rect(180*S, 180*S, 664*S, 664*S);
+      ctx.fill();
+
+      // 內框雙線
+      ctx.strokeStyle = '#F8EBC8';
+      ctx.lineWidth = 7*S;
+      ctx.globalAlpha = 0.92;
+      ctx.beginPath();
+      if (ctx.roundRect) ctx.roundRect(222*S, 222*S, 580*S, 580*S, 6*S);
+      else ctx.rect(222*S, 222*S, 580*S, 580*S);
+      ctx.stroke();
+      ctx.lineWidth = 1.8*S;
+      ctx.globalAlpha = 0.5;
+      ctx.beginPath();
+      if (ctx.roundRect) ctx.roundRect(244*S, 244*S, 536*S, 536*S, 3*S);
+      else ctx.rect(244*S, 244*S, 536*S, 536*S);
+      ctx.stroke();
+      ctx.globalAlpha = 1;
+
+      // 十字分隔線
+      ctx.strokeStyle = '#F8EBC8';
+      ctx.globalAlpha = 0.16;
+      ctx.lineWidth = 2*S;
+      ctx.beginPath();
+      ctx.moveTo(244*S, 512*S); ctx.lineTo(780*S, 512*S);
+      ctx.moveTo(512*S, 244*S); ctx.lineTo(512*S, 780*S);
+      ctx.stroke();
+      ctx.globalAlpha = 1;
+
+      // 「京城晉韻」四字 — 宋體粗體印章字(放大)
+      function calChar(ch, cx, cy) {
+        ctx.save();
+        ctx.translate(cx*S, cy*S);
+        ctx.font = '900 ' + (310*S) + 'px "Noto Serif TC", "Songti TC", "STSong", serif';
+        ctx.fillStyle = '#F8EBC8';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.shadowColor = 'rgba(90,24,20,0.35)';
+        ctx.shadowBlur = 5*S;
+        ctx.shadowOffsetY = 3*S;
+        ctx.fillText(ch, 0, 0);
+        ctx.restore();
+      }
+      calChar('京', 378, 378);
+      calChar('城', 646, 378);
+      calChar('晉', 378, 646);
+      calChar('韻', 646, 646);
+      ctx.shadowColor = 'transparent'; ctx.shadowBlur = 0; ctx.shadowOffsetY = 0;
+
+      // 下方副標
+      ctx.font = '700 ' + (46*S) + 'px "Noto Serif TC", "Songti TC", serif';
+      ctx.fillStyle = '#8E5A2A';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'alphabetic';
+      const sub = '九日紀行';
+      const subW = sub.split('').map(c => ctx.measureText(c).width);
+      const subTotal = subW.reduce((a,b)=>a+b,0) + (sub.length-1)*14*S;
+      let sx = (size - subTotal) / 2;
+      sub.split('').forEach((c, i) => {
+        ctx.fillText(c, sx + subW[i]/2, 938*S);
+        sx += subW[i] + 14*S;
+      });
+      // 副標兩側線
+      ctx.strokeStyle = '#B8956A';
+      ctx.globalAlpha = 0.6;
+      ctx.lineWidth = 1.5*S;
+      ctx.beginPath();
+      ctx.moveTo(370*S, 960*S); ctx.lineTo(460*S, 960*S);
+      ctx.moveTo(564*S, 960*S); ctx.lineTo(654*S, 960*S);
+      ctx.stroke();
+      ctx.globalAlpha = 1;
+
+      return c;
+    }
+
+    async function renderAndApply() {
+      try {
+        // 等字型載入
+        if (document.fonts && document.fonts.load) {
+          await document.fonts.load('900 310px "Noto Serif TC"', '京城晉韻');
+          await document.fonts.load('700 50px "Noto Serif TC"', '九日紀行');
+        }
+        await new Promise(r => setTimeout(r, 200));
+
+        const apple = drawIcon(180).toDataURL('image/png');
+        const fav = drawIcon(64).toDataURL('image/png');
+        const appleLink = document.getElementById('apple-touch-icon');
+        const favLink = document.getElementById('favicon');
+        if (appleLink) appleLink.href = apple;
+        if (favLink) { favLink.href = fav; favLink.type = 'image/png'; }
+      } catch (e) {
+        // 失敗就維持原本的 SVG placeholder
+        console.warn('Icon render failed:', e);
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', renderAndApply);
+    } else {
+      renderAndApply();
+    }
+  })();
+</script>
+
 <template id="__bundler_thumbnail">
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
     <rect width="200" height="200" fill="#F5EFE4"/>
-    <rect x="60" y="60" width="80" height="80" rx="4" fill="#B83A2A"/>
-    <text x="100" y="120" font-family="serif" font-size="48" font-weight="700" fill="#F5EFE4" text-anchor="middle">遊</text>
+    <rect x="50" y="50" width="100" height="100" rx="14" fill="#B83A2A"/>
+    <text x="100" y="128" font-family="serif" font-size="64" font-weight="900" fill="#F5EFE4" text-anchor="middle">行</text>
   </svg>
 </template>
 
@@ -1501,14 +1670,17 @@ const C = {
   gold:    '#B08D3F',
   jade:    '#4A6B5C',
   indigo:  '#3D4A6B',
+  darkBase: '#3D2820', // 深色基底(絳褐)— 用於底部導航、第一/末日、總額卡背景
 };
 
-const FONT_SERIF   = '"Noto Serif TC", "Songti SC", "STSong", serif';
-const FONT_SANS    = '"Noto Sans TC", -apple-system, system-ui, sans-serif';
-const FONT_MONO    = '"DM Mono", ui-monospace, "SF Mono", monospace';
-const FONT_BRUSH   = '"Ma Shan Zheng", "Long Cang", "Noto Serif TC", serif';
-const FONT_DISPLAY = '"ZCOOL XiaoWei", "Noto Serif TC", serif';
-const FONT_CURSIVE = '"Liu Jian Mao Cao", "Long Cang", cursive';
+// 字型策略:Traditional Chinese 為主,簡體中文字型(ZCOOL XiaoWei / Ma Shan Zheng)
+// 只在簡體字確實能顯示時生效,其餘 fallback 到 Noto Serif TC,避免「半繁半簡」字體跑掉。
+const FONT_SERIF   = '"Noto Serif TC", "Songti TC", "Songti SC", "STSong", serif';
+const FONT_SANS    = '"Noto Sans TC", -apple-system, "PingFang TC", "Heiti TC", system-ui, sans-serif';
+const FONT_MONO    = '"DM Mono", ui-monospace, "SF Mono", "Menlo", monospace';
+const FONT_BRUSH   = '"Ma Shan Zheng", "Noto Serif TC", "Songti TC", "STKaiti", serif';
+const FONT_DISPLAY = '"Noto Serif TC", "ZCOOL XiaoWei", "Songti TC", "STSong", serif';
+const FONT_CURSIVE = '"Liu Jian Mao Cao", "Long Cang", "Noto Serif TC", cursive';
 
 // ─────────────────────────────────────────────────────────────
 // Decorative motifs
@@ -1661,7 +1833,7 @@ function SectionHeader({ zh, en, right }) {
     }}>
       <div>
         <div style={{
-          fontFamily: FONT_DISPLAY, fontSize: 22, fontWeight: 400, color: C.ink,
+          fontFamily: FONT_DISPLAY, fontSize: 22, fontWeight: 600, color: C.ink,
           letterSpacing: 3, lineHeight: 1,
         }}>{zh}</div>
         {en && <div style={{
@@ -1740,7 +1912,7 @@ function BottomNav({ active, onChange }) {
             <button key={t.id}
               onClick={() => onChange(t.id)}
               style={{
-                border: 'none', background: isActive ? C.ink : 'transparent',
+                border: 'none', background: isActive ? C.darkBase : 'transparent',
                 color: isActive ? C.paper : C.muted,
                 borderRadius: 999, padding: '8px 0',
                 display: 'flex', flexDirection: 'column', alignItems: 'center',
@@ -1801,7 +1973,7 @@ function AppHeader({ tabId }) {
             letterSpacing: 3, textTransform: 'uppercase',
           }}>京 城 晉 韻 · 2026</div>
           <div style={{
-            fontFamily: FONT_DISPLAY, fontSize: 34, fontWeight: 400,
+            fontFamily: FONT_DISPLAY, fontSize: 34, fontWeight: 600,
             color: C.ink, letterSpacing: 4, lineHeight: 1.1, marginTop: 4,
           }}>{t.zh}</div>
           <div style={{
@@ -1915,12 +2087,12 @@ function DayCard({ day, open, onToggle }) {
         {/* Day stamp */}
         <div style={{
           width: 54, height: 60, borderRadius: 4,
-          background: day.day === 1 || day.day === 9 ? C.ink : C.red,
+          background: day.day === 1 || day.day === 9 ? C.darkBase : C.red,
           color: C.paper,
           display: 'flex', flexDirection: 'column',
           alignItems: 'center', justifyContent: 'center',
           flexShrink: 0, position: 'relative',
-          boxShadow: `inset 0 0 0 2.5px rgba(245,239,228,0.9), inset 0 0 0 3.5px ${day.day === 1 || day.day === 9 ? C.ink : C.red}`,
+          boxShadow: `inset 0 0 0 2.5px rgba(245,239,228,0.9), inset 0 0 0 3.5px ${day.day === 1 || day.day === 9 ? C.darkBase : C.red}`,
           backgroundImage: `
             radial-gradient(circle at 25% 20%, rgba(245,239,228,0.18) 0%, transparent 30%),
             radial-gradient(circle at 75% 75%, rgba(0,0,0,0.15) 0%, transparent 35%)
@@ -1940,7 +2112,7 @@ function DayCard({ day, open, onToggle }) {
             <span style={{ fontFamily: FONT_SERIF, fontSize: 10, color: C.red, letterSpacing: 1 }}>星期{day.dow}</span>
           </div>
           <div style={{
-            fontFamily: FONT_DISPLAY, fontSize: 18, fontWeight: 400, color: C.ink,
+            fontFamily: FONT_DISPLAY, fontSize: 18, fontWeight: 600, color: C.ink,
             letterSpacing: 1.5, marginTop: 4, lineHeight: 1.3,
           }}>{day.city}</div>
           <div style={{
@@ -2360,7 +2532,7 @@ function TourScreen() {
           return (
             <button key={s.id} onClick={() => setSection(s.id)} style={{
               border: 'none',
-              background: on ? C.ink : 'transparent',
+              background: on ? C.darkBase : 'transparent',
               color: on ? C.paper : C.ink2,
               padding: '10px 8px', borderRadius: 9,
               fontFamily: FONT_SERIF, fontSize: 14, letterSpacing: 2,
@@ -2414,7 +2586,7 @@ function GuideCard({ item, type, open, onToggle }) {
         <Seal char={item.char} size={44} color={item.accent} round={true} />
         <div style={{ flex: 1, minWidth: 0 }}>
           <div style={{
-            fontFamily: FONT_DISPLAY, fontSize: 17, fontWeight: 400,
+            fontFamily: FONT_DISPLAY, fontSize: 17, fontWeight: 600,
             color: C.ink, letterSpacing: 1.5,
           }}>{item.title}</div>
           <div style={{
@@ -2576,7 +2748,7 @@ function CostScreen() {
     <div style={{ padding: '20px 18px 140px' }} className="screen-content">
       {/* Total spent — hero */}
       <Card style={{
-        background: `linear-gradient(135deg, ${C.ink} 0%, #2A211B 100%)`,
+        background: `linear-gradient(135deg, ${C.darkBase} 0%, color-mix(in srgb, ${C.darkBase} 55%, #000) 100%)`,
         color: C.paper, border: 'none', marginBottom: 18, position: 'relative',
         overflow: 'hidden',
       }}>
@@ -2609,16 +2781,30 @@ function CostScreen() {
         </div>
       </Card>
 
+      {/* 大顆新增按鈕 — 主要 CTA */}
+      <button onClick={() => setShowForm(true)} style={{
+        width: '100%', marginBottom: 18,
+        border: 'none', background: C.red, color: C.paper,
+        padding: '16px 18px', borderRadius: 14,
+        fontFamily: FONT_SERIF, fontSize: 16, fontWeight: 600, letterSpacing: 4,
+        display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10,
+        boxShadow: `0 4px 14px ${C.red}40, 0 1px 2px rgba(0,0,0,0.1)`,
+        cursor: 'pointer',
+      }}>
+        <span style={{
+          display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+          width: 26, height: 26, borderRadius: 99,
+          background: 'rgba(245,239,228,0.18)',
+          fontSize: 18, fontWeight: 400, letterSpacing: 0, marginTop: -1,
+        }}>＋</span>
+        <span>新增一筆記帳</span>
+      </button>
+
       {/* Add entry — moved up for quick access */}
       <SectionHeader zh="記帳歷史" en="Transactions" right={
-        <button onClick={() => setShowForm(true)} style={{
-          border: 'none', background: C.red, color: C.paper,
-          padding: '8px 16px', borderRadius: 999,
-          fontFamily: FONT_SERIF, fontSize: 12, letterSpacing: 2,
-          display: 'flex', alignItems: 'center', gap: 4,
-        }}>
-          <span style={{ fontSize: 14, lineHeight: 1 }}>＋</span> 新增
-        </button>
+        <div style={{ fontFamily: FONT_MONO, fontSize: 10, color: C.muted, letterSpacing: 1 }}>
+          {entries.length} 筆
+        </div>
       } />
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 28 }}>
@@ -2628,7 +2814,7 @@ function CostScreen() {
             background: C.card, border: `1px dashed ${C.line2}`, borderRadius: 14,
             fontFamily: FONT_SANS, fontSize: 13, color: C.muted,
           }}>
-            目前沒有記帳紀錄,點右上「＋ 新增」開始
+            目前沒有記帳紀錄,點上方紅色按鈕開始
           </div>
         ) : entries.map(e => <EntryRow key={e.id} e={e} onDelete={() => setEntries(entries.filter(x => x.id !== e.id))} />)}
       </div>
@@ -2778,7 +2964,7 @@ function AddEntryModal({ onClose, onSave }) {
               {['¥', 'NT$'].map(c => (
                 <button key={c} onClick={() => setCurrency(c)} style={{
                   border: 'none', padding: '6px 12px', borderRadius: 7,
-                  background: currency === c ? C.ink : 'transparent',
+                  background: currency === c ? C.darkBase : 'transparent',
                   color: currency === c ? C.paper : C.muted,
                   fontFamily: FONT_SERIF, fontSize: 12, letterSpacing: 1,
                 }}>{c}</button>
@@ -2808,8 +2994,8 @@ function AddEntryModal({ onClose, onSave }) {
           <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
             {cats.map(c => (
               <button key={c} onClick={() => setCat(c)} style={{
-                border: `1px solid ${cat === c ? C.ink : C.line2}`,
-                background: cat === c ? C.ink : C.card,
+                border: `1px solid ${cat === c ? C.darkBase : C.line2}`,
+                background: cat === c ? C.darkBase : C.card,
                 color: cat === c ? C.paper : C.ink2,
                 padding: '6px 12px', borderRadius: 999,
                 fontFamily: FONT_SERIF, fontSize: 12, letterSpacing: 1,
@@ -3160,6 +3346,7 @@ Object.assign(window, { CostScreen, ListScreen, InfoScreen });
 const DEFAULTS = /*EDITMODE-BEGIN*/{
   "accent": "#B83A2A",
   "paper":  "#F5EFE4",
+  "darkBase": "#3D2820",
   "darkNav": true,
   "showStamps": true,
   "serifHeadings": true
@@ -3173,6 +3360,7 @@ function App() {
   React.useEffect(() => {
     window.C.red = tweaks.accent;
     window.C.paper = tweaks.paper;
+    window.C.darkBase = tweaks.darkBase;
   }, [tweaks]);
 
   const screens = {
@@ -3217,6 +3405,14 @@ function App() {
             value={tweaks.paper}
             onChange={(v) => setTweak('paper', v)}
             options={['#F5EFE4', '#F0E8D7', '#FAF6EE', '#EDE3CE', '#E8DEC4']}
+          />
+        </TweakSection>
+        <TweakSection title="深色基底">
+          <TweakColor
+            label="導航 / 第1·9日 / 總額"
+            value={tweaks.darkBase}
+            onChange={(v) => setTweak('darkBase', v)}
+            options={['#3D2820', '#2E3852', '#2D403A', '#5A2818', '#1A1612']}
           />
         </TweakSection>
         <TweakSection title="顯示">
